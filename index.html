@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>إنجاز | منصة الإنتاجية الذكية</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;800;900&family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg-primary: #0a0f14;
+      --bg-secondary: #111823;
+      --bg-card: #172230;
+      --bg-card-hover: #1e2d40;
+      --border-color: #26354a;
+      --text-main: #f3f6f9;
+      --text-muted: #94a9c4;
+      --text-dim: #62778f;
+      --accent: #e3ac67;
+      --accent-glow: rgba(227, 172, 103, 0.15);
+      --teal: #4ecdc4;
+      --success: #2ecc71;
+      --danger: #e74c3c;
+      --radius-lg: 20px;
+      --radius-md: 14px;
+      --radius-sm: 8px;
+      --shadow-premium: 0 12px 40px rgba(0, 0, 0, 0.25);
+      --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    [data-theme="light"] {
+      --bg-primary: #f7f9fc;
+      --bg-secondary: #ffffff;
+      --bg-card: #f0f3f8;
+      --bg-card-hover: #e4eaf2;
+      --border-color: #d2daf0;
+      --text-main: #1a202c;
+      --text-muted: #4a5568;
+      --text-dim: #718096;
+      --accent: #d9933b;
+      --accent-glow: rgba(217, 147, 59, 0.15);
+      --teal: #2c9c95;
+      --success: #27ae60;
+      --danger: #c0392b;
+      --shadow-premium: 0 12px 30px rgba(160, 175, 195, 0.15);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: var(--bg-primary);
+      color: var(--text-main);
+      font-family: 'Tajawal', sans-serif;
+      min-height: 100vh;
+      transition: var(--transition-smooth);
+      overflow-x: hidden;
+    }
+    h1, h2, h3, .font-cairo { font-family: 'Cairo', sans-serif; }
+    .app-container { max-width: 800px; margin: 0 auto; padding: 24px 16px 100px; }
+    .card-premium {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: var(--shadow-premium);
+      transition: var(--transition-smooth);
+    }
+    .card-premium:hover { transform: translateY(-2px); border-color: var(--accent); }
+    .btn-primary {
+      background: var(--accent); color: #111823; border: none; border-radius: var(--radius-md);
+      padding: 12px 20px; font-family: 'Cairo', sans-serif; font-weight: 800; cursor: pointer;
+      transition: var(--transition-smooth); display: inline-flex; align-items: center; gap: 8px;
+    }
+    .btn-primary:hover { filter: brightness(1.1); box-shadow: 0 0 15px var(--accent-glow); }
+    .btn-secondary {
+      background: transparent; color: var(--text-main); border: 1px solid var(--border-color);
+      border-radius: var(--radius-md); padding: 11px 18px; font-family: 'Tajawal', sans-serif;
+      font-weight: 700; cursor: pointer; transition: var(--transition-smooth);
+    }
+    .btn-secondary:hover { background: var(--bg-card-hover); }
+    .nav-tabs { display: flex; background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 6px; margin-bottom: 24px; }
+    .nav-tab-btn { flex: 1; background: transparent; border: none; color: var(--text-muted); padding: 12px; font-family: 'Cairo', sans-serif; font-weight: 700; cursor: pointer; border-radius: calc(var(--radius-md) - 4px); transition: var(--transition-smooth); text-align: center; }
+    .nav-tab-btn.active { background: var(--accent); color: #111823; }
+    .item-row { display: flex; align-items: center; gap: 16px; background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 16px; margin-bottom: 12px; transition: var(--transition-smooth); }
+    .item-row.high-priority { border-right: 4px solid var(--danger); }
+    .item-row.medium-priority { border-right: 4px solid var(--accent); }
+    .item-row.low-priority { border-right: 4px solid var(--teal); }
+    .item-row.completed { opacity: 0.6; background: rgba(46, 204, 113, 0.05); }
+    .coach-section { background: linear-gradient(135deg, var(--bg-card), var(--bg-secondary)); border: 2px solid var(--border-color); position: relative; overflow: hidden; }
+    .coach-avatar { width: 50px; height: 50px; background: var(--accent-glow); border: 1px solid var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; }
+    .input-premium { width: 100%; background: var(--bg-secondary); border: 1px solid var(--border-color); color: var(--text-main); padding: 12px 16px; border-radius: var(--radius-md); font-family: 'Tajawal', sans-serif; font-size: 15px; transition: var(--transition-smooth); }
+    .input-premium:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 10px var(--accent-glow); }
+    .badge { padding: 4px 10px; border-radius: 99px; font-size: 11px; font-weight: 700; display: inline-block; }
+    .badge-category { background: var(--border-color); color: var(--text-main); }
+    .toast-container { position: fixed; top: 24px; left: 50%; transform: translateX(-50%); z-index: 9999; display: flex; flex-direction: column; gap: 10px; width: 90%; max-width: 400px; }
+    .toast { background: var(--bg-card); border: 1px solid var(--border-color); color: var(--text-main); padding: 16px 20px; border-radius: var(--radius-md); box-shadow: var(--shadow-premium); font-weight: 600; animation: slideDown 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+    @keyframes slideDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+    .progress-bar-wrapper { background: var(--bg-secondary); height: 8px; border-radius: 99px; overflow: hidden; margin-top: 8px; }
+    .progress-bar-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--teal)); width: 0%; transition: width 0.6s ease; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    @media(max-width: 550px) { .grid-2 { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+  <div id="app" class="app-container"></div>
+  <div id="toast-container" class="toast-container"></div>
+
+  <script>
+    // --- 1. STORAGE LAYER ---
+    const StorageManager = {
+      prefix: 'injaz_premium_',
+      get(key, defaultValue = null) {
+        try {
+          const data = localStorage.getItem(this.prefix + key);
+          return data ? JSON.parse(data) : defaultValue;
+        } catch (e) { return defaultValue; }
+      },
+      set(key, value) {
+        try { localStorage.setItem(this.prefix + key, JSON.stringify(value)); } catch (e) {}
+      }
+    };
+
+    // --- 2. NLP ENGINE ---
+    const NLPEngine = {
+      dictionary: {
+        study: ['تعلم', 'دراسة', 'مذاكرة', 'كتاب', 'قراءة', 'إنجليزية', 'انجليزي', 'دورة', 'كورس', 'english'],
+        sports: ['جري', 'مشي', 'رياضة', 'نادي', 'جيم', 'تمارين', 'حديد', 'ركض', 'سباحة', 'كارديو'],
+        worship: ['قرآن', 'صلاة', 'ذكر', 'أذكار', 'مسجد', 'قيام', 'صيام', 'عمرة', 'تراويح', 'استغفار'],
+        health: ['نوم', 'مبكر', 'ماء', 'شرب', 'فطور', 'صحي', 'طبيب', 'علاج', 'خضار', 'فاكهة'],
+        project: ['مشروع', 'برمجة', 'تطوير', 'كود', 'تخرج', 'عمل', 'شغل', 'موقع', 'تصميم', 'تطبيق']
+      },
+      classify(text) {
+        if (!text) return 'عام';
+        const lowerText = text.toLowerCase();
+        if (this.dictionary.study.some(word => lowerText.includes(word))) return 'دراسة وتطوير';
+        if (this.dictionary.sports.some(word => lowerText.includes(word))) return 'رياضة وصحة';
+        if (this.dictionary.worship.some(word => lowerText.includes(word))) return 'عبادة';
+        if (this.dictionary.health.some(word => lowerText.includes(word))) return 'عادات صحية';
+        if (this.dictionary.project.some(word => lowerText.includes(word))) return 'عمل ومشاريع';
+        return 'عام';
+      }
+    };
+
+    // --- 3. NOTIFICATION SYSTEM ---
+    const NotificationSystem = {
+      pools: {
+        start: ["حان وقت تطوير نفسك والعمل الفعلي البدني والذهني.", "ابدأ الآن وستشكرك نفسك لاحقًا بالتأكيد.", "لا تنتظر الشغف، اصنع الانضباط الآن."],
+        done: ["إنجاز استثنائي! فخور جداً بالتزامك الواعي البطل.", "خطوة ممتازة تضاف لرصيد نجاحاتك المذهلة.", "أنت تثبت لنفسك كل يوم أنك قادر على القيادة."],
+        streak: ["سلسلة أيامك المتتالية تلمع! حافظ على الشعلة متقدة 🔥", "الاستمرارية تبني الجبال، وأنت في الطريق الصحيح."]
+      },
+      _lastPicked: {},
+      trigger(type, customText = null) {
+        let message = customText;
+        if (!message && this.pools[type]) {
+          const pool = this.pools[type];
+          let index = Math.floor(Math.random() * pool.length);
+          message = pool[index];
+        }
+        this._renderToast(message || "تنبيه إنجاز الذكي");
+      },
+      _renderToast(msg) {
+        const container = document.getElementById('toast-container');
+        if (!container) return;
+        const toast = document.createElement('div');
+        toast.className = 'toast';
+        toast.innerText = msg;
+        container.appendChild(toast);
+        setTimeout(() => {
+          toast.style.opacity = '0';
+          setTimeout(() => toast.remove(), 400);
+        }, 4500);
+      }
+    };
+
+    // --- 4. ANALYTICS ENGINE ---
+    const AnalyticsEngine = {
+      calculate(tasks, habits) {
+        const totalTasks = tasks.length;
+        const completedTasks = tasks.filter(t => t.completed).length;
+        const postponedTasks = tasks.filter(t => t.postponedCount > 0).reduce((acc, t) => acc + t.postponedCount, 0);
+        let bestHabit = "لا يوجد حاليًا", worstHabit = "لا يوجد حاليًا";
+        let maxStreak = 0, minStreak = Infinity;
+        
+        habits.forEach(h => {
+          if (h.streak > maxStreak) { maxStreak = h.streak; bestHabit = h.name; }
+          if (h.streak < minStreak) { minStreak = h.streak; worstHabit = h.name; }
+        });
+        if (minStreak === Infinity) worstHabit = "لا يوجد حاليًا";
+        const rate = totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
+        return {
+          completionRate: rate, completedCount: completedTasks, postponedCount: postponedTasks,
+          bestHabit, worstHabit, weeklyProgress: rate, monthlyProgress: Math.min(100, rate + 5), totalHours: completedTasks * 1.5
+        };
+      }
+    };
+
+    // --- 5. AI LOGIC LAYER ---
+    const AIEngine = {
+      async generateStrategy(type, data) {
+        if (type === 'coach_insight') {
+          const rate = data.analytics.completionRate;
+          if (rate >= 80) return `أداء استثنائي ملهم! التزامك بالعادات والمهام يوضح وعيك العالي وثباتك الأسطوري الشجاع.`;
+          if (rate >= 50) return `تسير في المسار الصحيح تمامًا، ولكن انتبه للمهام المؤجلة وتجنب التراكمات غير الضرورية.`;
+          return `يبدو أن اليوم كان مزدحماً للغاية. لا بأس، لنعد تصميم خطة الغد بخطوات أبسط ومهمتين أساسيتين فقط لتستعيد توازنك وثقتك.`;
+        }
+        if (type === 'plan_suggestion') {
+          const category = NLPEngine.classify(data.text);
+          if (category === 'دراسة وتطوير') return `💡 خطة إنجاز للمذاكرة: قسّم الهدف إلى جلسات بومودورو (25 دقيقة تركيز عميق + 5 دقائق راحة)، وابدأ بالتطبيق فوراً.`;
+          if (category === 'رياضة وصحة') return `💡 خطة إنجاز للرشاقة: السر في التدرج الممتع. ابدأ بـ 15 دقيقة تمارين خفيفة متتالية مع شرب الماء بانتظام.`;
+          if (category === 'عمل ومشاريع') return `💡 خطة إنجاز للمشاريع: حدد الهيكل الأساسي والمهمة الحرجة، وركّز على إنهائها قبل الانتقال للتفاصيل الجانبية.`;
+          return `💡 خطة إنجاز المقترحة: خصص وقتاً ثابتاً ومحدداً يومياً لتتحول الخطوة إلى عادة تلقائية.`;
+        }
+        return "خطة مخصصة جاهزة.";
+      }
+    };
+
+    // --- 6. UI RENDERER ---
+    const UIRenderer = {
+      currentTab: 'dashboard',
+      renderApp(appState, actions) {
+        const appEl = document.getElementById('app');
+        if (!appEl) return;
+        const analytics = AnalyticsEngine.calculate(appState.tasks, appState.habits);
+        let html = `
+          <header class="card-premium" style="display:flex; justify-content:space-between; align-items:center; background:var(--bg-secondary);">
+            <div><h1 style="font-size:24px; color:var(--accent);">إِنْجَاز</h1><p style="font-size:12px; color:var(--text-muted);">منصة الإنتاجية والـمُدرب الذكي</p></div>
+            <button class="btn-secondary" id="theme-toggle-btn" style="padding: 6px 12px; font-size:13px;">🌓 النمط</button>
+          </header>
+          <nav class="nav-tabs">
+            <button class="nav-tab-btn ${this.currentTab === 'dashboard' ? 'active' : ''}" data-tab="dashboard">الرئيسية</button>
+            <button class="nav-tab-btn ${this.currentTab === 'tasks' ? 'active' : ''}" data-tab="tasks">المهام</button>
+            <button class="nav-tab-btn ${this.currentTab === 'habits' ? 'active' : ''}" data-tab="habits">العادات</button>
+            <button class="nav-tab-btn ${this.currentTab === 'coach' ? 'active' : ''}" data-tab="coach">مدرب إنجاز</button>
+            <button class="nav-tab-btn ${this.currentTab === 'analytics' ? 'active' : ''}" data-tab="analytics">التحليلات</button>
+          </nav>
+        `;
+        if (this.currentTab === 'dashboard') html += this._buildDashboard(appState, analytics);
+        if (this.currentTab === 'tasks') html += this._buildTasksPage(appState);
+        if (this.currentTab === 'habits') html += this._buildHabitsPage(appState);
+        if (this.currentTab === 'coach') html += this._buildCoachPage(appState, analytics);
+        if (this.currentTab === 'analytics') html += this._buildAnalyticsPage(analytics);
+        appEl.innerHTML = html;
+        this._bindEvents(appState, actions);
+      },
+      _buildDashboard(state, analytics) {
+        const greeting = new Date().getHours() < 12 ? "صباح الخير والهمة" : "مساء الخير والإنجاز";
+        return `
+          <div class="card-premium coach-section">
+            <h2 style="font-size:20px; margin-bottom:6px;">✨ ${greeting}</h2>
+            <p style="color:var(--text-muted); font-size:14px; margin-bottom:12px;">معدل إنجازك لليوم مستقر عند ${analytics.completionRate}%. جاهز لخطوتك القادمة؟</p>
+            <div class="progress-bar-wrapper"><div class="progress-bar-fill" style="width:${analytics.completionRate}%"></div></div>
+          </div>
+          <div class="grid-2">
+            <div class="card-premium"><h3>📊 ملخص سريع</h3><p style="margin-top:8px; font-size:14px;">المهام المكتملة: <b>${analytics.completedCount}</b></p><p style="font-size:14px;">ساعات التركيز: <b>${analytics.totalHours} س</b></p></div>
+            <div class="card-premium"><h3>🎯 العادة الأقوى</h3><p style="margin-top:8px; font-size:15px; color:var(--teal); font-weight:800;">${analytics.bestHabit}</p></div>
+          </div>
+          <div class="card-premium" style="background:rgba(227,172,103,0.04); border-color:var(--accent);">
+            <h3 style="color:var(--accent);">🌙 المراجعة الليلية السريعة</h3>
+            <div style="display:flex; gap:8px; margin-top:10px;">
+              <button class="btn-secondary daily-rev-btn" data-rating="ممتاز" style="flex:1; font-size:12px;">🌟 ممتاز</button>
+              <button class="btn-secondary daily-rev-btn" data-rating="مزدحم" style="flex:1; font-size:12px;">⏳ مزدحم</button>
+            </div>
+          </div>
+        `;
+      },
+      _buildTasksPage(state) {
+        let listHtml = '';
+        state.tasks.forEach(t => {
+          const pCls = t.priority === 'high' ? 'high-priority' : t.priority === 'medium' ? 'medium-priority' : 'low-priority';
+          listHtml += `
+            <div class="item-row ${pCls} ${t.completed ? 'completed' : ''}">
+              <input type="checkbox" class="task-toggle-chk" data-id="${t.id}" ${t.completed ? 'checked' : ''} style="width:20px; height:20px;">
+              <div style="flex:1;">
+                <div style="font-weight:700; font-size:15px;">${t.title}</div>
+                <div style="font-size:11px; color:var(--text-dim); margin-top:2px;">تصنيف: <span class="badge badge-category">${t.category}</span></div>
+              </div>
+              <button class="btn-secondary btn-postpone-task" data-id="${t.id}" style="padding:4px 8px; font-size:11px;">تأجيل</button>
+              <button class="btn-secondary btn-delete-task" data-id="${t.id}" style="padding:4px 8px; font-size:11px; color:var(--danger);">حذف</button>
+            </div>
+          `;
+        });
+        return `
+          <div class="card-premium">
+            <h3>➕ إضافة مهمة جديدة</h3>
+            <div style="display:flex; flex-direction:column; gap:10px; margin-top:12px;">
+              <input type="text" id="task-title-input" class="input-premium" placeholder="ماذا تريد أن تنجز اليوم؟">
+              <select id="task-priority-input" class="input-premium"><option value="low">منخفضة</option><option value="medium" selected>متوسطة</option><option value="high">قصوى</option></select>
+              <button class="btn-primary" id="btn-add-task" style="justify-content:center;">حفظ المهمة</button>
+            </div>
+          </div>
+          <div>${listHtml || '<div class="card-premium" style="text-align:center; color:var(--text-dim);">لا توجد مهام حالية.</div>'}</div>
+        `;
+      },
+      _buildHabitsPage(state) {
+        let habitsHtml = '';
+        state.habits.forEach(h => {
+          habitsHtml += `
+            <div class="item-row" style="justify-content:space-between;">
+              <div><div style="font-weight:800; font-size:16px;">${h.name}</div><div style="font-size:12px; color:var(--text-muted); margin-top:4px;">السلسلة: <b style="color:var(--teal);">${h.streak} أيام</b> 🔥</div></div>
+              <div style="display:flex; gap:8px;"><button class="btn-primary btn-log-habit" data-id="${h.id}" style="padding:6px 12px; font-size:13px;">تسجيل</button><button class="btn-secondary btn-delete-habit" data-id="${h.id}" style="padding:6px 12px; font-size:13px; color:var(--danger);">حذف</button></div>
+            </div>
+          `;
+        });
+        return `
+          <div class="card-premium">
+            <h3>🌱 إنشاء عادة سلوكية</h3><div style="display:flex; gap:10px; margin-top:12px;"><input type="text" id="habit-name-input" class="input-premium" placeholder="مثال: القراءة، شرب الماء..."><button class="btn-primary" id="btn-add-habit">تثبيت</button></div>
+          </div>
+          <div>${habitsHtml || '<div class="card-premium" style="text-align:center; color:var(--text-dim);">لم تقم بتثبيت أي عادات بعد.</div>'}</div>
+        `;
+      },
+      _buildCoachPage(state, analytics) {
+        return `
+          <div class="card-premium coach-section" style="border-color:var(--accent);">
+            <div style="display:flex; align-items:center; gap:14px; margin-bottom:14px;"><div class="coach-avatar">🤖</div><div><h3 style="color:var(--accent);">المدرب الذكي</h3></div></div>
+            <div id="coach-insight-box" class="card-premium" style="background:var(--bg-secondary); margin-bottom:12px; font-size:14px;">اضغط لطلب تحليل فوري للأداء الحلي...</div>
+            <button class="btn-primary" id="btn-trigger-ai-insight" style="width:100%; justify-content:center;">توليد نصيحة الأداء</button>
+          </div>
+          <div class="card-premium">
+            <h3>🔍 تفكيك الأهداف العميقة</h3>
+            <div style="display:flex; gap:8px; margin-top:10px;"><input type="text" id="ai-goal-prompt" class="input-premium" placeholder="مثال: أريد تعلم الإنجليزية..."><button class="btn-secondary" id="btn-trigger-ai-plan" style="background:var(--accent); color:#111823;">تفكيك</button></div>
+            <div id="coach-plan-box" class="card-premium" style="background:var(--bg-secondary); margin-top:12px; display:none; font-size:13px;"></div>
+          </div>
+        `;
+      },
+      _buildAnalyticsPage(analytics) {
+        return `
+          <div class="card-premium">
+            <h3>📈 لوحة التحليلات</h3>
+            <div class="grid-2" style="margin-top:12px;">
+              <div class="card-premium" style="background:var(--bg-secondary);"><span>معدل الأسبوع</span><div style="font-size:24px; font-weight:900; color:var(--accent);">${analytics.weeklyProgress}%</div></div>
+              <div class="card-premium" style="background:var(--bg-secondary);"><span>معدل الشهر</span><div style="font-size:24px; font-weight:900; color:var(--teal);">${analytics.monthlyProgress}%</div></div>
+            </div>
+          </div>
+        `;
+      },
+      _bindEvents(state, actions) {
+        document.querySelectorAll('.nav-tab-btn').forEach(btn => {
+          btn.addEventListener('click', () => { this.currentTab = btn.getAttribute('data-tab'); this.renderApp(state, actions); });
+        });
+        const themeBtn = document.getElementById('theme-toggle-btn');
+        if (themeBtn) {
+          themeBtn.addEventListener('click', () => {
+            const curr = document.documentElement.getAttribute('data-theme') || 'dark';
+            const next = curr === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', next);
+          });
+        }
+        const addTaskBtn = document.getElementById('btn-add-task');
+        if (addTaskBtn) {
+          addTaskBtn.addEventListener('click', () => {
+            const title = document.getElementById('task-title-input').value;
+            const priority = document.getElementById('task-priority-input').value;
+            if (title.trim()) actions.addTask(title, priority);
+          });
+        }
+        document.querySelectorAll('.task-toggle-chk').forEach(chk => {
+          chk.addEventListener('change', () => actions.toggleTask(chk.getAttribute('data-id')));
+        });
+        document.querySelectorAll('.btn-postpone-task').forEach(btn => {
+          btn.addEventListener('click', () => actions.postponeTask(btn.getAttribute('data-id')));
+        });
+        document.querySelectorAll('.btn-delete-task').forEach(btn => {
+          btn.addEventListener('click', () => actions.deleteTask(btn.getAttribute('data-id')));
+        });
+        const addHabitBtn = document.getElementById('btn-add-habit');
+        if (addHabitBtn) {
+          addHabitBtn.addEventListener('click', () => {
+            const name = document.getElementById('habit-name-input').value;
+            if (name.trim()) actions.addHabit(name);
+          });
+        }
+        document.querySelectorAll('.btn-log-habit').forEach(btn => {
+          btn.addEventListener('click', () => actions.logHabit(btn.getAttribute('data-id')));
+        });
+        document.querySelectorAll('.btn-delete-habit').forEach(btn => {
+          btn.addEventListener('click', () => actions.deleteHabit(btn.getAttribute('data-id')));
+        });
+        const insightBtn = document.getElementById('btn-trigger-ai-insight');
+        if (insightBtn) {
+          insightBtn.addEventListener('click', async () => {
+            const box = document.getElementById('coach-insight-box'); box.innerText = "جاري التحليل لبياناتك...";
+            const analytics = AnalyticsEngine.calculate(state.tasks, state.habits);
+            box.innerText = await AIEngine.generateStrategy('coach_insight', { analytics });
+          });
+        }
+        const planBtn = document.getElementById('btn-trigger-ai-plan');
+        if (planBtn) {
+          planBtn.addEventListener('click', async () => {
+            const promptText = document.getElementById('ai-goal-prompt').value;
+            const box = document.getElementById('coach-plan-box'); if (!promptText.trim()) return;
+            box.style.display = 'block'; box.innerText = "جاري تفكيك الهدف...";
+            box.innerText = await AIEngine.generateStrategy('plan_suggestion', { text: promptText });
+          });
+        }
+        document.querySelectorAll('.daily-rev-btn').forEach(btn => {
+          btn.addEventListener('click', () => actions.saveReview(btn.getAttribute('data-rating')));
+        });
+      }
+    };
+
+    // --- 7. CENTRAL APP STATE & ENGINE ---
+    const AppState = {
+      tasks: StorageManager.get('tasks', []),
+      habits: StorageManager.get('habits', []),
+      reviews: StorageManager.get('reviews', [])
+    };
+
+    const Actions = {
+      addTask(title, priority) {
+        AppState.tasks.push({
+          id: 't_' + Date.now().toString(36), title, priority, progress: 0,
+          category: NLPEngine.classify(title), completed: false, postponedCount: 0
+        });
+        this._sync();
+        NotificationSystem.trigger('start');
+      },
+      toggleTask(id) {
+        const t = AppState.tasks.find(x => x.id === id);
+        if (t) { t.completed = !t.completed; this._sync(); if (t.completed) NotificationSystem.trigger('done'); }
+      },
+      postponeTask(id) {
+        const t = AppState.tasks.find(x => x.id === id);
+        if (t) { t.postponedCount++; this._sync(); NotificationSystem.trigger('streak', "تم التأجيل بمرونة."); }
+      },
+      deleteTask(id) { AppState.tasks = AppState.tasks.filter(x => x.id !== id); this._sync(); },
+      addHabit(name) {
+        AppState.habits.push({ id: 'h_' + Date.now().toString(36), name, streak: 0 });
+        this._sync(); NotificationSystem.trigger('streak', `تمت إضافة عادة: ${name}`);
+      },
+      logHabit(id) {
+        const h = AppState.habits.find(x => x.id === id);
+        if (h) { h.streak++; this._sync(); NotificationSystem.trigger('done', `تقدم رائع في عادة ${h.name}`); }
+      },
+      deleteHabit(id) { AppState.habits = AppState.habits.filter(x => x.id !== id); this._sync(); },
+      saveReview(rating) { AppState.reviews.push({ rating, time: Date.now() }); StorageManager.set('reviews', AppState.reviews); NotificationSystem.trigger('done', "حُفظ التقييم!"); },
+      _sync() {
+        StorageManager.set('tasks', AppState.tasks);
+        StorageManager.set('habits', AppState.habits);
+        UIRenderer.renderApp(AppState, this);
+      }
+    };
+
+    // التشغيل التلقائي عند فتح الصفحة
+    UIRenderer.renderApp(AppState, Actions);
+  </script>
+</body>
+</html>
