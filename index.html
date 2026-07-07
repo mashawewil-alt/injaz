@@ -2,590 +2,601 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>إنجاز | Premium iOS Edition</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>منصة إنجاز الذكية</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;800;900&family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
   
   <style>
     :root {
-      --ios-bg: #000000;
-      --ios-secondary: #121214;
-      --ios-card: #1c1c1e;
-      --ios-card-hover: #2c2c2e;
-      --ios-border: rgba(255, 255, 255, 0.08);
-      --ios-text: #ffffff;
-      --ios-text-muted: #8e8e93;
-      --ios-text-dim: #aeaeae;
-      --ios-blue: #0a84ff;
-      --ios-amber: #ff9f0a;
-      --ios-green: #30d158;
-      --ios-red: #ff453a;
-      --ios-indigo: #5e5ce6;
-      --radius-ios-lg: 16px;
-      --radius-ios-md: 12px;
-      --shadow-ios: 0 4px 20px rgba(0, 0, 0, 0.4);
-      --transition-ios: all 0.25s cubic-bezier(0.25, 0.8, 0.25, 1);
+      --bg-color: #090a0f;
+      --card-bg: #12141c;
+      --card-hover: #1a1d29;
+      --border-color: rgba(255, 255, 255, 0.08);
+      --text-main: #ffffff;
+      --text-muted: #8e92a2;
+      --accent-blue: #0a84ff;
+      --accent-amber: #ff9f0a;
+      --accent-green: #30d158;
+      --accent-red: #ff453a;
+      --accent-indigo: #5e5ce6;
+      --radius-lg: 16px;
+      --radius-md: 12px;
+      --transition-smooth: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    [data-theme="light"] {
-      --ios-bg: #f2f2f7;
-      --ios-secondary: #ffffff;
-      --ios-card: #ffffff;
-      --ios-card-hover: #e5e5ea;
-      --ios-border: rgba(0, 0, 0, 0.05);
-      --ios-text: #000000;
-      --ios-text-muted: #8e8e93;
-      --ios-text-dim: #3a3a3c;
-      --ios-blue: #007aff;
-      --ios-amber: #ff9500;
-      --ios-green: #34c759;
-      --ios-red: #ff3b30;
-      --ios-indigo: #5856d6;
-      --shadow-ios: 0 4px 15px rgba(0, 0, 0, 0.05);
-    }
-
-    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
     body {
-      background-color: var(--ios-bg);
-      color: var(--ios-text);
-      font-family: -apple-system, BlinkMacSystemFont, 'Tajawal', sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      font-family: 'Tajawal', -apple-system, sans-serif;
       min-height: 100vh;
-      transition: var(--transition-ios);
-      padding-bottom: 110px; /* زيادة بسيطة لإعطاء مساحة مريحة للحقوق */
+      padding: 24px 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
-    h1, h2, h3, .ios-font-cairo { font-family: 'Cairo', sans-serif; font-weight: 800; }
-    
-    .app-container { max-width: 500px; margin: 0 auto; padding: 16px; }
-    
-    /* Setup Screen */
-    .setup-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background:var(--ios-bg); z-index:99999; display:flex; align-items:center; justify-content:center; padding:24px; }
-    
-    /* Premium App Store Elements */
-    .ios-card {
-      background: var(--ios-card);
-      border: 1px solid var(--ios-border);
-      border-radius: var(--radius-ios-lg);
-      padding: 18px;
-      margin-bottom: 16px;
-      box-shadow: var(--shadow-ios);
-      transition: var(--transition-ios);
-    }
-    
-    .ios-clock-bar {
-      text-align: center;
-      font-size: 13px;
-      font-weight: 700;
-      color: var(--ios-blue);
-      letter-spacing: 0.5px;
-      margin-bottom: 14px;
-    }
-    
-    .ios-btn-blue {
-      background: var(--ios-blue); color: #ffffff; border: none; border-radius: var(--radius-ios-md);
-      padding: 12px 20px; font-weight: 700; cursor: pointer; transition: var(--transition-ios);
-      display: inline-flex; align-items: center; gap: 8px; justify-content: center;
-    }
-    .ios-btn-blue:active { transform: scale(0.97); filter: brightness(0.9); }
-    .ios-btn-blue:disabled { background: var(--ios-text-muted); opacity: 0.5; }
-    
-    .ios-btn-secondary {
-      background: var(--ios-secondary); color: var(--ios-text); border: 1px solid var(--ios-border);
-      border-radius: var(--radius-ios-md); padding: 10px 16px; font-weight: 600; cursor: pointer; transition: var(--transition-ios);
-    }
-    .ios-btn-secondary:active { background: var(--ios-card-hover); }
 
-    /* Bottom iOS Tab Navigation Bar */
-    .ios-bottom-nav {
-      position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
-      width: 100%; max-width: 500px; background: rgba(28, 28, 30, 0.85);
-      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-      border-top: 1px solid var(--ios-border);
-      display: flex; justify-content: space-around; padding: 8px 4px calc(8px + env(safe-area-inset-bottom));
-      z-index: 9999;
+    h1, h2, h3 { font-family: 'Cairo', sans-serif; font-weight: 800; }
+
+    .dashboard-container {
+      width: 100%;
+      max-width: 900px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
     }
-    [data-theme="light"] .ios-bottom-nav { background: rgba(255, 255, 255, 0.85); }
-    
-    .ios-nav-item {
-      background: transparent; border: none; color: var(--ios-text-muted);
-      display: flex; flex-direction: column; align-items: center; gap: 4px;
-      cursor: pointer; flex: 1; transition: var(--transition-ios);
+
+    /* العداد العلوي والساعة الميلادية */
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      padding: 16px 20px;
+      border-radius: var(--radius-lg);
     }
-    .ios-nav-item.active { color: var(--ios-blue); }
-    .ios-nav-icon { font-size: 20px; }
-    .ios-nav-text { font-size: 11px; font-weight: 700; font-family: 'Cairo', sans-serif; }
-    
-    /* Lists & Content */
-    .ios-item-row {
-      display: flex; align-items: center; gap: 14px; background: var(--ios-secondary);
-      border: 1px solid var(--ios-border); border-radius: var(--radius-ios-md);
-      padding: 14px; margin-bottom: 10px; transition: var(--transition-ios);
+
+    .live-clock {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--accent-blue);
     }
-    .ios-item-row.completed { opacity: 0.5; background: rgba(48, 209, 88, 0.03); }
-    
-    .ios-input {
-      width: 100%; background: var(--ios-secondary); border: 1px solid var(--ios-border);
-      color: var(--ios-text); padding: 12px 14px; border-radius: var(--radius-ios-md);
-      font-family: 'Tajawal', sans-serif; font-size: 14px; transition: var(--transition-ios);
+
+    .points-badge {
+      background: rgba(255, 159, 10, 0.1);
+      border: 1px solid var(--accent-amber);
+      color: var(--accent-amber);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-weight: 900;
+      font-size: 14px;
     }
-    .ios-input:focus { outline: none; border-color: var(--ios-blue); }
-    
-    /* الحقوق المضافة */
-    .ios-app-footer {
+
+    /* شريط التنقل العلوي الأصلي والسلس */
+    .navigation-tabs {
+      display: flex;
+      gap: 10px;
+      background: rgba(255, 255, 255, 0.03);
+      padding: 6px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-color);
+      overflow-x: auto;
+    }
+
+    .nav-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      padding: 10px 18px;
+      font-family: 'Cairo', sans-serif;
+      font-weight: 700;
+      font-size: 14px;
+      cursor: pointer;
+      border-radius: 8px;
+      transition: var(--transition-smooth);
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .nav-btn:hover { color: var(--text-main); background: rgba(255,255,255,0.02); }
+    .nav-btn.active {
+      background: var(--accent-blue);
+      color: #ffffff;
+    }
+
+    /* الكروت والعناصر المتناسقة */
+    .main-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      transition: var(--transition-smooth);
+    }
+
+    .input-group {
+      display: flex;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .custom-input {
+      flex: 1;
+      background: rgba(0, 0, 0, 0.2);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      padding: 12px 16px;
+      border-radius: var(--radius-md);
+      font-family: 'Tajawal', sans-serif;
+      font-size: 14px;
+      transition: var(--transition-smooth);
+    }
+    .custom-input:focus { outline: none; border-color: var(--accent-blue); }
+
+    .action-btn {
+      background: var(--accent-blue);
+      color: #ffffff;
+      border: none;
+      padding: 12px 24px;
+      font-weight: 700;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      font-family: 'Tajawal', sans-serif;
+      transition: var(--transition-smooth);
+      white-space: nowrap;
+    }
+    .action-btn:active { transform: scale(0.98); }
+
+    /* قوائم العناصر */
+    .items-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .item-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--border-color);
+      padding: 14px 18px;
+      border-radius: var(--radius-md);
+      animation: fadeIn 0.3s ease;
+    }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+
+    .item-row.completed { opacity: 0.5; background: rgba(48, 209, 88, 0.02); }
+
+    .delete-btn {
+      background: transparent;
+      border: none;
+      color: var(--accent-red);
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 13px;
+      padding: 4px 8px;
+    }
+
+    /* مؤقت التركيز البسيط */
+    .timer-box {
       text-align: center;
-      font-size: 11px;
-      color: var(--ios-text-muted);
-      padding: 24px 0 12px 0;
-      line-height: 1.6;
-      font-weight: 500;
+      padding: 16px;
+      background: rgba(94, 92, 230, 0.05);
+      border: 1px solid rgba(94, 92, 230, 0.2);
+      border-radius: var(--radius-md);
+      margin-top: 14px;
     }
-    .ios-app-footer b {
-      color: var(--ios-text-dim);
+    .timer-digits {
+      font-size: 36px;
+      font-family: monospace;
+      font-weight: bold;
+      color: var(--text-main);
+      margin: 6px 0;
     }
-    
-    .toast-container { position: fixed; top: env(safe-area-inset-top, 20px); left: 50%; transform: translateX(-50%); z-index: 999999; width: 90%; max-width: 400px; }
-    .ios-toast { background: rgba(28, 28, 30, 0.9); backdrop-filter: blur(10px); border: 1px solid var(--ios-border); color: #fff; padding: 14px; border-radius: 14px; box-shadow: var(--shadow-ios); font-weight: 600; text-align: center; font-size: 13px; margin-bottom: 8px; animation: iosSlide 0.3s ease forwards; }
-    @keyframes iosSlide { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
-    
-    .ios-modal { position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); backdrop-filter: blur(15px); z-index:999999; display:flex; align-items:center; justify-content:center; padding:20px; }
-    .timer-display { font-size: 48px; font-family: monospace; font-weight: bold; color: var(--ios-text); margin: 10px 0; letter-spacing: 2px; }
+
+    /* متجر المكافآت الشكلي */
+    .shop-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 14px;
+      margin-top: 14px;
+    }
+    .shop-item {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      text-align: center;
+    }
+
+    /* التذييل الاحترافي لـ مشعل */
+    .app-footer {
+      text-align: center;
+      margin-top: auto;
+      padding-top: 40px;
+      padding-bottom: 10px;
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.8;
+      width: 100%;
+    }
+    .app-footer b {
+      color: var(--text-main);
+      letter-spacing: 0.5px;
+    }
+    .app-footer .m-badge {
+      display: inline-block;
+      background: rgba(10, 132, 255, 0.1);
+      color: var(--accent-blue);
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-weight: 700;
+      margin-top: 4px;
+    }
+
+    /* التنبيهات المنبثقة الصغيره */
+    .toast-container { position: fixed; bottom: 24px; left: 24px; z-index: 9999; display: flex; flex-direction: column; gap: 8px; }
+    .toast { background: #1c1c1e; border: 1px solid var(--border-color); color: #fff; padding: 12px 20px; border-radius: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); font-size: 13px; font-weight: 600; animation: slideIn 0.25s ease forwards; }
+    @keyframes slideIn { from { transform: translateX(-20px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
   </style>
 </head>
 <body>
 
-  <div id="setup-root"></div>
-  <div id="app" class="app-container"></div>
+  <div class="dashboard-container">
+    
+    <!-- الشريط العلوي والتاريخ الميلادي الصرف -->
+    <div class="top-bar">
+      <div class="live-clock" id="live-clock-gregorian">جاري تحميل الوقت الميلادي...</div>
+      <div class="points-badge" id="points-display">🏆 0 نقطة</div>
+    </div>
+
+    <!-- شريط تصفح الأقسام الأصلي -->
+    <nav class="navigation-tabs">
+      <button class="nav-btn active" data-tab="home">🏡 الرئيسية</button>
+      <button class="nav-btn" data-tab="tasks">📝 المهام اليومية</button>
+      <button class="nav-btn" data-tab="habits">🌱 بناء العادات</button>
+      <button class="nav-btn" data-tab="skills">🧠 اكتساب المهارات</button>
+      <button class="nav-btn" data-tab="shop">🎁 متجر التحدي</button>
+    </nav>
+
+    <!-- الأقسام المتغيرة بسلاسة -->
+    <main id="tab-content">
+      <!-- جاري الحقن بواسطة JS -->
+    </main>
+
+    <!-- تذييل وحقوق المطور مشعل الفخمة -->
+    <footer class="app-footer">
+      حقوق الملكية والتطوير محفوظة للمطور <b>مشعل</b> © 2026<br>
+      <span class="m-badge">الإصدار المميز v3.5 • الانضباط يصنع المجد 🚀</span>
+    </footer>
+
+  </div>
+
   <div id="toast-container" class="toast-container"></div>
-  <div id="reward-modal-root"></div>
 
   <script>
-    // --- 1. STORAGE MANAGEMENT ---
+    // --- 1. إدارة البيانات المحليه ---
     const Storage = {
-      prefix: 'injaz_apple_v3_',
-      get(key, fallback) {
-        const data = localStorage.getItem(this.prefix + key);
-        return data ? JSON.parse(data) : fallback;
-      },
-      set(key, val) { localStorage.setItem(this.prefix + key, JSON.stringify(val)); }
+      get(k, fallback) { const d = localStorage.getItem('injaz_v35_'+k); return d ? JSON.parse(d) : fallback; },
+      set(k, v) { localStorage.setItem('injaz_v35_'+k, JSON.stringify(v)); }
     };
 
-    // --- 2. THE LITERARY QUOTE POOL ---
-    const QuotesPool = [
-      "«الذكاء دون طموح كطائر دون أجنحة.»",
-      "«من يملك سبباً يعيش من أجله، يمكنه تحمل أي شيء تقريباً.»",
-      "«الرحلة الحقيقية للاكتشاف لا تتكون من البحث عن أراضٍ جديدة، بل من امتلاك عيون جديدة.»",
-      "«الانضباط هو الجسر بين الأهداف والإنجازات.»"
-    ];
-
-    // --- 3. EXCLUSIVE REWARDS POOL ---
-    const RewardsPool = [
-      { id: 1, text: "🤝 مدح وثناء: فخور بوعيك وثباتك الأسطوري الشجاع اليوم.\n🎬 مقولة شهيرة: 'السر في المضي قدماً هو البدء' - مارك توين.\n🎯 اقتراح بسيط: تصفح فكرة تطويرية لمدّة 5 دقائق لترقية مداركك.\n💡 تذكير: انضباطك الواعي اليوم يصنع مجد الغد الحقيقي." },
-      { id: 2, text: "🔥 مدح وثناء: خطواتك ثابتة ومبهرة للغاية يا بطل.\n🎬 مقولة شهيرة: 'العظيم لا يُنجز بالقوة بل بالمثابرة' - صامويل جونسون.\n🎯 اقتراح بسيط: اكتب الآن خاطرة أو اقتباساً لافتاً في مساحتك الخاصة.\n💡 تذكير: الأيام التي تقاوم فيها كسلك هي التي تبني معدنك." },
-      { id: 3, text: "🏆 مدح وثناء: عمل منظم ونقاء ذهني يدرّس!\n🎬 مقولة شهيرة: 'أفضل طريقة للتنبؤ بالمستقبل هي صناعته' - ألان كاي.\n🎯 اقتراح بسيط: خذ 10 أنفاس عميقة لتجديد طاقتك الذهنية بالكامل.\n💡 تذكير: النجاح هو الاستمرارية البسيطة في الاتجاه الصحيح." },
-      { id: 4, text: "💎 مدح وثناء: روحك العالية تمنح لوحتك طاقة إنجاز حقيقية.\n🎬 مقولة شهيرة: 'لا يهم كم أنت بطيء طالما أنك لا تتوقف' - كونفوشيوس.\n🎯 اقتراح بسيط: اشرب كوباً كاملاً من الماء النقي لإنعاش دورتك الدموية فوراً.\n💡 تذكير: الأهداف الكبيرة تتفكك لخطوات صغيرة، فاستمر بالصعود." }
-    ];
-
-    // --- 4. APP STATE ---
+    // --- 2. حالة المنصة ---
     const State = {
-      username: Storage.get('username', ''),
+      points: Storage.get('points', 0),
       tasks: Storage.get('tasks', []),
       habits: Storage.get('habits', []),
-      skills: Storage.get('skills', []),
-      points: Storage.get('points', 0),
-      usedRewards: Storage.get('usedRewards', []),
-      dailyQuote: QuotesPool[Math.floor(Math.random() * QuotesPool.length)]
+      skills: Storage.get('skills', []), // تتبع المهارات الجديد
+      currentTab: 'home'
     };
 
-    // --- 5. APP ACTIONS ---
-    const Actions = {
-      initUser(name) {
-        if(!name.trim()) return;
-        State.username = name.trim();
-        Storage.set('username', State.username);
-        Notify.toast("🍏 نظام آبل الذكي", `مرحباً بك في إنجاز يا ${State.username}!`);
-        UI.renderSetup();
-        UI.renderApp();
+    // --- 3. محرك الوقت الميلادي فقط ---
+    function initClock() {
+      setInterval(() => {
+        const el = document.getElementById('live-clock-gregorian');
+        if(el) {
+          const now = new Date();
+          el.innerText = now.toLocaleDateString('ar-EG', {
+            calendar: 'gregorian',
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+            hour12: true
+          });
+        }
+      }, 1000);
+    }
+
+    // --- 4. مؤقت التركيز (بومودورو) المدمج كإضافة ذكية ---
+    const Timer = {
+      secondsLeft: 1500, interval: null, running: false,
+      toggle() {
+        const btn = document.getElementById('timer-btn');
+        if(this.running) {
+          clearInterval(this.interval);
+          this.running = false;
+          if(btn) btn.innerText = 'ابدأ جلسة تركيز 🚀';
+        } else {
+          this.running = true;
+          if(btn) btn.innerText = 'إيقاف مؤقت ⏸️';
+          this.interval = setInterval(() => {
+            if(this.secondsLeft > 0) {
+              this.secondsLeft--;
+              this.updateDOM();
+            } else {
+              clearInterval(this.interval);
+              this.running = false;
+              this.secondsLeft = 1500;
+              State.points += 40;
+              Storage.set('points', State.points);
+              showToast("⏱️ تم التركيز!", "كفو عظيم! أنهيت جلسة كاملة بنجاح وكسبت +40 نقطة.");
+              UI.refresh();
+            }
+          }, 1000);
+        }
       },
-      addTask(title, prio) {
-        State.tasks.push({ id: 't_'+Date.now(), title, prio, completed: false });
-        this._sync();
-        Notify.toast("📝 مهمة مضافة", `تم إدراج المهمة بنجاح، بانتظار تميزك.`);
+      updateDOM() {
+        const el = document.getElementById('timer-digits');
+        if(!el) return;
+        const m = Math.floor(this.secondsLeft / 60).toString().padStart(2, '0');
+        const s = (this.secondsLeft % 60).toString().padStart(2, '0');
+        el.innerText = `${m}:${s}`;
+      }
+    };
+
+    // --- 5. التنبيهات البسيطة ---
+    function showToast(title, msg) {
+      const c = document.getElementById('toast-container');
+      if(!c) return;
+      const t = document.createElement('div');
+      t.className = 'toast';
+      t.innerText = `${title} - ${msg}`;
+      c.appendChild(t);
+      setTimeout(() => { t.style.opacity = '0'; setTimeout(() => t.remove(), 300); }, 3500);
+    }
+
+    // --- 6. واجهة المستخدم والتنقل السلس ---
+    const UI = {
+      switchTab(tabId) {
+        State.currentTab = tabId;
+        document.querySelectorAll('.nav-btn').forEach(b => {
+          b.classList.toggle('active', b.getAttribute('data-tab') === tabId);
+        });
+        this.refresh();
+      },
+      refresh() {
+        // تحديث النقاط بالأعلى
+        document.getElementById('points-display').innerText = `🏆 ${State.points} نقطة`;
+        
+        const container = document.getElementById('tab-content');
+        if(!container) return;
+
+        if(State.currentTab === 'home') {
+          container.innerHTML = `
+            <div class="main-card">
+              <h2 style="font-size:18px; color:var(--accent-blue); margin-bottom:8px;">مرحباً بك في لوحة إنجاز المتكاملة</h2>
+              <p style="font-size:14px; color:var(--text-muted); line-height:1.6;">
+                منصتك الشخصية والآمنة لتنظيم يومك، تتبع عاداتك واكتساب المهارات بشكل عملي مستدام وبدون الحاجة لإنترنت.
+              </p>
+              
+              <div class="timer-box">
+                <h3 style="font-size:14px; color:var(--accent-indigo);">⏱️ مؤقت التركيز العميق المدمج (+40 نقطة)</h3>
+                <div class="timer-digits" id="timer-digits">25:00</div>
+                <button class="action-btn" id="timer-btn" style="background:var(--accent-indigo); padding:8px 16px; font-size:13px;" onclick="Timer.toggle()">ابدأ جلسة تركيز 🚀</button>
+              </div>
+            </div>
+          `;
+          Timer.updateDOM();
+        }
+        
+        else if(State.currentTab === 'tasks') {
+          let rows = '';
+          State.tasks.forEach(t => {
+            rows += `
+              <div class="item-row ${t.done?'completed':''}">
+                <div style="display:flex; align-items:center; gap:10px;">
+                  <input type="checkbox" ${t.done?'checked':''} onchange="UI.toggleTask('${t.id}')" style="width:18px; height:18px; cursor:pointer;">
+                  <span style="font-weight:600; font-size:14px;">${t.text}</span>
+                </div>
+                <button class="delete-btn" onclick="UI.deleteTask('${t.id}')">حذف</button>
+              </div>
+            `;
+          });
+          container.innerHTML = `
+            <div class="main-card">
+              <h3>📝 قائمة المهام اليومية (+15 نقطة عند الإنجاز)</h3>
+              <div class="input-group">
+                <input type="text" id="task-input" class="custom-input" placeholder="اكتب خطتك القادمة هنا...">
+                <button class="action-btn" onclick="UI.addTask()">إضافة مهمة</button>
+              </div>
+              <div class="items-list">${rows || '<p style="text-align:center; color:var(--text-muted); padding:10px; font-size:13px;">لا توجد مهام حالية.</p>'}</div>
+            </div>
+          `;
+        }
+        
+        else if(State.currentTab === 'habits') {
+          let rows = '';
+          State.habits.forEach(h => {
+            rows += `
+              <div class="item-row">
+                <div>
+                  <span style="font-weight:600; font-size:15px;">${h.text}</span>
+                  <div style="font-size:11px; color:var(--accent-green); margin-top:2px;">التزامك المستمر: <b>${h.streak} أيام</b> 🔥</div>
+                </div>
+                <div style="display:flex; gap:10px;">
+                  <button class="action-btn" style="padding:6px 12px; font-size:12px; background:var(--accent-green); color:#000;" onclick="UI.logHabit('${h.id}')">تسجيل اليوم</button>
+                  <button class="delete-btn" onclick="UI.deleteHabit('${h.id}')">حذف</button>
+                </div>
+              </div>
+            `;
+          });
+          container.innerHTML = `
+            <div class="main-card">
+              <h3>🌱 بناء وتثبيت العادات السلوكية (+10 نقاط)</h3>
+              <div class="input-group">
+                <input type="text" id="habit-input" class="custom-input" placeholder="مثال: القراءة، شرب الماء، الرياضة...">
+                <button class="action-btn" style="background:var(--accent-green); color:#000;" onclick="UI.addHabit()">تثبيت العادة</button>
+              </div>
+              <div class="items-list">${rows || '<p style="text-align:center; color:var(--text-muted); padding:10px; font-size:13px;">لم تقم بتثبيت أي عادة بعد.</p>'}</div>
+            </div>
+          `;
+        }
+        
+        // قسم تتبع اكتساب المهارات الجديد كلياً وبنفس التصميم الأصلي
+        else if(State.currentTab === 'skills') {
+          let rows = '';
+          State.skills.forEach(s => {
+            rows += `
+              <div class="item-row">
+                <div>
+                  <span style="font-weight:600; font-size:15px; color:var(--accent-blue);">${s.text}</span>
+                  <div style="font-size:12px; color:var(--text-muted); margin-top:2px;">ساعات التدريب الفعلي المتراكمة: <b style="color:var(--accent-amber); font-size:14px;">${s.hours} ساعة</b> 🧠</div>
+                </div>
+                <div style="display:flex; gap:10px;">
+                  <button class="action-btn" style="padding:6px 12px; font-size:12px; background:var(--accent-blue);" onclick="UI.trainSkill('${s.id}')">+ إضافة ساعة تدريب</button>
+                  <button class="delete-btn" onclick="UI.deleteSkill('${s.id}')">حذف</button>
+                </div>
+              </div>
+            `;
+          });
+          container.innerHTML = `
+            <div class="main-card">
+              <h3>🧠 تتبع واكتساب المهارات العميقة (+20 نقطة/ساعة)</h3>
+              <p style="font-size:12px; color:var(--text-muted); margin-top:2px; margin-bottom:10px;">أضف مجالات التركيز الطويل وضاعف ساعات تدريبك الفعلي لرفع مستواك الذهني وقدراتك.</p>
+              <div class="input-group">
+                <input type="text" id="skill-input" class="custom-input" placeholder="مثال: تعلم اللغة الإنجليزية، البرمجة، صيانة الموبايل...">
+                <button class="action-btn" onclick="UI.addSkill()">بدء المسار</button>
+              </div>
+              <div class="items-list">${rows || '<p style="text-align:center; color:var(--text-muted); padding:10px; font-size:13px;">لم تبدأ في تتبع أي مهارة بعد، ابدأ الآن يا بطل!</p>'}</div>
+            </div>
+          `;
+        }
+        
+        else if(State.currentTab === 'shop') {
+          container.innerHTML = `
+            <div class="main-card">
+              <h3>🎁 متجر التحدي والمكافآت والتحفيز الذاتي</h3>
+              <p style="font-size:13px; color:var(--text-muted); margin-top:4px;">استبدل نقاط طاقاتك المتراكمة ببطاقات تحفيزية مميزة.</p>
+              <div class="shop-grid">
+                <div class="shop-item"><div>🎁</div><div style="font-weight:700;font-size:13px;margin:4px 0;">صندوق المفاجأة الأدبية</div><button class="action-btn" style="padding:4px 8px; font-size:11px; width:100%;" onclick="UI.buyItem(20)">20 نقطة</button></div>
+                <div class="shop-item"><div>⚽</div><div style="font-weight:700;font-size:13px;margin:4px 0;">بطاقة الطاقة الرياضية</div><button class="action-btn" style="padding:4px 8px; font-size:11px; width:100%;" onclick="UI.buyItem(40)">40 نقطة</button></div>
+                <div class="shop-item"><div>📚</div><div style="font-weight:700;font-size:13px;margin:4px 0;">حكمة وفلسفة عميقة</div><button class="action-btn" style="padding:4px 8px; font-size:11px; width:100%;" onclick="UI.buyItem(50)">50 نقطة</button></div>
+              </div>
+            </div>
+          `;
+        }
+      },
+
+      // إجراءات المهام
+      addTask() {
+        const inp = document.getElementById('task-input');
+        if(!inp || !inp.value.trim()) return;
+        State.tasks.push({ id: 't_'+Date.now(), text: inp.value.trim(), done: false });
+        Storage.set('tasks', State.tasks);
+        showToast("📝 تم الإضافة", "تم إدراج خطتك الجديدة بنجاح.");
+        this.refresh();
       },
       toggleTask(id) {
         const t = State.tasks.find(x => x.id === id);
         if(t) {
-          t.completed = !t.completed;
-          State.points += t.completed ? 15 : -15;
-          this._sync();
-          if(t.completed) Notify.toast("🏆 إنجاز رائع!", `كسبت +15 نقطة طاقة يا ${State.username}.`);
+          t.done = !t.done;
+          State.points += t.done ? 15 : -15;
+          Storage.set('tasks', State.tasks);
+          Storage.set('points', State.points);
+          showToast(t.done ? "🏆 كفو البطل" : "↩️ تم التراجع", t.done ? "حققت هدفك وكسبت +15 نقطة!" : "تم خصم نقاط المهمة.");
+          this.refresh();
         }
       },
-      deleteTask(id) { State.tasks = State.tasks.filter(x => x.id !== id); this._sync(); },
-      
-      addHabit(name) {
-        State.habits.push({ id: 'h_'+Date.now(), name, streak: 0 });
-        this._sync();
-        Notify.toast("🌱 عادة سلوكية", `تم تثبيت العادة بنجاح. الاستمرار يصنع المعجزات.`);
+      deleteTask(id) {
+        State.tasks = State.tasks.filter(x => x.id !== id);
+        Storage.set('tasks', State.tasks);
+        this.refresh();
+      },
+
+      // إجراءات العادات
+      addHabit() {
+        const inp = document.getElementById('habit-input');
+        if(!inp || !inp.value.trim()) return;
+        State.habits.push({ id: 'h_'+Date.now(), text: inp.value.trim(), streak: 0 });
+        Storage.set('habits', State.habits);
+        showToast("🌱 عادة جديدة", "تم التثبيت بنجاح، الاستمرار يصنع الفارق.");
+        this.refresh();
       },
       logHabit(id) {
         const h = State.habits.find(x => x.id === id);
-        if(h) { h.streak++; State.points += 10; this._sync(); Notify.toast("🔥 شعلة التزام", `تقدم ممتاز في [${h.name}]! كسبت +10 نقاط.`); }
+        if(h) {
+          h.streak++;
+          State.points += 10;
+          Storage.set('habits', State.habits);
+          Storage.set('points', State.points);
+          showToast("🔥 التزام مستمر", `فخور بك، كسبت +10 نقاط طاقة في [${h.text}]`);
+          this.refresh();
+        }
       },
-      deleteHabit(id) { State.habits = State.habits.filter(x => x.id !== id); this._sync(); },
-      
-      addSkill(name) {
-        State.skills.push({ id: 's_'+Date.now(), name, hours: 0 });
-        this._sync();
-        Notify.toast("🧠 مهارة جديدة", `تم بدء مسار اكتساب مهارة: [${name}] 🚀`);
+      deleteHabit(id) {
+        State.habits = State.habits.filter(x => x.id !== id);
+        Storage.set('habits', State.habits);
+        this.refresh();
+      },
+
+      // إجراءات المهارات الجديدة بالكامل
+      addSkill() {
+        const inp = document.getElementById('skill-input');
+        if(!inp || !inp.value.trim()) return;
+        State.skills.push({ id: 's_'+Date.now(), text: inp.value.trim(), hours: 0 });
+        Storage.set('skills', State.skills);
+        showToast("🧠 مسار مهارة", "تم فتح مسار تتبع مهاراتك العميقة بنجاح 🚀");
+        this.refresh();
       },
       trainSkill(id) {
         const s = State.skills.find(x => x.id === id);
-        if(s) { s.hours++; State.points += 20; this._sync(); Notify.toast("📚 ساعة تدريب", `كفو! أضفت ساعة عمل على مهارة [${s.name}] وكسبت +20 نقطة طاقة.`); }
+        if(s) {
+          s.hours++;
+          State.points += 20;
+          Storage.set('skills', State.skills);
+          Storage.set('points', State.points);
+          showToast("📚 ساعة عمل", `عظيم جداً! أنجزت ساعة تدريب في [${s.text}] ونلت +20 نقطة طاقة.`);
+          this.refresh();
+        }
       },
-      deleteSkill(id) { State.skills = State.skills.filter(x => x.id !== id); this._sync(); },
-      
-      buyReward(price, name, icon) {
-        if(State.points < price) { Notify.toast("❌ عذراً البطل", `النقاط غير كافية، تحتاج إلى ${price} نقطة.`); return; }
-        let avail = RewardsPool.filter(r => !State.usedRewards.includes(r.id));
-        if(avail.length === 0) { State.usedRewards = []; avail = RewardsPool; }
-        const reward = avail[Math.floor(Math.random() * avail.length)];
+      deleteSkill(id) {
+        State.skills = State.skills.filter(x => x.id !== id);
+        Storage.set('skills', State.skills);
+        this.refresh();
+      },
+
+      buyItem(price) {
+        if(State.points < price) {
+          showToast("❌ نقاط غير كافية", `تحتاج إلى ${price} نقطة لفتح هذه المكافأة.`);
+          return;
+        }
         State.points -= price;
-        State.usedRewards.push(reward.id);
-        this._sync();
-        UI.showRewardModal(icon, name, reward.text);
-      },
-      _sync() {
-        Storage.set('tasks', State.tasks); Storage.set('habits', State.habits);
-        Storage.set('skills', State.skills); Storage.set('points', State.points);
-        Storage.set('usedRewards', State.usedRewards);
-        UI.renderApp();
+        Storage.set('points', State.points);
+        showToast("🎉 فتح مكافأة", "تم فتح بطاقتك بنجاح ومكافأتك مستحقة!");
+        this.refresh();
       }
     };
 
-    // --- 6. NATIVE NOTIFICATION & TOAST ---
-    const Notify = {
-      async request() { if('Notification' in window) await Notification.requestPermission(); },
-      toast(title, text) {
-        const container = document.getElementById('toast-container');
-        if(!container) return;
-        const toast = document.createElement('div');
-        toast.className = 'ios-toast';
-        toast.innerText = `${title}\n${text}`;
-        container.appendChild(toast);
-        setTimeout(() => { toast.style.opacity = '0'; setTimeout(() => toast.remove(), 300); }, 4000);
-      }
-    };
+    // --- 7. ربط الأحداث والتشغيل الأول المضمون ---
+    document.querySelectorAll('.nav-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        UI.switchTab(btn.getAttribute('data-tab'));
+      });
+    });
 
-    // --- 7. FOCUS TIMER ENGINE ---
-    const Timer = {
-      secondsLeft: 1500, interval: null, running: false,
-      toggle() {
-        if(this.running) { clearInterval(this.interval); this.running = false; }
-        else {
-          this.running = true;
-          this.interval = setInterval(() => {
-            if(this.secondsLeft > 0) { this.secondsLeft--; UI.updateTimerDOM(); }
-            else {
-              clearInterval(this.interval); this.running = false; this.secondsLeft = 1500;
-              State.points += 40; Storage.set('points', State.points); UI.renderApp();
-              Notify.toast("⏱️ تم التركيز بنجاح!", `كفو عظيم! أنهيت جلسة بومودورو بنجاح وكسبت +40 نقطة طاقة يا ${State.username}.`);
-            }
-          }, 1000);
-        }
-        UI.updateTimerDOM();
-      }
-    };
-
-    // --- 8. UI RENDERER ---
-    const UI = {
-      currentTab: 'home',
-      initClock() {
-        setInterval(() => {
-          const el = document.getElementById('ios-live-time');
-          if(el) {
-            const now = new Date();
-            el.innerText = now.toLocaleDateString('ar-EG', { calendar: 'gregorian', weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true });
-          }
-        }, 1000);
-      },
-      renderSetup() {
-        const root = document.getElementById('setup-root');
-        if(State.username) { root.innerHTML = ''; return; }
-        root.innerHTML = `
-          <div class="setup-overlay">
-            <div class="ios-card" style="width:100%; max-width:400px; text-align:center;">
-              <span style="font-size:50px;">🍏</span>
-              <h2 style="margin-top:10px; color:var(--ios-blue);">مرحباً بك في إنجاز</h2>
-              <p style="font-size:13px; color:var(--ios-text-muted); margin-bottom:18px;">قم بتهيئة مساحتك الذكية الفاخرة</p>
-              <input type="text" id="setup-name" class="ios-input" placeholder="اكتب اسمك الأول..." style="text-align:center; margin-bottom:14px;">
-              <button class="ios-btn-blue" id="setup-btn" style="width:100%;">دخول للمنصة</button>
-            </div>
-          </div>
-        `;
-        document.getElementById('setup-btn').addEventListener('click', () => {
-          Actions.initUser(document.getElementById('setup-name').value);
-        });
-      },
-      renderApp() {
-        if(!State.username) return;
-        const app = document.getElementById('app');
-        let html = `
-          <div class="ios-clock-bar" id="ios-live-time">جاري التحميل...</div>
-          <header class="ios-card" style="display:flex; justify-content:space-between; align-items:center; background:var(--ios-secondary);">
-            <div>
-              <h2 style="font-size:20px;">🏡 الرئيسية</h2>
-              <p style="font-size:12px; color:var(--ios-text-muted);">أهلاً بك يا ${State.username}</p>
-            </div>
-            <div style="background:var(--ios-card-hover); border:1px solid var(--ios-border); padding:6px 12px; border-radius:10px; font-weight:900; color:var(--ios-amber); font-size:13px;">
-              🏆 ${State.points} نقطة
-            </div>
-          </header>
-        `;
-
-        if(this.currentTab === 'home') html += this._buildHome();
-        if(this.currentTab === 'tasks') html += this._buildTasks();
-        if(this.currentTab === 'habits') html += this._buildHabits();
-        if(this.currentTab === 'skills') html += this._buildSkills();
-        if(this.currentTab === 'shop') html += this._buildShop();
-
-        // إدراج التذييل (Footer) بالحقوق الحصرية قبل نهاية الـ Container
-        html += `
-          <footer class="ios-app-footer">
-            جميع الحقوق محفوظة © <b>مشعل</b> | 2026<br>
-            <span>تصميم متقن • الانضباط يصنع المجد 🚀</span>
-          </footer>
-        `;
-
-        html += `
-          <nav class="ios-bottom-nav">
-            <button class="ios-nav-item ${this.currentTab === 'home'?'active':''}" data-t="home"><span class="ios-nav-icon">🏡</span><span class="ios-nav-text">الرئيسية</span></button>
-            <button class="ios-nav-item ${this.currentTab === 'tasks'?'active':''}" data-t="tasks"><span class="ios-nav-icon">📝</span><span class="ios-nav-text">المهام</span></button>
-            <button class="ios-nav-item ${this.currentTab === 'habits'?'active':''}" data-t="habits"><span class="ios-nav-icon">🌱</span><span class="ios-nav-text">العادات</span></button>
-            <button class="ios-nav-item ${this.currentTab === 'skills'?'active':''}" data-t="skills"><span class="ios-nav-icon">🧠</span><span class="ios-nav-text">المهارات</span></button>
-            <button class="ios-nav-item ${this.currentTab === 'shop'?'active':''}" data-t="shop"><span class="ios-nav-icon">🎁</span><span class="ios-nav-text">المتجر</span></button>
-          </nav>
-        `;
-        app.innerHTML = html;
-        this._bind();
-      },
-      _buildHome() {
-        const hour = new Date().getHours();
-        const greet = hour < 12 ? `صباح الخير يا ${State.username} ✨` : `مساء الخير يا ${State.username} 🌙`;
-        const comp = State.tasks.filter(t => t.completed).length;
-        const pend = State.tasks.filter(t => !t.completed).length;
-        
-        return `
-          <div class="ios-card" style="background: linear-gradient(135deg, var(--ios-card), #101520); border-color: var(--ios-indigo);">
-            <h3 style="font-size:16px; margin-bottom:6px; color:var(--ios-blue);">${greet}</h3>
-            <p style="font-size:13px; line-height:1.5; color:var(--ios-text-dim);">
-              📊 أنجزت اليوم <b style="color:var(--ios-green);">${comp}</b> مهمة، ومتبقي في قائمتك المعلقة <b style="color:var(--ios-red);">${pend}</b> عمل يتطلب تركيزك.
-            </p>
-          </div>
-          
-          <div class="ios-card" style="border-color: rgba(255,159,10,0.15); background: rgba(255,159,10,0.02);">
-            <span style="font-size:11px; font-weight:800; color:var(--ios-amber);">💭 مقتبس ملهم اليوم</span>
-            <p style="font-size:14px; font-style:italic; margin-top:4px; font-weight:700;">${State.dailyQuote}</p>
-          </div>
-
-          <div class="ios-card" style="text-align:center;">
-            <h3 style="font-size:15px; margin-bottom:4px;">⏱️ مؤقت التركيز العميق (+40 نقطة)</h3>
-            <p style="font-size:12px; color:var(--ios-text-muted);">جلسة بومودورو سريعة تمنع التشتت</p>
-            <div class="timer-display" id="timer-box">25:00</div>
-            <button class="ios-btn-blue" id="btn-timer-toggle" style="width:100%; background:var(--ios-indigo);">${Timer.running?'إيقاف مؤقت':'ابدأ التركيز الآن 🚀'}</button>
-          </div>
-        `;
-      },
-      _buildTasks() {
-        let rows = '';
-        State.tasks.forEach(t => {
-          rows += `
-            <div class="ios-item-row ${t.completed?'completed':''}">
-              <input type="checkbox" class="task-chk" data-id="${t.id}" ${t.completed?'checked':''} style="width:20px; height:20px; cursor:pointer;">
-              <div style="flex:1; font-weight:700; font-size:14px;">${t.title}</div>
-              <button class="ios-btn-secondary btn-del-task" data-id="${t.id}" style="padding:4px 8px; font-size:11px; color:var(--ios-red); border:none;">حذف</button>
-            </div>
-          `;
-        });
-        return `
-          <div class="ios-card">
-            <h3 style="font-size:15px; margin-bottom:10px;">➕ إضافة مهمة (+15 نقطة)</h3>
-            <div style="display:flex; flex-direction:column; gap:8px;">
-              <input type="text" id="task-in" class="ios-input" placeholder="ما هي خطتك القادمة؟">
-              <button class="ios-btn-blue" id="task-add-btn">حفظ المهمة</button>
-            </div>
-          </div>
-          <div>${rows || '<p style="text-align:center; color:var(--ios-text-muted); font-size:13px; padding:20px;">لا توجد مهام حالية.</p>'}</div>
-        `;
-      },
-      _buildHabits() {
-        let rows = '';
-        State.habits.forEach(h => {
-          rows += `
-            <div class="ios-item-row" style="justify-content:space-between;">
-              <div>
-                <div style="font-weight:700; font-size:15px;">${h.name}</div>
-                <div style="font-size:11px; color:var(--ios-text-muted); margin-top:2px;">التزامك: <b style="color:var(--ios-green);">${h.streak} أيام</b> 🔥</div>
-              </div>
-              <div style="display:flex; gap:6px;">
-                <button class="ios-btn-blue btn-log-hab" data-id="${h.id}" style="padding:6px 12px; font-size:11px;">تسجيل</button>
-                <button class="ios-btn-secondary btn-del-hab" data-id="${h.id}" style="padding:6px 12px; font-size:11px; color:var(--ios-red); border:none;">حذف</button>
-              </div>
-            </div>
-          `;
-        });
-        return `
-          <div class="ios-card">
-            <h3 style="font-size:15px; margin-bottom:10px;">🌱 تثبيت عادة جديدة (+10 نقاط)</h3>
-            <div style="display:flex; gap:8px;">
-              <input type="text" id="hab-in" class="ios-input" placeholder="مثال: القراءة، شرب الماء...">
-              <button class="ios-btn-blue" id="hab-add-btn" style="white-space:nowrap;">تثبيت</button>
-            </div>
-          </div>
-          <div>${rows || '<p style="text-align:center; color:var(--ios-text-muted); font-size:13px; padding:20px;">لم تقم بتثبيت أي عادات بعد.</p>'}</div>
-        `;
-      },
-      _buildSkills() {
-        let rows = '';
-        State.skills.forEach(s => {
-          rows += `
-            <div class="ios-item-row" style="justify-content:space-between;">
-              <div style="flex:1;">
-                <div style="font-weight:700; font-size:15px; color:var(--ios-blue);">${s.name}</div>
-                <div style="font-size:11px; color:var(--ios-text-muted); margin-top:2px;">إجمالي ساعات التدريب الفعلي: <b style="color:var(--ios-amber); font-size:13px;">${s.hours} ساعة</b> 🧠</div>
-              </div>
-              <div style="display:flex; gap:6px;">
-                <button class="ios-btn-blue btn-train-sk" data-id="${s.id}" style="padding:6px 12px; font-size:11px; background:var(--ios-indigo);">+ إضافة ساعة</button>
-                <button class="ios-btn-secondary btn-del-sk" data-id="${s.id}" style="padding:6px 12px; font-size:11px; color:var(--ios-red); border:none;">حذف</button>
-              </div>
-            </div>
-          `;
-        });
-        return `
-          <div class="ios-card">
-            <h3 style="font-size:15px; margin-bottom:4px;">🧠 اكتساب وتتبع المهارات العميقة</h3>
-            <p style="font-size:11px; color:var(--ios-text-muted); margin-bottom:10px;">أضف المهارة التي تتعلمها حالياً، وكل ساعة عمل تمنحك +20 نقطة طاقة ومستوى أعلى.</p>
-            <div style="display:flex; gap:8px;">
-              <input type="text" id="sk-user-in" class="ios-input" placeholder="مثال: تعلم اللغة الإنجليزية...">
-              <button class="ios-btn-blue" id="sk-add-btn" style="white-space:nowrap;">بدء المسار</button>
-            </div>
-          </div>
-          <div>${rows || '<p style="text-align:center; color:var(--ios-text-muted); font-size:13px; padding:20px;">لم تبدأ في تتبع أي مهارة بعد.</p>'}</div>
-        `;
-      },
-      _buildShop() {
-        const items = [
-          { name: 'صندوق المفاجآت الأدبية', price: 20, icon: '🎁' },
-          { name: 'كرة المجد الرياضية', price: 40, icon: '⚽' },
-          { name: 'كتاب الفلسفة والحكمة', price: 60, icon: '📚' },
-          { name: 'قطرة النقاء والتوازن', price: 15, icon: '💧' }
-        ];
-        let cards = '';
-        items.forEach(i => {
-          const can = State.points >= i.price;
-          cards += `
-            <div style="background:var(--ios-secondary); border:1px solid var(--ios-border); border-radius:12px; padding:14px; text-align:center; display:flex; flex-direction:column; justify-content:space-between; gap:6px;">
-              <div style="font-size:32px;">${i.icon}</div>
-              <div style="font-weight:700; font-size:12px;">${i.name}</div>
-              <div style="font-size:12px; color:var(--ios-amber); font-weight:bold;">${i.price} نقطة</div>
-              <button class="ios-btn-blue btn-buy" data-price="${i.price}" data-name="${i.name}" data-icon="${i.icon}" style="padding:6px; font-size:11px;" ${can?'':'disabled'}>${can?'شراء وفتح':'قفل 🔒'}</button>
-            </div>
-          `;
-        });
-        return `
-          <div class="ios-card">
-            <h3 style="color:var(--ios-amber); font-size:16px;">🎁 متجر المكافآت والتحفيز</h3>
-            <p style="font-size:12px; color:var(--ios-text-muted); margin-top:2px;">استثمر نقاطك المتراكمة لفتح بطاقات تشجيعية فريدة.</p>
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:12px;">${cards}</div>
-          </div>
-        `;
-      },
-      updateTimerDOM() {
-        const el = document.getElementById('timer-box');
-        if(!el) return;
-        const m = Math.floor(Timer.secondsLeft / 60).toString().padStart(2, '0');
-        const s = (Timer.secondsLeft % 60).toString().padStart(2, '0');
-        el.innerText = `${m}:${s}`;
-      },
-      showRewardModal(icon, name, text) {
-        const root = document.getElementById('reward-modal-root');
-        root.innerHTML = `
-          <div class="ios-modal">
-            <div class="ios-card" style="width:100%; max-width:420px; text-align:center; background:var(--ios-secondary); border-color:var(--ios-amber);">
-              <div style="font-size:55px;">${icon}</div>
-              <h2 style="color:var(--ios-amber); font-size:20px; margin-top:6px;">تم فتح: ${name} 🎉</h2>
-              <p style="font-size:11px; color:var(--ios-text-muted); margin-bottom:12px;">مكافأة حصرية مخصصة لـلبطل: ${State.username}</p>
-              <div style="background:var(--ios-card); border:1px solid var(--ios-border); padding:14px; border-radius:10px; font-size:13px; line-height:1.6; text-align:right; white-space:pre-line; margin-bottom:16px;">
-                ${text}
-              </div>
-              <button class="ios-btn-blue" id="close-modal" style="width:100%;">العودة ومواصلة العطاء 🚀</button>
-            </div>
-          </div>
-        `;
-        document.getElementById('close-modal').addEventListener('click', () => root.innerHTML = '');
-      },
-      _bind() {
-        document.querySelectorAll('.ios-nav-item').forEach(btn => {
-          btn.addEventListener('click', () => { this.currentTab = btn.getAttribute('data-t'); this.renderApp(); });
-        });
-        
-        const tBtn = document.getElementById('btn-timer-toggle');
-        if(tBtn) tBtn.addEventListener('click', () => Timer.toggle());
-        
-        const taskAdd = document.getElementById('task-add-btn');
-        if(taskAdd) {
-          taskAdd.addEventListener('click', () => {
-            const title = document.getElementById('task-in').value;
-            if(title.trim()) Actions.addTask(title, 'medium');
-          });
-        }
-        document.querySelectorAll('.task-chk').forEach(c => {
-          c.addEventListener('change', () => Actions.toggleTask(c.getAttribute('data-id')));
-        });
-        document.querySelectorAll('.btn-del-task').forEach(b => {
-          b.addEventListener('click', () => Actions.deleteTask(b.getAttribute('data-id')));
-        });
-        
-        const habAdd = document.getElementById('hab-add-btn');
-        if(habAdd) {
-          habAdd.addEventListener('click', () => {
-            const n = document.getElementById('hab-in').value;
-            if(n.trim()) Actions.addHabit(n);
-          });
-        }
-        document.querySelectorAll('.btn-log-hab').forEach(b => {
-          b.addEventListener('click', () => Actions.logHabit(b.getAttribute('data-id')));
-        });
-        document.querySelectorAll('.btn-del-hab').forEach(b => {
-          b.addEventListener('click', () => Actions.deleteHabit(b.getAttribute('data-id')));
-        });
-
-        const skAdd = document.getElementById('sk-add-btn');
-        if(skAdd) {
-          skAdd.addEventListener('click', () => {
-            const n = document.getElementById('sk-user-in').value;
-            if(n.trim()) Actions.addSkill(n);
-          });
-        }
-        document.querySelectorAll('.btn-train-sk').forEach(b => {
-          b.addEventListener('click', () => Actions.trainSkill(b.getAttribute('data-id')));
-        });
-        document.querySelectorAll('.btn-del-sk').forEach(b => {
-          b.addEventListener('click', () => Actions.deleteSkill(b.getAttribute('data-id')));
-        });
-
-        document.querySelectorAll('.btn-buy').forEach(b => {
-          b.addEventListener('click', () => {
-            Actions.buyReward(parseInt(b.getAttribute('data-price')), b.getAttribute('data-name'), b.getAttribute('data-icon'));
-          });
-        });
-      }
-    };
-
-    // --- 9. RUNTIME INITIALIZATION ---
-    UI.initClock();
-    UI.renderSetup();
-    UI.renderApp();
+    initClock();
+    UI.refresh();
   </script>
 </body>
 </html>
