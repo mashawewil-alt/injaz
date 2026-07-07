@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>رفيقي اليومي - النسخة الأسطورية</title>
+<title>تطبيق إنجاز - النسخة الأسطورية</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&family=Cairo:wght@600;800&display=swap" rel="stylesheet">
 <style>
@@ -84,7 +84,7 @@
   .task.done{background:var(--good-soft);border-color:#5fb68655;}
   .task.missed{background:var(--bad-soft);border-color:#d9695e55;}
   .check-btn{flex:0 0 auto;width:30px;height:30px;border-radius:9px;border:2px solid var(--text-dimmer);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:.2s;background:transparent;color:transparent;font-size:16px;}
-  .task.done .check-btn{background:var(--good);border-colorvar(--good);color:#0d1a12;}
+  .task.done .check-btn{background:var(--good);border-color:var(--good);color:#0d1a12;}
   .task-body{flex:1;min-width:0;}
   .task-title{font-size:14.5px;font-weight:700;}
   .task.done .task-title{text-decoration:line-through;text-decoration-color:#5fb68699;opacity:.75;}
@@ -198,7 +198,7 @@ window.NotificationSystem = {
       Notification.requestPermission().then(perm => {
         if(perm === 'granted') {
           NotificationSystem.toast("🔔 تم تفعيل الإشعارات الخارجية بنجاح!");
-          new Notification("رفيقي اليومي", { body: "مرحباً بك! الإشعارات الخارجية ستصلك هنا فوراً عند الإنجاز والتركيز." });
+          new Notification("تطبيق إنجاز", { body: "مرحباً بك! الإشعارات الخارجية ستصلك هنا فوراً عند الإنجاز والتركيز." });
         }
       });
     } else {
@@ -242,7 +242,6 @@ async function loadAll(){
   if(!rec) rec = {date:t, statuses:{}, celebrationShown:false};
   STATE.day = rec;
 
-  // فحص السلسلة المتتالية لليوم الجديد
   if(STATE.stats.lastActiveDate && STATE.stats.lastActiveDate !== t){
     const diff = Math.round((new Date(t) - new Date(STATE.stats.lastActiveDate))/86400000);
     if(diff > 1) STATE.stats.streakCurrent = 0;
@@ -253,7 +252,6 @@ async function loadAll(){
     sSet('stats', STATE.stats);
   }
 
-  // إظهار نافذة الترحيب عند الدخول لأول مرة في الجلسة
   if(!sessionStorage.getItem('welcome_done')){
     setTimeout(() => {
       STATE.ui.welcomeShown = true;
@@ -270,7 +268,6 @@ function currentLevel(){
   return {lvl, next: LEVELS[idx+1]};
 }
 
-// محرك توليد اقتراحات وتحليلات الذكاء الاصطناعي المحلي بناءً على البيانات الحالية للتطبيق
 function generateAIInsight(){
   const list = tasksForDate(todayStr());
   const done = list.filter(tk=>STATE.day.statuses[tk.id]==='done').length;
@@ -315,7 +312,7 @@ window.UI = {
     }
     sSet('day:'+todayStr(), rec);
     sSet('stats', STATE.stats);
-    // فحص اكتمال اليوم كاملاً
+    
     const list = tasksForDate(todayStr());
     if(list.length>0 && list.every(tk=>rec.statuses[tk.id]==='done') && !rec.celebrationShown){
       STATE.stats.points += 50;
@@ -324,7 +321,7 @@ window.UI = {
       sSet('day:'+todayStr(), rec);
       sSet('stats', STATE.stats);
       STATE.ui.showCelebration = {title:"🔥 يوم مثالي أسطوري!", body:"أكملت جميع مهام اليوم بدون أي تراجع، كسبت +50 نقطة إضافية وسلسلتك كبرت!", tip:"استغل هذا الإنجاز لترتيب أهداف الأسبوع الجاي بحماس."};
-      NotificationSystem.sendExternal("🎉 إنجاز كامل لليوم!", "لقد أنهيت كل مهامك اليوم بنجاح خارق.");
+      NotificationSystem.sendExternal("🎉 إنجاز كامل لليوم!", "لقده أنهيت كل مهامك اليوم بنجاح خارق.");
     }
     render();
   },
@@ -339,7 +336,6 @@ window.UI = {
     sSet('tasks', STATE.tasks);
     render();
   },
-  // أهداف
   toggleAddGoal(){ STATE.ui.showAddGoal = !STATE.ui.showAddGoal; render(); },
   setGoalType(v){ STATE.ui.goalType=v; render(); },
   submitGoal(){
@@ -372,7 +368,6 @@ window.UI = {
   },
   removeGoal(id){ STATE.goals = STATE.goals.filter(x=>x.id!==id); sSet('goals', STATE.goals); render(); },
   
-  // مهارات
   toggleAddSkill(){ STATE.ui.showAddSkill = !STATE.ui.showAddSkill; render(); },
   submitAddSkill(){
     const inp = document.getElementById('newSkillInput');
@@ -395,7 +390,6 @@ window.UI = {
   },
   removeSkill(id){ STATE.skills = STATE.skills.filter(x=>x.id!==id); sSet('skills', STATE.skills); render(); },
 
-  // بومودورو
   togglePomodoro(){
     if(PomodoroState.running){
       clearInterval(PomodoroState.interval);
@@ -430,7 +424,6 @@ window.UI = {
     render();
   },
 
-  // متجر
   buy(id){
     const b = SHOP_BOXES.find(x=>x.id===id);
     if(!b || STATE.stats.points < b.cost) return;
@@ -465,7 +458,7 @@ function render(){
   // Top Bar
   html += `<div class="top">
     <div class="date-block">
-      <div class="greeting">أهلاً بك المطور مشعل 👋</div>
+      <div class="greeting">أهلاً بك في تطبيق إنجاز 👋</div>
       <div class="day">يوم ${AR_DAYS[now.getDay()]}</div>
       <div class="full-date">${fmtFullDate(now)}</div>
     </div>
@@ -477,7 +470,7 @@ function render(){
 
   // AI Insights Box
   html += `<div class="ai-card">
-    <div class="ai-header">🤖 رادار مستشار الـ AI المحلي</div>
+    <div class="ai-header">🤖 مستشار الـ AI لتطبيق إنجاز</div>
     <div style="font-size:13px; line-height:1.7; color:var(--text);">${generateAIInsight()}</div>
   </div>`;
 
@@ -622,20 +615,19 @@ function render(){
   LEVELS.forEach(l=>{ html += `<div class="badge-chip ${STATE.stats.points>=l.min?'reached':''}">${l.name}</div>`; });
   html += `</div>`;
 
-  // Copyrights Footer
+  // Footer
   html += `<div style="text-align:center; color:var(--text-dimmer); font-size:11.5px; margin-top:40px; padding-top:16px; border-top:1px solid var(--border); line-height:1.7;">
-    جميع الحقوق والتطوير الهندسي محفوظة بالكامل للمطور <b>مشعل</b> © 2026<br>
-    <span style="background:var(--accent-soft); color:var(--accent); padding:2px 8px; border-radius:4px; font-size:11px; font-weight:bold; display:inline-block; margin-top:4px;">الإصدار المعتمد الخارق v4.0 • الإنضباط والوعي يصنعان المجد 🚀</span>
+    تطبيق إنجاز المطور بالكامل وتصميمه الهندسي محفوظ للمطور <b>مشعل</b> © 2026<br>
+    <span style="background:var(--accent-soft); color:var(--accent); padding:2px 8px; border-radius:4px; font-size:11px; font-weight:bold; display:inline-block; margin-top:4px;">إصدار التحدي الخارق v4.0 • الوعي والانضباط يصنعان المجد 🚀</span>
   </div>`;
 
   document.getElementById('app').innerHTML = html;
 
-  // OVERLAY GENERATORS
   const oldModal = document.getElementById('modalHost');
   if(oldModal) oldModal.remove();
 
   if(STATE.ui.welcomeShown && !STATE.ui.showCelebration && !STATE.ui.showReward){
-    createModal("👋 مرحباً بك مجدداً يا مشعل!", "جاهز ومستعد لإنجاز تحديات ومهمات جديدة اليوم في تطبيقك المخصص؟ رادارك ونبتتك بانتظار همتك العالية اليوم لرفع النقاط وصناعة الالتزام الأسطوري كالعادة!", "إغلاق النافذة وبدء العمل 🚀", () => { STATE.ui.welcomeShown=false; render(); }, true);
+    createModal("👋 مرحباً بك في تطبيق إنجاز!", "جاهز ومستعد لإنجاز تحديات ومهمات جديدة اليوم في تطبيقك المخصص؟ رادارك ونبتتك بانتظار همتك العالية اليوم لرفع النقاط وصناعة الالتزام الأسطوري كالعادة!", "إغلاق النافذة وبدء العمل 🚀", () => { STATE.ui.welcomeShown=false; render(); }, true);
   } else if(STATE.ui.showCelebration){
     createModal("🎉 " + STATE.ui.showCelebration.title, STATE.ui.showCelebration.body, "شكرًا 🤍", () => { STATE.ui.showCelebration=null; render(); }, false, STATE.ui.showCelebration.tip);
   } else if(STATE.ui.showReward){
