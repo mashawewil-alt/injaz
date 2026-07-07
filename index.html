@@ -1,602 +1,1008 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>منصة إنجاز الذكية</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;800;900&family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
-  
-  <style>
-    :root {
-      --bg-color: #090a0f;
-      --card-bg: #12141c;
-      --card-hover: #1a1d29;
-      --border-color: rgba(255, 255, 255, 0.08);
-      --text-main: #ffffff;
-      --text-muted: #8e92a2;
-      --accent-blue: #0a84ff;
-      --accent-amber: #ff9f0a;
-      --accent-green: #30d158;
-      --accent-red: #ff453a;
-      --accent-indigo: #5e5ce6;
-      --radius-lg: 16px;
-      --radius-md: 12px;
-      --transition-smooth: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>رفيقي اليومي</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&family=Cairo:wght@600;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#11151b;
+    --bg-2:#161c24;
+    --card:#1c232c;
+    --card-hover:#212a34;
+    --border:#2a3340;
+    --text:#e9edf3;
+    --text-dim:#8d99a8;
+    --text-dimmer:#5f6b7a;
+    --accent:#e3ac67;
+    --accent-soft:#e3ac6722;
+    --teal:#57c3ab;
+    --teal-soft:#57c3ab22;
+    --good:#5fb686;
+    --good-soft:#5fb68622;
+    --bad:#d9695e;
+    --bad-soft:#d9695e22;
+    --radius:16px;
+    --radius-sm:10px;
+    --shadow: 0 8px 28px rgba(0,0,0,.35);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: radial-gradient(1200px 800px at 85% -10%, #1a2028 0%, var(--bg) 45%) fixed;
+    color:var(--text);
+    font-family:'Tajawal',sans-serif;
+    min-height:100vh;
+    padding-bottom:60px;
+  }
+  h1,h2,h3,.display{font-family:'Cairo',sans-serif;}
+  ::selection{background:var(--accent-soft);}
+  .wrap{max-width:640px;margin:0 auto;padding:18px 16px 40px;}
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    
-    body {
-      background-color: var(--bg-color);
-      color: var(--text-main);
-      font-family: 'Tajawal', -apple-system, sans-serif;
-      min-height: 100vh;
-      padding: 24px 16px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
+  /* header */
+  .top{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;gap:10px;}
+  .date-block .greeting{color:var(--text-dim);font-size:13px;margin-bottom:2px;}
+  .date-block .day{font-family:'Cairo',sans-serif;font-weight:800;font-size:22px;}
+  .date-block .full-date{color:var(--text-dim);font-size:12.5px;margin-top:2px;}
+  .stats-pill{display:flex;align-items:center;gap:10px;}
+  .pill{background:var(--card);border:1px solid var(--border);border-radius:999px;padding:8px 14px;display:flex;align-items:center;gap:6px;font-size:13px;font-weight:700;box-shadow:var(--shadow);}
+  .pill .num{font-family:'Cairo',sans-serif;color:var(--accent);}
+  .pill.points .num{color:var(--accent);}
+  .pill.streak .num{color:var(--teal);}
 
-    h1, h2, h3 { font-family: 'Cairo', sans-serif; font-weight: 800; }
+  /* plant */
+  .plant-card{background:linear-gradient(180deg,var(--card),var(--bg-2));border:1px solid var(--border);border-radius:var(--radius);padding:16px 18px;display:flex;align-items:center;gap:14px;margin-bottom:16px;box-shadow:var(--shadow);}
+  .plant-svg{flex:0 0 auto;width:64px;height:64px;}
+  .plant-info{flex:1;}
+  .plant-info .label{font-size:12.5px;color:var(--text-dim);margin-bottom:3px;}
+  .plant-info .level-name{font-family:'Cairo',sans-serif;font-weight:800;font-size:16px;color:var(--text);}
+  .progress-track{margin-top:8px;height:7px;background:var(--bg);border-radius:99px;overflow:hidden;border:1px solid var(--border);}
+  .progress-fill{height:100%;background:linear-gradient(90deg,var(--teal),var(--accent));border-radius:99px;transition:width .5s ease;}
+  .progress-label{font-size:11px;color:var(--text-dimmer);margin-top:5px;}
 
-    .dashboard-container {
-      width: 100%;
-      max-width: 900px;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-    }
+  /* بومودورو المدمج بالتصميم */
+  .timer-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:16px;text-align:center;box-shadow:var(--shadow);}
+  .timer-display{font-family:'Cairo',sans-serif;font-size:34px;font-weight:800;color:var(--accent);margin:6px 0;}
 
-    /* العداد العلوي والساعة الميلادية */
-    .top-bar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: var(--card-bg);
-      border: 1px solid var(--border-color);
-      padding: 16px 20px;
-      border-radius: var(--radius-lg);
-    }
+  /* section headers */
+  .sec-head{display:flex;align-items:center;justify-content:space-between;margin:22px 0 10px;}
+  .sec-head h2{font-size:15px;margin:0;color:var(--text-dim);font-weight:800;letter-spacing:.3px;}
+  .add-btn{background:var(--accent-soft);color:var(--accent);border:1px solid #e3ac6744;border-radius:10px;padding:7px 12px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Tajawal';}
+  .add-btn:hover{background:#e3ac6733;}
 
-    .live-clock {
-      font-size: 14px;
-      font-weight: 700;
-      color: var(--accent-blue);
-    }
+  /* task card */
+  .task{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-sm);padding:13px 14px;margin-bottom:9px;display:flex;align-items:center;gap:12px;transition:.25s;position:relative;overflow:hidden;}
+  .task.done{background:var(--good-soft);border-color:#5fb68655;}
+  .task.missed{background:var(--bad-soft);border-color:#d9695e55;}
+  .check-btn{flex:0 0 auto;width:30px;height:30px;border-radius:9px;border:2px solid var(--text-dimmer);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:.2s;background:transparent;color:transparent;font-size:16px;}
+  .check-btn:hover{border-color:var(--accent);}
+  .task.done .check-btn{background:var(--good);border-color:var(--good);color:#0d1a12;}
+  .task.missed .check-btn{background:var(--bad);border-color:var(--bad);color:#210c0a;}
+  .task-body{flex:1;min-width:0;}
+  .task-title{font-size:14.5px;font-weight:700;}
+  .task.done .task-title{text-decoration:line-through;text-decoration-color:#5fb68699;opacity:.75;}
+  .task.missed .task-title{opacity:.8;}
+  .task-tag{font-size:11px;color:var(--text-dimmer);margin-top:2px;}
+  .task-msg{font-size:12px;margin-top:5px;line-height:1.6;}
+  .task.done .task-msg{color:#8fdcab;}
+  .task.missed .task-msg{color:#f0a89f;}
+  .task-actions{display:flex;gap:6px;}
+  .icon-btn{background:transparent;border:none;color:var(--text-dimmer);cursor:pointer;font-size:14px;padding:4px;}
+  .icon-btn:hover{color:var(--text);}
+  .x-btn{flex:0 0 auto;width:30px;height:30px;border-radius:9px;border:2px solid var(--text-dimmer);display:flex;align-items:center;justify-content:center;cursor:pointer;background:transparent;color:var(--text-dimmer);font-size:14px;}
+  .x-btn:hover{border-color:var(--bad);color:var(--bad);}
+  .task.missed .x-btn{background:var(--bad);border-color:var(--bad);color:#210c0a;}
 
-    .points-badge {
-      background: rgba(255, 159, 10, 0.1);
-      border: 1px solid var(--accent-amber);
-      color: var(--accent-amber);
-      padding: 6px 14px;
-      border-radius: 20px;
-      font-weight: 900;
-      font-size: 14px;
-    }
+  .empty{text-align:center;color:var(--text-dimmer);font-size:13.5px;padding:26px 10px;border:1.5px dashed var(--border);border-radius:var(--radius);}
 
-    /* شريط التنقل العلوي الأصلي والسلس */
-    .navigation-tabs {
-      display: flex;
-      gap: 10px;
-      background: rgba(255, 255, 255, 0.03);
-      padding: 6px;
-      border-radius: var(--radius-md);
-      border: 1px solid var(--border-color);
-      overflow-x: auto;
-    }
+  /* form */
+  .form-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:14px;margin-bottom:14px;}
+  .form-row{display:flex;gap:8px;margin-bottom:10px;}
+  input[type=text]{flex:1;background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:11px 12px;color:var(--text);font-family:'Tajawal';font-size:14px;}
+  input[type=text]:focus{outline:none;border-color:var(--accent);}
+  .seg{display:flex;background:var(--bg);border:1px solid var(--border);border-radius:10px;overflow:hidden;}
+  .seg button{flex:1;padding:9px 10px;background:transparent;border:none;color:var(--text-dim);font-family:'Tajawal';font-size:12.5px;font-weight:700;cursor:pointer;}
+  .seg button.active{background:var(--accent);color:#221607;}
+  .primary-btn{width:100%;background:var(--accent);color:#221607;border:none;border-radius:10px;padding:11px;font-weight:800;font-size:14px;cursor:pointer;font-family:'Cairo';}
+  .primary-btn:hover{filter:brightness(1.08);}
+  .ghost-btn{width:100%;background:transparent;color:var(--text-dim);border:1px solid var(--border);border-radius:10px;padding:9px;font-size:13px;cursor:pointer;margin-top:6px;font-family:'Tajawal';}
 
-    .nav-btn {
-      background: transparent;
-      border: none;
-      color: var(--text-muted);
-      padding: 10px 18px;
-      font-family: 'Cairo', sans-serif;
-      font-weight: 700;
-      font-size: 14px;
-      cursor: pointer;
-      border-radius: 8px;
-      transition: var(--transition-smooth);
-      white-space: nowrap;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
+  /* shop */
+  .shop-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+  .box-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px 10px;text-align:center;cursor:pointer;transition:.2s;}
+  .box-card:hover{transform:translateY(-2px);border-color:var(--accent);}
+  .box-card.disabled{opacity:.4;cursor:not-allowed;transform:none;}
+  .box-emoji{font-size:26px;margin-bottom:6px;}
+  .box-name{font-size:12.5px;font-weight:700;}
+  .box-cost{font-size:11.5px;color:var(--accent);margin-top:3px;font-weight:700;}
 
-    .nav-btn:hover { color: var(--text-main); background: rgba(255,255,255,0.02); }
-    .nav-btn.active {
-      background: var(--accent-blue);
-      color: #ffffff;
-    }
+  /* overlays */
+  .overlay{position:fixed;inset:0;background:rgba(8,10,13,.86);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;z-index:999;padding:20px;animation:fadeIn .3s ease;}
+  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+  .modal{background:var(--card-hover);border:1px solid var(--border);border-radius:20px;padding:26px 22px;max-width:420px;width:100%;box-shadow:var(--shadow);animation:pop .35s cubic-bezier(.2,1.4,.4,1);max-height:85vh;overflow-y:auto;}
+  @keyframes pop{from{transform:scale(.9);opacity:0}to{transform:scale(1);opacity:1}}
+  .modal h3{margin:0 0 12px;font-size:19px;}
+  .modal p{line-height:1.9;font-size:14.5px;color:#dbe2ea;margin:0 0 10px;}
+  .modal .tip{background:var(--teal-soft);border:1px solid #57c3ab44;border-radius:12px;padding:10px 12px;font-size:13px;color:#a8ebdb;margin-top:12px;}
+  .modal .close-btn{margin-top:18px;}
+  .gift-trigger{position:fixed;bottom:0;left:0;right:0;padding:16px;display:flex;justify-content:center;z-index:50;pointer-events:none;}
+  .gift-btn{pointer-events:auto;background:linear-gradient(135deg,var(--accent),#f0c98a);color:#241a08;border:none;border-radius:999px;padding:14px 26px;font-family:'Cairo';font-weight:800;font-size:14.5px;box-shadow:0 10px 30px #e3ac6755;cursor:pointer;display:flex;align-items:center;gap:8px;animation:float 2.4s ease-in-out infinite;}
+  @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+  .full-gift{text-align:center;}
+  .full-gift .emoji{font-size:56px;margin-bottom:6px;animation:wiggle 1.6s ease-in-out infinite;}
+  @keyframes wiggle{0%,100%{transform:rotate(-4deg)}50%{transform:rotate(4deg)}}
 
-    /* الكروت والعناصر المتناسقة */
-    .main-card {
-      background: var(--card-bg);
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius-lg);
-      padding: 20px;
-      transition: var(--transition-smooth);
-    }
+  .badges-strip{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;margin-top:6px;}
+  .badge-chip{flex:0 0 auto;background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:6px 10px;font-size:11px;color:var(--text-dim);white-space:nowrap;}
+  .badge-chip.reached{border-color:var(--accent);color:var(--accent);background:var(--accent-soft);}
 
-    .input-group {
-      display: flex;
-      gap: 10px;
-      margin-top: 12px;
-    }
+  .task .primary-btn, .task .ghost-btn{width:auto;}
 
-    .custom-input {
-      flex: 1;
-      background: rgba(0, 0, 0, 0.2);
-      border: 1px solid var(--border-color);
-      color: var(--text-main);
-      padding: 12px 16px;
-      border-radius: var(--radius-md);
-      font-family: 'Tajawal', sans-serif;
-      font-size: 14px;
-      transition: var(--transition-smooth);
-    }
-    .custom-input:focus { outline: none; border-color: var(--accent-blue); }
+  ::-webkit-scrollbar{width:6px;height:6px;}
+  ::-webkit-scrollbar-thumb{background:var(--border);border-radius:99px;}
 
-    .action-btn {
-      background: var(--accent-blue);
-      color: #ffffff;
-      border: none;
-      padding: 12px 24px;
-      font-weight: 700;
-      border-radius: var(--radius-md);
-      cursor: pointer;
-      font-family: 'Tajawal', sans-serif;
-      transition: var(--transition-smooth);
-      white-space: nowrap;
-    }
-    .action-btn:active { transform: scale(0.98); }
-
-    /* قوائم العناصر */
-    .items-list {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      margin-top: 16px;
-    }
-
-    .item-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background: rgba(255, 255, 255, 0.02);
-      border: 1px solid var(--border-color);
-      padding: 14px 18px;
-      border-radius: var(--radius-md);
-      animation: fadeIn 0.3s ease;
-    }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
-
-    .item-row.completed { opacity: 0.5; background: rgba(48, 209, 88, 0.02); }
-
-    .delete-btn {
-      background: transparent;
-      border: none;
-      color: var(--accent-red);
-      cursor: pointer;
-      font-weight: 700;
-      font-size: 13px;
-      padding: 4px 8px;
-    }
-
-    /* مؤقت التركيز البسيط */
-    .timer-box {
-      text-align: center;
-      padding: 16px;
-      background: rgba(94, 92, 230, 0.05);
-      border: 1px solid rgba(94, 92, 230, 0.2);
-      border-radius: var(--radius-md);
-      margin-top: 14px;
-    }
-    .timer-digits {
-      font-size: 36px;
-      font-family: monospace;
-      font-weight: bold;
-      color: var(--text-main);
-      margin: 6px 0;
-    }
-
-    /* متجر المكافآت الشكلي */
-    .shop-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: 14px;
-      margin-top: 14px;
-    }
-    .shop-item {
-      background: rgba(255,255,255,0.02);
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius-md);
-      padding: 16px;
-      text-align: center;
-    }
-
-    /* التذييل الاحترافي لـ مشعل */
-    .app-footer {
-      text-align: center;
-      margin-top: auto;
-      padding-top: 40px;
-      padding-bottom: 10px;
-      font-size: 12px;
-      color: var(--text-muted);
-      line-height: 1.8;
-      width: 100%;
-    }
-    .app-footer b {
-      color: var(--text-main);
-      letter-spacing: 0.5px;
-    }
-    .app-footer .m-badge {
-      display: inline-block;
-      background: rgba(10, 132, 255, 0.1);
-      color: var(--accent-blue);
-      padding: 2px 8px;
-      border-radius: 4px;
-      font-weight: 700;
-      margin-top: 4px;
-    }
-
-    /* التنبيهات المنبثقة الصغيره */
-    .toast-container { position: fixed; bottom: 24px; left: 24px; z-index: 9999; display: flex; flex-direction: column; gap: 8px; }
-    .toast { background: #1c1c1e; border: 1px solid var(--border-color); color: #fff; padding: 12px 20px; border-radius: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); font-size: 13px; font-weight: 600; animation: slideIn 0.25s ease forwards; }
-    @keyframes slideIn { from { transform: translateX(-20px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
-  </style>
+  @media(max-width:380px){
+    .date-block .day{font-size:19px;}
+    .pill{padding:7px 10px;font-size:12px;}
+  }
+</style>
 </head>
 <body>
+<div class="wrap" id="app"></div>
 
-  <div class="dashboard-container">
-    
-    <!-- الشريط العلوي والتاريخ الميلادي الصرف -->
-    <div class="top-bar">
-      <div class="live-clock" id="live-clock-gregorian">جاري تحميل الوقت الميلادي...</div>
-      <div class="points-badge" id="points-display">🏆 0 نقطة</div>
+<script>
+(function(){
+
+/* ================= CONTENT POOLS (Arabic) — combined & rotated so nothing feels repeated across a year ================= */
+
+const DONE_TEMPLATES = [
+"أحسنت، خطوة صغيرة اليوم تُبنى منها عادة كبيرة.","تمّت! كذا بالضبط تُبنى الثقة بالنفس، خطوة بخطوة.",
+"ما شاء الله، الالتزام يبدأ من لحظات بسيطة مثل هذي.","سجّلتها إنجاز. استمر على نفس الوتيرة.",
+"عمل جميل، جسمك وعقلك يشكرونك على هالانضباط.","خطوة أقرب لهدفك، لا تستهين بها.",
+"هذا بالضبط معنى الاتساق، أنك تسوّيها حتى لو بسيطة.","أنجزتها، وهذا يستاهل تقدير من نفسك لنفسك.",
+"واضح إنك جاد هالمرة، استمر بنفس الحماس.","كل مهمة تخلّصها تقربك خطوة من النسخة اللي تبيها من نفسك.",
+"تمام، الانضباط مو مزاج، وأنت اليوم أثبتّ ذا.","عاشت، خطوة ثابتة تضاف لرصيدك.",
+"إنجاز يستحق التسجيل، افتخر فيه شوي.","استمرارك اليوم هو اللي يصنع الفرق بعد أسابيع.",
+"تم بنجاح، وهذا يعني إنك أقوى من الكسل اليوم.","خطوة صغيرة، لكنها لبنة أساسية.",
+"أحسنت الاختيار، اخترت تسويها بدل ما تأجلها.","كذا يوم بيوم تتحول العادة لجزء منك.",
+"إنجاز نظيف، واضح تعرف شنو تبي.","استمر، النتائج تظهر لما تتكرر مثل هذي اللحظات.",
+"ما قصّرت، وهذا يكفي عشان تفتخر.","حركة بسيطة اليوم، لكن أثرها يتراكم.",
+"تمّت المهمة، وربحت ثقة أكبر بنفسك.","جميل، كذا تكسب يومك بدل ما يكسبك.",
+"مبروك الإنجاز الصغير، هو اللي يصنع الكبير لاحقًا.","استمريتك اليوم شاهد إنك ملتزم فعلاً.",
+"أحسنت، خطوة ثابتة نحو نسخة أفضل منك.","انتهيت منها، وهذا بحد ذاته انتصار على التأجيل.",
+"واضح إنك تحترم وقتك، استمر كذا.","تمام تمام، خطوة تستاهل تصفيق بسيط لنفسك."
+];
+
+const DONE_FILLERS = [
+"استمر بنفس الروح 🌿","خطوة بخطوة توصل 🌱","الاتساق أهم من الكمال ✨","فخور فيك الآن 🤍",
+"هذا هو الطريق الصحيح 🛤️","بسيط بس فعّال 💪","استمرارك يبني مستقبلك 🌤️","لا تقلل من قيمة اليوم ⭐",
+"أنت أقرب مما تتخيل 🎯","الثبات يصنع المعجزات ببطء ⏳","كل يوم لبنة جديدة 🧱","هذا بالضبط الانضباط المطلوب 🔥",
+"استمتع باللحظة، تستاهلها 🍃","صغيرة اليوم، عظيمة بعد سنة 🌳","ثقتك بنفسك تكبر الآن 🌟"
+];
+
+const MISS_TEMPLATES = [
+"ما صار اليوم، ولا بأس، بكرة فرصة جديدة تعوّض فيها.","فاتتك هالمرة، المهم ما تخليها تتكرر بكرة.",
+"لا تحمّل نفسك أكثر من طاقتها، بس رجّعها بكرة على رأس أولوياتك.","يصير، كل واحد يفوّت يوم أحيانًا، المهم ترجع بسرعة.",
+"تراك ما فشلت، بس أجّلت. رجّعها بكرة بقوة أكبر.","خلّها درس بسيط: التزم أكثر بالوقت اللي حددته لها.",
+"ولا يهمك، اللي يهم إنك ما تستسلم عن الهدف كله.","يوم واحد فايت ما يلغي كل جهدك السابق، كمّل من وين وقفت.",
+"لاحظ وش صرفك عنها، وحاول تتفاداه المرة الجاية.","خطوة للخلف مو نهاية الطريق، رجّعها بكرة أول شي.",
+"ما تحاسب نفسك بقسوة، بس خلّها تذكير إنك تحتاج تنظّم وقتك أكثر.","بكرة يوم جديد، وفرصة تثبت لنفسك إنك جاد.",
+"هالمهمة تستاهل تكون أول شي تسويه بكرة.","لا تخليها تتكوم، رجّعها بكرة قبل لا تصير عادة تفويت.",
+"كل واحد يتعثر أحيانًا، المهم السرعة اللي ترجع فيها.","خلها تحفّزك بدل ما تحبطك، رجّعها بكرة بحماس أكبر.",
+"واضح كان يومك مزحوم، جرّب تحط لها وقت أوضح بكرة.","ما فاتك شي يصعب تعويضه، بس لا تأجلها مرتين.",
+"خذها بروح رياضية، وارجع لها بكرة بلا تردد.","تفويت مرة ما يعني فشل، يعني بس تحتاج تعدّل خطتك شوي."
+];
+
+const MISS_FILLERS = [
+"بكرة نبدأ من جديد 🌤️","التعثر جزء من الطريق 🍂","رجعتك أهم من سقطتك 🌱","خذ نفس وكمّل 🤍",
+"غدًا فرصة أخرى 🌅","لا تحاسب نفسك بقسوة 🕊️","استمرارك أهم من كمالك ✨","خطوة للأمام تكفي بكرة 👣",
+"السقطة الصغيرة ما تلغي الطريق 🛤️","ثق إنك ترجع أقوى 💪"
+];
+
+const CELEBRATE_OPENERS = [
+"يوم كامل! أنجزت كل شي حطيته على نفسك، وهذا مو بسيط أبدًا.",
+"ما شاء الله عليك, خلّصت مهام اليوم كاملة من غير ما تتنازل.",
+"إنجاز نظيف اليوم، كل مهمة كانت على الطاولة صارت منجزة.",
+"يوم مثالي بمعاييرك أنت، وهذا أهم إنجاز ممكن.",
+"أكملت كل شي، وهذا دليل واضح إنك تقدر تلتزم لما تقرر.",
+"يوم استثنائي، صفر مهام متأخرة وصفر أعذار.",
+"خلّصت القائمة كاملة، وهذا يستاهل وقفة فخر بسيطة.",
+"يوم زي هذا هو اللي يبني أشهر كاملة من الانضباط.",
+"كل الصناديق تحت اسمك اليوم اتعلّمت، مبروك.",
+"إنجاز اليوم يثبت إن الهدف مو بعيد زي ما يبدو أحيانًا."
+];
+
+const CELEBRATE_BODY = [
+"تذكّر إن كل يوم كذا يضيف طوبة جديدة لبناء أكبر تسويه بصبر. النتائج الكبيرة ما تجي من دفعة وحدة، تجي من تكرار لحظات زي اليوم.",
+"الفرق بين اللي يوصل واللي يتوقف مو الموهبة، هو الاستمرار بعد يوم زي اليوم. خليك فخور، واحفظ نفس الإحساس لبكرة.",
+"لما تكمّل يومك بالكامل، أنت فعليًا تدرّب عقلك يثق فيك أكثر. الثقة اللي تبنيها الآن راح تسندك في أيام أصعب.",
+"هالإنجاز مو بس عن المهام نفسها، هو عن إثبات إنك تقدر تفي بوعودك لنفسك. وهذا أثمن شي تقدر تبنيه.",
+"يوم كامل زي هذا يعني إنك اليوم تحكمت في وقتك بدل ما الوقت يتحكم فيك. استمتع بهالشعور شوي.",
+"تراكم أيام مثل هذي هو سر أي إنجاز طويل المدى تشوفه عند أي شخص ناجح. أنت الآن جزء من هالمعادلة.",
+"لا تقلل من حجم اللي سويته، لأن الاتساق اليومي أصعب بكثير من الحماس اللحظي، وأنت اخترت الأصعب والأصح."
+];
+
+const CELEBRATE_SUGGESTIONS = [
+"وبما إنك خلّصت مهامك، وش رايك تخصص ١٥ دقيقة تتعلم فيها شي جديد بمجال يهمك؟",
+"استغل الوقت المتبقي بقراءة كم صفحة من كتاب كنت ناوي تبدأه.",
+"جرّب تكتب في دفتر بسيط أهم شي تعلمته اليوم، حتى لو سطرين.",
+"وقت زين تراجع فيه أهدافك للأسبوع وتشوف وين وصلت.",
+"ممكن تستخدم الوقت الفاضي بمشي خفيف يصفّي الذهن.",
+"جرّب تتواصل مع شخص يهمك أمره، رسالة بسيطة تكفي.",
+"فكرة حلوة إنك تراجع مصروفك أو وقتك هالأسبوع وتشوف وش تقدر تحسّن.",
+"استغل الوقت بتعلم كلمة أو مهارة جديدة بلغة تحب تتقنها.",
+"وقت مناسب ترتب فيه مساحتك، الترتيب الخارجي ينعكس على تركيزك.",
+"جرّب تسوي تأمل بسيط ٥ دقائق، يساعدك تنام بجودة أفضل."
+];
+
+const REWARD_OPENERS = [
+"فتحت الصندوق ولقيت بداخله...","هذا اللي كان مخبّى لك اليوم:","مفاجأة اليوم جاهزة، تفضل:",
+"إليك ما كسبته بجهدك:","الصندوق فتح، وهذا نصيبك:","محتوى اليوم المميز وصلك:"
+];
+const REWARD_QUOTES = [
+"الطريق الطويل يبدأ بخطوة، لكنه يكتمل بخطوات لا تتوقف.",
+"العادة تُبنى في اللحظات اللي محد يشوفك فيها.",
+"الانضباط هو الجسر بين ما تحلم فيه وما تحققه فعلاً.",
+"النجاح مجموع مجهودات صغيرة تتكرر يوميًا.",
+"من يتقن الصبر على التفاصيل، يتقن النتائج الكبيرة.",
+"كل خبير كان يومًا مبتدئ ما توقف عن المحاولة.",
+"الوقت يمر سواء استثمرته أو أهدرته، فاختر بحكمة.",
+"التقدم البطيء أفضل بكثير من التوقف الكامل.",
+"من يبدأ صغيرًا وباستمرار، يصل أبعد من من يبدأ كبيرًا وينقطع.",
+"الثقة بالنفس ثمرة تتكرر عليها الوعود الصغيرة مع النفس.",
+"أعظم الإنجازات كانت في يوم من الأيام مجرد قائمة مهام بسيطة.",
+"الراحة الحقيقية تأتي بعد يوم قضيته بإنتاجية، لا قبل.",
+"من يخطط ليومه، يقود وقته؛ ومن لا يخطط، يُقاد به.",
+"التغيير الكبير غالبًا شكله في البداية ممل ومتكرر.",
+"قيمة اليوم تقاس بما أنجزته فيه لا بطوله."
+];
+const REWARD_TIPS = [
+"معلومة: الدماغ يحتاج تقريبًا ٦٦ يوم بالمتوسط عشان يثبّت سلوك كعادة تلقائية.",
+"جرّب تقنية 'دقيقتين': أي مهمة تاخذ أقل من دقيقتين سوّها فورًا بدل تأجيلها.",
+"كتابة المهام قبل النوم لليوم التالي تقلل التوتر وتحسّن جودة النوم.",
+"الفواصل القصيرة بين المهام (٥ دقائق) تحافظ على تركيزك لفترة أطول.",
+"مراجعة أهدافك أسبوعيًا تزيد فرصة تحقيقها بشكل ملحوظ.",
+"شرب كمية كافية من الماء يحسّن التركيز أكثر مما نتخيل.",
+"ترتيب أول ٣ مهام حسب الأهمية بيسهّل عليك تبدأ يومك بثقة.",
+"الاحتفال بالإنجازات الصغيرة يقوّي الدافع لتكرارها.",
+"تدوين سبب رغبتك في عادة معينة يزيد التزامك فيها.",
+"النوم الجيد له تأثير مباشر على قوة الإرادة في اليوم التالي."
+];
+
+const LEVELS = [
+{name:"بداية الطريق", min:0},{name:"أول التزام", min:50},{name:"مثابر صغير", min:120},
+{name:"منضبط ناشئ", min:220},{name:"صاحب عادة", min:350},{name:"ثابت الخطى", min:500},
+{name:"متمكن", min:700},{name:"ملهم لنفسه", min:950},{name:"محترف الانضباط", min:1250},
+{name:"أسطورة الروتين", min:1600},{name:"سيد الوقت", min:2000}
+];
+
+const SHOP_BOXES = [
+{id:'small', name:'صندوق بسيط', emoji:'🎁', cost:30},
+{id:'medium', name:'صندوق مميز', emoji:'🎀', cost:70},
+{id:'large', name:'صندوق ذهبي', emoji:'🏆', cost:150}
+];
+
+const GOAL_TYPES = {
+  weekly:{label:'أسبوعي', bonus:30},
+  monthly:{label:'شهري', bonus:100},
+  yearly:{label:'سنوي', bonus:400}
+};
+
+const GOAL_WIN_TEMPLATES = [
+"مبروك! حققت هدفك، وهذا دليل واضح إن التخطيط الجاد يوصّل لأي شي تبيه.",
+"عاشت همتك، وصلت لهدفك من أوله لآخره من غير ما تتنازل.",
+"تم تحقيق الهدف بنجاح، هذا يستاهل وقفة فخر حقيقية بنفسك.",
+"ما شاء الله عليك، هذا الهدف كان يحتاج صبر وأنت أثبت إنك تملكه.",
+"مبروك التحقيق، خلّه دافع لهدف أكبر منه الجاي.",
+"إنجاز حقيقي يضاف لرصيد ثقتك بنفسك، استمتع باللحظة.",
+"وصلت لآخر الطريق بهالهدف، وهذا يستاهل يتوثق.",
+"أحسنت، الالتزام من البداية للنهاية شي نادر وأنت سويته.",
+"تم بنجاح تام، هذا الهدف كان اختبار صبر ونجحت فيه.",
+"مبروك عليك، خطوة قربتك من نسخة أقوى منك."
+];
+const GOAL_WIN_FILLERS = [
+"🎯 جاهز لهدف جديد؟","🌟 استمتع باللحظة شوي قبل الهدف الجاي.","🤍 فخور فيك.","🚀 هذا بس البداية.","🔥 كمّل بنفس الزخم."
+];
+
+const GOAL_LOSE_TEMPLATES = [
+"ما تحقق الهدف هالمرة، بس هذا مو نهاية الطريق أبدًا.",
+"صار تأخير، خذها فرصة تعيد صياغة الهدف بخطوات أوضح.",
+"ما وصلت له كامل، لكن المحاولة نفسها لها قيمة حقيقية.",
+"تعثر بسيط، حلل السبب وجدد الهدف بثقة أكبر.",
+"ما تحقق كما خططت، وهذا طبيعي أحيانًا، المهم ترجع تحاول.",
+"صعب الوصول هالمرة، جرّب تجزّئه لخطوات أسهل وأصغر.",
+"ما وصلت للنتيجة، بس القرار إنك ترجع تحاول هو الأهم فعلاً.",
+"تأخر الهدف، خله دافع تخطط بواقعية أكثر المرة الجاية.",
+"ما تحقق كامل، بس أي تقدم سويته في الطريق يحسب لك.",
+"صار تعثر، جدد الهدف وخل خطواته هالمرة أبسط وأوضح."
+];
+const GOAL_LOSE_FILLERS = [
+"🌱 ابدأ من جديد بثقة.","🕊️ لا تحاسب نفسك بقسوة.","🔄 جدده وجرّب خطة أوضح.","🍂 التعثر جزء من أي طريق حقيقي.","💪 المحاولة القادمة أهم من هالمرة."
+];
+
+const AR_DAYS = ["الأحد","الاثنين","الثلاثاء","الأربعاء","الخميس","الجمعة","السبت"];
+const AR_MONTHS = ["يناير","فبراير","مارس","أبريل","مايو","يونيو","يوليو","أغسطس","سبتمبر","أكتوبر","نوفمبر","ديسمبر"];
+
+/* ================= STORAGE HELPERS ================= */
+const hasClaudeStorage = typeof window.storage !== 'undefined' && window.storage;
+async function sGet(key){
+  if(hasClaudeStorage){
+    try{ const r = await window.storage.get(key,false); return r? JSON.parse(r.value): null; }
+    catch(e){ }
+  }
+  try{ const raw = localStorage.getItem('dailyapp:'+key); return raw? JSON.parse(raw): null; }
+  catch(e){ return null; }
+}
+async function sSet(key,val){
+  if(hasClaudeStorage){
+    try{ await window.storage.set(key, JSON.stringify(val), false); return; }
+    catch(e){ }
+  }
+  try{ localStorage.setItem('dailyapp:'+key, JSON.stringify(val)); }
+  catch(e){ }
+}
+
+function todayStr(d=new Date()){
+  return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+}
+function fmtFullDate(d=new Date()){
+  return `${d.getDate()} ${AR_MONTHS[d.getMonth()]} ${d.getFullYear()}`;
+}
+function uid(){ return Date.now().toString(36)+Math.random().toString(36).slice(2,7); }
+function shuffle(arr){
+  const a=arr.slice();
+  for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}
+  return a;
+}
+
+async function pickRotating(poolKey, poolLength){
+  let ptrs = await sGet('rot:'+poolKey);
+  if(!ptrs || !ptrs.order || ptrs.order.length!==poolLength){
+    ptrs = {order: shuffle([...Array(poolLength).keys()]), pos:0};
+  }
+  const idx = ptrs.order[ptrs.pos];
+  ptrs.pos++;
+  if(ptrs.pos>=ptrs.order.length){ ptrs.order = shuffle([...Array(poolLength).keys()]); ptrs.pos=0; }
+  await sSet('rot:'+poolKey, ptrs);
+  return idx;
+}
+
+async function buildMessage(kind, opts={}){
+  if(kind==='done'){
+    const t = DONE_TEMPLATES[await pickRotating('doneT', DONE_TEMPLATES.length)];
+    const f = DONE_FILLERS[await pickRotating('doneF', DONE_FILLERS.length)];
+    return `${t} ${f}`;
+  }
+  if(kind==='miss'){
+    const t = MISS_TEMPLATES[await pickRotating('missT', MISS_TEMPLATES.length)];
+    const f = MISS_FILLERS[await pickRotating('missF', MISS_FILLERS.length)];
+    return `${t} ${f}`;
+  }
+}
+async function buildCelebration(streak, pointsToday){
+  const o = CELEBRATE_OPENERS[await pickRotating('celO', CELEBRATE_OPENERS.length)];
+  const b = CELEBRATE_BODY[await pickRotating('celB', CELEBRATE_BODY.length)];
+  const s = CELEBRATE_SUGGESTIONS[await pickRotating('celS', CELEBRATE_SUGGESTIONS.length)];
+  return {
+    title: o,
+    body: `${b}\n\nرصيدك الآن: ${pointsToday} نقطة، وسلسلة أيامك المتتالية: ${streak} يوم.`,
+    tip: s
+  };
+}
+async function buildReward(boxName){
+  const o = REWARD_OPENERS[await pickRotating('rwO', REWARD_OPENERS.length)];
+  const q = REWARD_QUOTES[await pickRotating('rwQ', REWARD_QUOTES.length)];
+  const tip = REWARD_TIPS[await pickRotating('rwTip', REWARD_TIPS.length)];
+  return {opener:o, quote:q, tip:tip};
+}
+
+async function buildGoalMessage(kind){
+  if(kind==='win'){
+    const t = GOAL_WIN_TEMPLATES[await pickRotating('goalWinT', GOAL_WIN_TEMPLATES.length)];
+    const f = GOAL_WIN_FILLERS[await pickRotating('goalWinF', GOAL_WIN_FILLERS.length)];
+    return `${t} ${f}`;
+  } else {
+    const t = GOAL_LOSE_TEMPLATES[await pickRotating('goalLoseT', GOAL_LOSE_TEMPLATES.length)];
+    const f = GOAL_LOSE_FILLERS[await pickRotating('goalLoseF', GOAL_LOSE_FILLERS.length)];
+    return `${t} ${f}`;
+  }
+}
+
+function computeDeadline(type, fromStr){
+  const d = fromStr? new Date(fromStr) : new Date();
+  if(type==='weekly') d.setDate(d.getDate()+7);
+  else if(type==='monthly') d.setMonth(d.getMonth()+1);
+  else if(type==='yearly') d.setFullYear(d.getFullYear()+1);
+  return todayStr(d);
+}
+
+/* ================= APP STATE ================= */
+let STATE = {
+  tasks: [],       
+  goals: [],       
+  skills: [],      // مسار المهارات المضاف حديثاً تلبية لطلبك
+  stats: {points:0, streakCurrent:0, streakLongest:0, lastActiveDate:null, lastFullDay:null},
+  day: null,       
+  ui: {showAddForm:false, addType:'routine', showAddGoal:false, goalType:'weekly', showAddSkill:false, showCelebration:null, showReward:null, toast:null}
+};
+
+// حالة مؤقت بومودورو الذكي المدمج
+let PomodoroState = {
+  secondsLeft: 1500,
+  interval: null,
+  running: false
+};
+
+async function loadAll(){
+  STATE.tasks = (await sGet('tasks')) || [];
+  STATE.goals = (await sGet('goals')) || [];
+  STATE.skills = (await sGet('skills')) || [];
+  STATE.stats = (await sGet('stats')) || {points:0, streakCurrent:0, streakLongest:0, lastActiveDate:null, lastFullDay:null};
+  await ensureTodayRecord();
+}
+
+function tasksForDate(dateStr){
+  return STATE.tasks.filter(t=> t.type==='routine' || t.date===dateStr);
+}
+
+async function ensureTodayRecord(){
+  const t = todayStr();
+  let rec = await sGet('day:'+t);
+  if(!rec){
+    rec = {date:t, statuses:{}, celebrationShown:false};
+  }
+  if(STATE.stats.lastActiveDate && STATE.stats.lastActiveDate !== t){
+    const last = STATE.stats.lastActiveDate;
+    const lastRec = await sGet('day:'+last);
+    if(lastRec){
+      const lastTasks = tasksForDate(last);
+      const allDone = lastTasks.length>0 && lastTasks.every(tk=>lastRec.statuses[tk.id]==='done');
+      if(!allDone){
+        STATE.stats.streakCurrent = 0;
+      }
+      let changed=false;
+      lastTasks.forEach(tk=>{
+        if(!lastRec.statuses[tk.id]){ lastRec.statuses[tk.id]='missed'; changed=true; }
+      });
+      if(changed) await sSet('day:'+last, lastRec);
+    }
+    const diffDays = Math.round((new Date(t) - new Date(last))/86400000);
+    if(diffDays>1){ STATE.stats.streakCurrent = 0; }
+  }
+  STATE.stats.lastActiveDate = t;
+  await sSet('stats', STATE.stats);
+  STATE.day = rec;
+  await sSet('day:'+t, rec);
+}
+
+function currentLevel(){
+  let lvl = LEVELS[0], idx=0;
+  for(let i=0;i<LEVELS.length;i++){ if(STATE.stats.points>=LEVELS[i].min){ lvl=LEVELS[i]; idx=i; } }
+  const next = LEVELS[idx+1];
+  return {lvl, next, idx};
+}
+
+async function toggleTask(taskId){
+  const t = todayStr();
+  const rec = STATE.day;
+  const cur = rec.statuses[taskId];
+  if(cur==='done'){
+    rec.statuses[taskId] = undefined;
+    delete rec.statuses[taskId];
+    STATE.stats.points = Math.max(0, STATE.stats.points-10);
+    delete rec._msgs?.[taskId];
+  } else if(cur==='missed'){
+    rec.statuses[taskId]='done';
+    STATE.stats.points += 10;
+    const msg = await buildMessage('done');
+    rec._msgs = rec._msgs||{}; rec._msgs[taskId]=msg;
+  } else {
+    rec.statuses[taskId]='done';
+    STATE.stats.points += 10;
+    const msg = await buildMessage('done');
+    rec._msgs = rec._msgs||{}; rec._msgs[taskId]=msg;
+  }
+  await sSet('day:'+t, rec);
+  await sSet('stats', STATE.stats);
+  await checkFullDay();
+  render();
+}
+
+async function markMissed(taskId){
+  const t = todayStr();
+  const rec = STATE.day;
+  const cur = rec.statuses[taskId];
+  if(cur==='missed'){
+    delete rec.statuses[taskId];
+  } else {
+    if(cur==='done'){ STATE.stats.points = Math.max(0, STATE.stats.points-10); }
+    rec.statuses[taskId]='missed';
+    const msg = await buildMessage('miss');
+    rec._msgs = rec._msgs||{}; rec._msgs[taskId]=msg;
+  }
+  await sSet('day:'+t, rec);
+  await sSet('stats', STATE.stats);
+  render();
+}
+
+async function checkFullDay(){
+  const t = todayStr();
+  const rec = STATE.day;
+  const list = tasksForDate(t);
+  if(list.length>0 && list.every(tk=>rec.statuses[tk.id]==='done') && !rec.celebrationShown){
+    STATE.stats.points += 50;
+    STATE.stats.streakCurrent += 1;
+    STATE.stats.streakLongest = Math.max(STATE.stats.streakLongest, STATE.stats.streakCurrent);
+    rec.celebrationShown = true;
+    await sSet('day:'+t, rec);
+    await sSet('stats', STATE.stats);
+    const cel = await buildCelebration(STATE.stats.streakCurrent, STATE.stats.points);
+    STATE.ui.showCelebration = cel;
+  }
+}
+
+async function addTask(title, type){
+  if(!title.trim()) return;
+  const task = {id:uid(), title:title.trim(), type, date: type==='once'? todayStr(): null, createdAt: Date.now()};
+  STATE.tasks.push(task);
+  await sSet('tasks', STATE.tasks);
+  STATE.ui.showAddForm=false;
+  render();
+}
+async function deleteTask(id){
+  STATE.tasks = STATE.tasks.filter(t=>t.id!==id);
+  await sSet('tasks', STATE.tasks);
+  render();
+}
+
+async function addGoal(text, type){
+  if(!text.trim()) return;
+  const g = {id:uid(), text:text.trim(), type, createdDate:todayStr(), deadline:computeDeadline(type), status:'pending'};
+  STATE.goals.push(g);
+  await sSet('goals', STATE.goals);
+  STATE.ui.showAddGoal=false;
+  render();
+}
+
+function isGoalDue(g){
+  return g.status==='pending' && todayStr() >= g.deadline;
+}
+
+async function reviewGoal(id, achieved){
+  const g = STATE.goals.find(x=>x.id===id);
+  if(!g) return;
+  if(achieved){
+    g.status='done';
+    STATE.stats.points += GOAL_TYPES[g.type].bonus;
+    await sSet('stats', STATE.stats);
+    const msg = await buildGoalMessage('win');
+    STATE.ui.showCelebration = {title:'🎉 حققت هدفك!', body:msg, tip:`ربحت ${GOAL_TYPES[g.type].bonus} نقطة إضافية 🎯`};
+  } else {
+    g.status='failed';
+    g.resultMsg = await buildGoalMessage('lose');
+  }
+  await sSet('goals', STATE.goals);
+  render();
+}
+
+async function renewGoal(id){
+  const g = STATE.goals.find(x=>x.id===id);
+  if(!g) return;
+  STATE.goals = STATE.goals.filter(x=>x.id!==id);
+  const ng = {id:uid(), text:g.text, type:g.type, createdDate:todayStr(), deadline:computeDeadline(g.type), status:'pending'};
+  STATE.goals.push(ng);
+  await sSet('goals', STATE.goals);
+  render();
+}
+
+async function deleteGoal(id){
+  STATE.goals = STATE.goals.filter(x=>x.id!==id);
+  await sSet('goals', STATE.goals);
+  render();
+}
+
+async function buyBox(box){
+  if(STATE.stats.points < box.cost){
+    STATE.ui.toast = "نقاطك غير كافية بعد لهذا الصندوق";
+    render();
+    setTimeout(()=>{STATE.ui.toast=null; render();}, 2200);
+    return;
+  }
+  STATE.stats.points -= box.cost;
+  await sSet('stats', STATE.stats);
+  const reward = await buildReward(box.name);
+  STATE.ui.showReward = reward;
+  render();
+}
+
+/* ================= RENDER ================= */
+const app = document.getElementById('app');
+
+function escapeHtml(s){
+  return s.replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+function plantSvg(streak){
+  const leaves = Math.min(6, Math.floor(streak/2));
+  let leafPaths = '';
+  const positions = [[32,40,-20],[32,32,20],[32,24,-15],[32,16,15],[32,10,-10],[32,4,10]];
+  for(let i=0;i<leaves;i++){
+    const [x,y,rot] = positions[i];
+    leafPaths += `<ellipse cx="${x}" cy="${y}" rx="7" ry="4" fill="#57c3ab" transform="rotate(${rot} ${x} ${y})" opacity="${0.55+i*0.07}"/>`;
+  }
+  const flower = streak>=12 ? `<circle cx="32" cy="6" r="4" fill="#e3ac67"/>` : '';
+  return `<svg class="plant-svg" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+    <rect x="14" y="46" width="36" height="10" rx="3" fill="#2a3340"/>
+    <path d="M32 46 L32 12" stroke="#57c3ab" stroke-width="3" stroke-linecap="round"/>
+    ${leafPaths}${flower}
+  </svg>`;
+}
+
+function render(){
+  const t = todayStr();
+  const now = new Date();
+  const dayName = AR_DAYS[now.getDay()];
+  const list = tasksForDate(t);
+  const rec = STATE.day;
+  const {lvl, next} = currentLevel();
+  const progressPct = next? Math.min(100, Math.round(((STATE.stats.points-lvl.min)/(next.min-lvl.min))*100)) : 100;
+
+  const doneCount = list.filter(tk=>rec.statuses[tk.id]==='done').length;
+
+  let html = '';
+
+  // التاريخ والوقت الحي بالثواني المباشرة
+  html += `<div class="top">
+    <div class="date-block">
+      <div class="greeting">أهلاً بك 👋</div>
+      <div class="day">يوم ${dayName}</div>
+      <div class="full-date" id="live-gregorian-clock">${fmtFullDate(now)} | ${now.toLocaleTimeString('ar-EG', {hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true})}</div>
     </div>
+    <div class="stats-pill">
+      <div class="pill streak">🔥 <span class="num">${STATE.stats.streakCurrent}</span></div>
+      <div class="pill points">⭐ <span class="num">${STATE.stats.points}</span></div>
+    </div>
+  </div>`;
 
-    <!-- شريط تصفح الأقسام الأصلي -->
-    <nav class="navigation-tabs">
-      <button class="nav-btn active" data-tab="home">🏡 الرئيسية</button>
-      <button class="nav-btn" data-tab="tasks">📝 المهام اليومية</button>
-      <button class="nav-btn" data-tab="habits">🌱 بناء العادات</button>
-      <button class="nav-btn" data-tab="skills">🧠 اكتساب المهارات</button>
-      <button class="nav-btn" data-tab="shop">🎁 متجر التحدي</button>
-    </nav>
+  html += `<div class="plant-card">
+    ${plantSvg(STATE.stats.streakCurrent)}
+    <div class="plant-info">
+      <div class="label">مستواك الحالي</div>
+      <div class="level-name">${lvl.name}</div>
+      <div class="progress-track"><div class="progress-fill" style="width:${progressPct}%"></div></div>
+      <div class="progress-label">${next? `${STATE.stats.points} / ${next.min} نقطة للمستوى الجاي` : 'وصلت لأعلى مستوى 🎉'}</div>
+    </div>
+  </div>`;
 
-    <!-- الأقسام المتغيرة بسلاسة -->
-    <main id="tab-content">
-      <!-- جاري الحقن بواسطة JS -->
-    </main>
+  // مؤقت بومودورو مدمج بشكل متناسق تماماً مع كروتك
+  const pM = Math.floor(PomodoroState.secondsLeft / 60).toString().padStart(2, '0');
+  const pS = (PomodoroState.secondsLeft % 60).toString().padStart(2, '0');
+  const pBtnText = PomodoroState.running ? 'إيقاف مؤقت ⏸️' : 'ابدأ التركيز 🚀';
 
-    <!-- تذييل وحقوق المطور مشعل الفخمة -->
-    <footer class="app-footer">
-      حقوق الملكية والتطوير محفوظة للمطور <b>مشعل</b> © 2026<br>
-      <span class="m-badge">الإصدار المميز v3.5 • الانضباط يصنع المجد 🚀</span>
-    </footer>
+  html += `<div class="timer-card">
+    <div style="font-size:13px; color:var(--text-dim); font-weight:700;">⏱️ مؤقت التركيز الذكي (بومودورو) (+40 نقطة)</div>
+    <div class="timer-display" id="pomodoro-display">${pM}:${pS}</div>
+    <div style="display:flex; gap:8px; justify-content:center; margin-top:6px;">
+      <button class="add-btn" id="pomodoro-start-btn" onclick="UI.togglePomodoro()">${pBtnText}</button>
+      <button class="add-btn" style="background:var(--bad-soft); color:var(--bad); border-color:#d9695e44;" onclick="UI.resetPomodoro()">إعادة تعيين</button>
+    </div>
+  </div>`;
 
-  </div>
+  html += `<div class="sec-head"><h2>مهام اليوم (${doneCount}/${list.length||0})</h2>
+    <button class="add-btn" onclick="UI.toggleAdd()">+ إضافة مهمة</button></div>`;
 
-  <div id="toast-container" class="toast-container"></div>
+  if(STATE.ui.showAddForm){
+    html += `<div class="form-card">
+      <div class="form-row">
+        <input type="text" id="newTaskInput" placeholder="اكتب المهمة هنا..." />
+      </div>
+      <div class="form-row">
+        <div class="seg">
+          <button class="${STATE.ui.addType==='routine'?'active':''}" onclick="UI.setAddType('routine')">روتين يومي ثابت</button>
+          <button class="${STATE.ui.addType==='once'?'active':''}" onclick="UI.setAddType('once')">لهذا اليوم فقط</button>
+        </div>
+      </div>
+      <button class="primary-btn" onclick="UI.submitAdd()">إضافة</button>
+      <button class="ghost-btn" onclick="UI.toggleAdd()">إلغاء</button>
+    </div>`;
+  }
 
-  <script>
-    // --- 1. إدارة البيانات المحليه ---
-    const Storage = {
-      get(k, fallback) { const d = localStorage.getItem('injaz_v35_'+k); return d ? JSON.parse(d) : fallback; },
-      set(k, v) { localStorage.setItem('injaz_v35_'+k, JSON.stringify(v)); }
-    };
+  if(list.length===0){
+    html += `<div class="empty">ما عندك مهام اليوم بعد 🌱<br>اضغط "إضافة مهمة" وابدأ يومك.</div>`;
+  } else {
+    list.forEach(tk=>{
+      const status = rec.statuses[tk.id];
+      const cls = status==='done'?'done': status==='missed'?'missed':'';
+      const msg = rec._msgs && rec._msgs[tk.id];
+      html += `<div class="task ${cls}">
+        <div class="check-btn" onclick="UI.toggle('${tk.id}')">${status==='done'?'✓':''}</div>
+        <div class="task-body">
+          <div class="task-title">${escapeHtml(tk.title)}</div>
+          <div class="task-tag">${tk.type==='routine'?'روتين يومي':'مهمة اليوم'}</div>
+          ${msg? `<div class="task-msg">${escapeHtml(msg)}</div>`:''}
+        </div>
+        <div class="task-actions">
+          <div class="x-btn" onclick="UI.miss('${tk.id}')">✕</div>
+          <button class="icon-btn" onclick="UI.remove('${tk.id}')">🗑</button>
+        </div>
+      </div>`;
+    });
+  }
 
-    // --- 2. حالة المنصة ---
-    const State = {
-      points: Storage.get('points', 0),
-      tasks: Storage.get('tasks', []),
-      habits: Storage.get('habits', []),
-      skills: Storage.get('skills', []), // تتبع المهارات الجديد
-      currentTab: 'home'
-    };
+  html += `<div class="sec-head"><h2>أهدافي 🎯</h2>
+    <button class="add-btn" onclick="UI.toggleAddGoal()">+ هدف جديد</button></div>`;
 
-    // --- 3. محرك الوقت الميلادي فقط ---
-    function initClock() {
-      setInterval(() => {
-        const el = document.getElementById('live-clock-gregorian');
-        if(el) {
-          const now = new Date();
-          el.innerText = now.toLocaleDateString('ar-EG', {
-            calendar: 'gregorian',
-            weekday: 'long',
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit',
-            second: '2-digit',
-            hour12: true
-          });
+  if(STATE.ui.showAddGoal){
+    html += `<div class="form-card">
+      <div class="form-row">
+        <input type="text" id="newGoalInput" placeholder="اكتب هدفك هنا..." />
+      </div>
+      <div class="form-row">
+        <div class="seg">
+          <button class="${STATE.ui.goalType==='weekly'?'active':''}" onclick="UI.setGoalType('weekly')">أسبوعي</button>
+          <button class="${STATE.ui.goalType==='monthly'?'active':''}" onclick="UI.setGoalType('monthly')">شهري</button>
+          <button class="${STATE.ui.goalType==='yearly'?'active':''}" onclick="UI.setGoalType('yearly')">سنوي</button>
+        </div>
+      </div>
+      <button class="primary-btn" onclick="UI.submitGoal()">إضافة الهدف</button>
+      <button class="ghost-btn" onclick="UI.toggleAddGoal()">إلغاء</button>
+    </div>`;
+  }
+
+  if(STATE.goals.length===0){
+    html += `<div class="empty">ما عندك أهداف بعد 🎯<br>حط هدف أسبوعي أو شهري أو سنوي وارجع له بوقته.</div>`;
+  } else {
+    STATE.goals.slice().reverse().forEach(g=>{
+      const due = isGoalDue(g);
+      const daysLeft = Math.ceil((new Date(g.deadline)-new Date(todayStr()))/86400000);
+      let statusHtml='';
+      if(g.status==='pending' && !due){
+        statusHtml = `<div class="task-tag">⏳ متبقي ${daysLeft} يوم — يستحق ${fmtFullDate(new Date(g.deadline))}</div>`;
+      } else if(g.status==='pending' && due){
+        statusHtml = `<div class="task-tag" style="color:var(--accent)">🎯 وصل وقت هدفك! هل حققته؟</div>
+          <div class="task-actions" style="margin-top:8px;">
+            <button class="primary-btn" style="width:auto;padding:8px 14px;" onclick="UI.reviewGoal('${g.id}',true)">✅ أنجزته</button>
+            <button class="ghost-btn" style="width:auto;padding:8px 14px;margin-top:0;" onclick="UI.reviewGoal('${g.id}',false)">❌ لم أكمله</button>
+          </div>`;
+      } else if(g.status==='done'){
+        statusHtml = `<div class="task-msg" style="color:#8fdcab;">✅ تم الإنجاز — ربحت ${GOAL_TYPES[g.type].bonus} نقطة 🎉</div>`;
+      } else if(g.status==='failed'){
+        statusHtml = `<div class="task-msg" style="color:#f0a89f;">${escapeHtml(g.resultMsg||'')}</div>
+          <button class="ghost-btn" onclick="UI.renewGoal('${g.id}')">🔄 تجديد الهدف</button>`;
+      }
+      const cls = g.status==='done'?'done':g.status==='failed'?'missed':'';
+      html += `<div class="task ${cls}" style="align-items:flex-start;flex-direction:column;gap:6px;">
+        <div style="display:flex;width:100%;align-items:center;gap:10px;">
+          <div style="flex:1;">
+            <div class="task-title">${escapeHtml(g.text)}</div>
+            <div class="task-tag">هدف ${GOAL_TYPES[g.type].label}</div>
+          </div>
+          <button class="icon-btn" onclick="UI.removeGoal('${g.id}')">🗑</button>
+        </div>
+        ${statusHtml}
+      </div>`;
+    });
+  }
+
+  // قسم اكتساب المهارات الجديد كلياً بنفس تصميم المهام والأهداف الأصلي
+  html += `<div class="sec-head"><h2>اكتساب المهارات 🧠</h2>
+    <button class="add-btn" onclick="UI.toggleAddSkill()">+ مهارة جديدة</button></div>`;
+
+  if(STATE.ui.showAddSkill){
+    html += `<div class="form-card">
+      <div class="form-row">
+        <input type="text" id="newSkillInput" placeholder="اكتب المهارة هنا (مثال: الإنجليزية، البرمجة، الصيانة)..." />
+      </div>
+      <button class="primary-btn" onclick="UI.submitAddSkill()">إضافة مهارة</button>
+      <button class="ghost-btn" onclick="UI.toggleAddSkill()">إلغاء</button>
+    </div>`;
+  }
+
+  if(!STATE.skills || STATE.skills.length === 0){
+    html += `<div class="empty">لم تبدأ في تتبع أي مهارة بعد 🌱<br>اضغط "مهارة جديدة" وابدأ مسار نموّك الفعلي.</div>`;
+  } else {
+    STATE.skills.forEach(s=>{
+      html += `<div class="task" style="align-items:center; justify-content:space-between;">
+        <div style="flex:1;">
+          <div class="task-title">${escapeHtml(s.title)}</div>
+          <div class="task-tag">ساعات التدريب الفعلي: <span style="color:var(--accent); font-weight:700;">${s.hours} ساعة</span> 🧠</div>
+        </div>
+        <div style="display:flex; gap:6px; align-items:center;">
+          <button class="add-btn" style="background:var(--teal-soft); color:var(--teal); border-color:#57c3ab44; padding:5px 10px; font-size:12px;" onclick="UI.addSkillHour('${s.id}')">+ ساعة عمل</button>
+          <button class="icon-btn" onclick="UI.removeSkill('${s.id}')">🗑</button>
+        </div>
+      </div>`;
+    });
+  }
+
+  html += `<div class="sec-head"><h2>متجر المفاجآت 🎁</h2></div>
+  <div class="shop-grid">`;
+  SHOP_BOXES.forEach(b=>{
+    const disabled = STATE.stats.points < b.cost;
+    html += `<div class="box-card ${disabled?'disabled':''}" onclick="${disabled?'':`UI.buy('${b.id}')`}">
+      <div class="box-emoji">${b.emoji}</div>
+      <div class="box-name">${b.name}</div>
+      <div class="box-cost">${b.cost} نقطة</div>
+    </div>`;
+  });
+  html += `</div>`;
+
+  html += `<div class="sec-head"><h2>المستويات</h2></div>
+  <div class="badges-strip">`;
+  LEVELS.forEach(l=>{
+    html += `<div class="badge-chip ${STATE.stats.points>=l.min?'reached':''}">${l.name}</div>`;
+  });
+  html += `</div>`;
+
+  // بصمة وحقوق المطور مشعل في تذييل الصفحة داخل التصميم الأصلي
+  html += `<div style="text-align:center; color:var(--text-dimmer); font-size:12px; margin-top:34px; line-height:1.7; border-top:1px solid var(--border); padding-top:16px;">
+    حقوق الملكية والتطوير محفوظة للمطور <b>مشعل</b> © 2026<br>
+    <span style="display:inline-block; background:var(--accent-soft); color:var(--accent); padding:2px 8px; border-radius:4px; font-size:11px; font-weight:700; margin-top:4px;">الإصدار المميز v3.5 • الانضباط يصنع المجد 🚀</span>
+  </div>`;
+
+  app.innerHTML = html;
+
+  const inp = document.getElementById('newTaskInput');
+  if(inp){ inp.focus(); inp.addEventListener('keydown', e=>{ if(e.key==='Enter') UI.submitAdd(); }); }
+  const ginp = document.getElementById('newGoalInput');
+  if(ginp){ ginp.focus(); ginp.addEventListener('keydown', e=>{ if(e.key==='Enter') UI.submitGoal(); }); }
+  const sinp = document.getElementById('newSkillInput');
+  if(sinp){ sinp.focus(); sinp.addEventListener('keydown', e=>{ if(e.key==='Enter') UI.submitAddSkill(); }); }
+
+  // celebration overlay
+  const overlayHost = document.getElementById('overlayHost');
+  if(overlayHost) overlayHost.remove();
+  if(STATE.ui.showCelebration){
+    const c = STATE.ui.showCelebration;
+    const div = document.createElement('div');
+    div.id='overlayHost';
+    div.className='overlay';
+    div.innerHTML = `<div class="modal full-gift">
+      <div class="emoji">🎉</div>
+      <h3>${escapeHtml(c.title)}</h3>
+      <p style="white-space:pre-line">${escapeHtml(c.body)}</p>
+      <div class="tip">💡 ${escapeHtml(c.tip)}</div>
+      <button class="primary-btn close-btn" onclick="UI.closeCelebration()">شكرًا 🤍</button>
+    </div>`;
+    document.body.appendChild(div);
+  } else if(STATE.ui.showReward){
+    const r = STATE.ui.showReward;
+    const div = document.createElement('div');
+    div.id='overlayHost';
+    div.className='overlay';
+    div.innerHTML = `<div class="modal">
+      <h3>${escapeHtml(r.opener)}</h3>
+      <p>"${escapeHtml(r.quote)}"</p>
+      <div class="tip">💡 ${escapeHtml(r.tip)}</div>
+      <button class="primary-btn close-btn" onclick="UI.closeReward()">إغلاق</button>
+    </div>`;
+    document.body.appendChild(div);
+  }
+
+  const toastHost = document.getElementById('toastHost');
+  if(toastHost) toastHost.remove();
+  if(STATE.ui.toast){
+    const d = document.createElement('div');
+    d.id='toastHost'; d.className='toast-msg'; d.textContent=STATE.ui.toast;
+    document.body.appendChild(d);
+  }
+}
+
+/* ================= UI HANDLERS ================= */
+window.UI = {
+  toggleAdd(){ STATE.ui.showAddForm = !STATE.ui.showAddForm; render(); },
+  setAddType(v){ STATE.ui.addType=v; render(); },
+  async submitAdd(){
+    const inp = document.getElementById('newTaskInput');
+    const val = inp? inp.value : '';
+    await addTask(val, STATE.ui.addType);
+  },
+  toggle(id){ toggleTask(id); },
+  miss(id){ markMissed(id); },
+  remove(id){ deleteTask(id); },
+  buy(id){ const box = SHOP_BOXES.find(b=>b.id===id); buyBox(box); },
+  closeCelebration(){ STATE.ui.showCelebration=null; render(); },
+  closeReward(){ STATE.ui.showReward=null; render(); },
+  toggleAddGoal(){ STATE.ui.showAddGoal = !STATE.ui.showAddGoal; render(); },
+  setGoalType(v){ STATE.ui.goalType=v; render(); },
+  async submitGoal(){
+    const inp = document.getElementById('newGoalInput');
+    const val = inp? inp.value : '';
+    await addGoal(val, STATE.ui.goalType);
+  },
+  reviewGoal(id, achieved){ reviewGoal(id, achieved); },
+  renewGoal(id){ renewGoal(id); },
+  removeGoal(id){ deleteGoal(id); },
+
+  // معالجات المهارات الجديدة
+  toggleAddSkill(){ STATE.ui.showAddSkill = !STATE.ui.showAddSkill; render(); },
+  async submitAddSkill(){
+    const inp = document.getElementById('newSkillInput');
+    const val = inp ? inp.value.trim() : '';
+    if(!val) return;
+    STATE.skills.push({id: uid(), title: val, hours: 0, createdAt: Date.now()});
+    await sSet('skills', STATE.skills);
+    STATE.ui.showAddSkill = false;
+    render();
+  },
+  async addSkillHour(id){
+    const s = STATE.skills.find(x => x.id === id);
+    if(s){
+      s.hours++;
+      STATE.stats.points += 20;
+      await sSet('skills', STATE.skills);
+      await sSet('stats', STATE.stats);
+      render();
+    }
+  },
+  async removeSkill(id){
+    STATE.skills = STATE.skills.filter(x => x.id !== id);
+    await sSet('skills', STATE.skills);
+    render();
+  },
+
+  // تشغيل وإيقاف مؤقت التركيز الذكي
+  togglePomodoro(){
+    const btn = document.getElementById('pomodoro-start-btn');
+    if(PomodoroState.running){
+      clearInterval(PomodoroState.interval);
+      PomodoroState.running = false;
+      if(btn) btn.innerText = 'ابدأ التركيز 🚀';
+    } else {
+      PomodoroState.running = true;
+      if(btn) btn.innerText = 'إيقاف مؤقت ⏸️';
+      PomodoroState.interval = setInterval(async () => {
+        if(PomodoroState.secondsLeft > 0){
+          PomodoroState.secondsLeft--;
+          if(document.getElementById('pomodoro-display')){
+            const m = Math.floor(PomodoroState.secondsLeft / 60).toString().padStart(2, '0');
+            const s = (PomodoroState.secondsLeft % 60).toString().padStart(2, '0');
+            document.getElementById('pomodoro-display').innerText = `${m}:${s}`;
+          }
+        } else {
+          clearInterval(PomodoroState.interval);
+          PomodoroState.running = false;
+          PomodoroState.secondsLeft = 1500;
+          STATE.stats.points += 40;
+          await sSet('stats', STATE.stats);
+          
+          STATE.ui.toast = "⏱️ تم إنهاء جلسة التركيز! كسبت +40 نقطة 🎉";
+          render();
+          setTimeout(() => { STATE.ui.toast = null; render(); }, 3500);
         }
       }, 1000);
     }
+  },
+  resetPomodoro(){
+    clearInterval(PomodoroState.interval);
+    PomodoroState.running = false;
+    PomodoroState.secondsLeft = 1500;
+    const display = document.getElementById('pomodoro-display');
+    if(display) display.innerText = '25:00';
+    const btn = document.getElementById('pomodoro-start-btn');
+    if(btn) btn.innerText = 'ابدأ التركيز 🚀';
+  }
+};
 
-    // --- 4. مؤقت التركيز (بومودورو) المدمج كإضافة ذكية ---
-    const Timer = {
-      secondsLeft: 1500, interval: null, running: false,
-      toggle() {
-        const btn = document.getElementById('timer-btn');
-        if(this.running) {
-          clearInterval(this.interval);
-          this.running = false;
-          if(btn) btn.innerText = 'ابدأ جلسة تركيز 🚀';
-        } else {
-          this.running = true;
-          if(btn) btn.innerText = 'إيقاف مؤقت ⏸️';
-          this.interval = setInterval(() => {
-            if(this.secondsLeft > 0) {
-              this.secondsLeft--;
-              this.updateDOM();
-            } else {
-              clearInterval(this.interval);
-              this.running = false;
-              this.secondsLeft = 1500;
-              State.points += 40;
-              Storage.set('points', State.points);
-              showToast("⏱️ تم التركيز!", "كفو عظيم! أنهيت جلسة كاملة بنجاح وكسبت +40 نقطة.");
-              UI.refresh();
-            }
-          }, 1000);
-        }
-      },
-      updateDOM() {
-        const el = document.getElementById('timer-digits');
-        if(!el) return;
-        const m = Math.floor(this.secondsLeft / 60).toString().padStart(2, '0');
-        const s = (this.secondsLeft % 60).toString().padStart(2, '0');
-        el.innerText = `${m}:${s}`;
-      }
-    };
+/* ================= INIT ================= */
+(async function init(){
+  app.innerHTML = `<div class="empty" style="margin-top:60px;">جارِ التحميل...</div>`;
+  await loadAll();
+  render();
+})();
 
-    // --- 5. التنبيهات البسيطة ---
-    function showToast(title, msg) {
-      const c = document.getElementById('toast-container');
-      if(!c) return;
-      const t = document.createElement('div');
-      t.className = 'toast';
-      t.innerText = `${title} - ${msg}`;
-      c.appendChild(t);
-      setTimeout(() => { t.style.opacity = '0'; setTimeout(() => t.remove(), 300); }, 3500);
-    }
+// تحديث حي دائم بالثواني للوقت الميلادي فقط بدون إعادة بناء الواجهة كاملة
+setInterval(() => {
+  const clk = document.getElementById('live-gregorian-clock');
+  if(clk){
+    const now = new Date();
+    clk.innerText = `${fmtFullDate(now)} | ${now.toLocaleTimeString('ar-EG', {hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true})}`;
+  }
+}, 1000);
 
-    // --- 6. واجهة المستخدم والتنقل السلس ---
-    const UI = {
-      switchTab(tabId) {
-        State.currentTab = tabId;
-        document.querySelectorAll('.nav-btn').forEach(b => {
-          b.classList.toggle('active', b.getAttribute('data-tab') === tabId);
-        });
-        this.refresh();
-      },
-      refresh() {
-        // تحديث النقاط بالأعلى
-        document.getElementById('points-display').innerText = `🏆 ${State.points} نقطة`;
-        
-        const container = document.getElementById('tab-content');
-        if(!container) return;
-
-        if(State.currentTab === 'home') {
-          container.innerHTML = `
-            <div class="main-card">
-              <h2 style="font-size:18px; color:var(--accent-blue); margin-bottom:8px;">مرحباً بك في لوحة إنجاز المتكاملة</h2>
-              <p style="font-size:14px; color:var(--text-muted); line-height:1.6;">
-                منصتك الشخصية والآمنة لتنظيم يومك، تتبع عاداتك واكتساب المهارات بشكل عملي مستدام وبدون الحاجة لإنترنت.
-              </p>
-              
-              <div class="timer-box">
-                <h3 style="font-size:14px; color:var(--accent-indigo);">⏱️ مؤقت التركيز العميق المدمج (+40 نقطة)</h3>
-                <div class="timer-digits" id="timer-digits">25:00</div>
-                <button class="action-btn" id="timer-btn" style="background:var(--accent-indigo); padding:8px 16px; font-size:13px;" onclick="Timer.toggle()">ابدأ جلسة تركيز 🚀</button>
-              </div>
-            </div>
-          `;
-          Timer.updateDOM();
-        }
-        
-        else if(State.currentTab === 'tasks') {
-          let rows = '';
-          State.tasks.forEach(t => {
-            rows += `
-              <div class="item-row ${t.done?'completed':''}">
-                <div style="display:flex; align-items:center; gap:10px;">
-                  <input type="checkbox" ${t.done?'checked':''} onchange="UI.toggleTask('${t.id}')" style="width:18px; height:18px; cursor:pointer;">
-                  <span style="font-weight:600; font-size:14px;">${t.text}</span>
-                </div>
-                <button class="delete-btn" onclick="UI.deleteTask('${t.id}')">حذف</button>
-              </div>
-            `;
-          });
-          container.innerHTML = `
-            <div class="main-card">
-              <h3>📝 قائمة المهام اليومية (+15 نقطة عند الإنجاز)</h3>
-              <div class="input-group">
-                <input type="text" id="task-input" class="custom-input" placeholder="اكتب خطتك القادمة هنا...">
-                <button class="action-btn" onclick="UI.addTask()">إضافة مهمة</button>
-              </div>
-              <div class="items-list">${rows || '<p style="text-align:center; color:var(--text-muted); padding:10px; font-size:13px;">لا توجد مهام حالية.</p>'}</div>
-            </div>
-          `;
-        }
-        
-        else if(State.currentTab === 'habits') {
-          let rows = '';
-          State.habits.forEach(h => {
-            rows += `
-              <div class="item-row">
-                <div>
-                  <span style="font-weight:600; font-size:15px;">${h.text}</span>
-                  <div style="font-size:11px; color:var(--accent-green); margin-top:2px;">التزامك المستمر: <b>${h.streak} أيام</b> 🔥</div>
-                </div>
-                <div style="display:flex; gap:10px;">
-                  <button class="action-btn" style="padding:6px 12px; font-size:12px; background:var(--accent-green); color:#000;" onclick="UI.logHabit('${h.id}')">تسجيل اليوم</button>
-                  <button class="delete-btn" onclick="UI.deleteHabit('${h.id}')">حذف</button>
-                </div>
-              </div>
-            `;
-          });
-          container.innerHTML = `
-            <div class="main-card">
-              <h3>🌱 بناء وتثبيت العادات السلوكية (+10 نقاط)</h3>
-              <div class="input-group">
-                <input type="text" id="habit-input" class="custom-input" placeholder="مثال: القراءة، شرب الماء، الرياضة...">
-                <button class="action-btn" style="background:var(--accent-green); color:#000;" onclick="UI.addHabit()">تثبيت العادة</button>
-              </div>
-              <div class="items-list">${rows || '<p style="text-align:center; color:var(--text-muted); padding:10px; font-size:13px;">لم تقم بتثبيت أي عادة بعد.</p>'}</div>
-            </div>
-          `;
-        }
-        
-        // قسم تتبع اكتساب المهارات الجديد كلياً وبنفس التصميم الأصلي
-        else if(State.currentTab === 'skills') {
-          let rows = '';
-          State.skills.forEach(s => {
-            rows += `
-              <div class="item-row">
-                <div>
-                  <span style="font-weight:600; font-size:15px; color:var(--accent-blue);">${s.text}</span>
-                  <div style="font-size:12px; color:var(--text-muted); margin-top:2px;">ساعات التدريب الفعلي المتراكمة: <b style="color:var(--accent-amber); font-size:14px;">${s.hours} ساعة</b> 🧠</div>
-                </div>
-                <div style="display:flex; gap:10px;">
-                  <button class="action-btn" style="padding:6px 12px; font-size:12px; background:var(--accent-blue);" onclick="UI.trainSkill('${s.id}')">+ إضافة ساعة تدريب</button>
-                  <button class="delete-btn" onclick="UI.deleteSkill('${s.id}')">حذف</button>
-                </div>
-              </div>
-            `;
-          });
-          container.innerHTML = `
-            <div class="main-card">
-              <h3>🧠 تتبع واكتساب المهارات العميقة (+20 نقطة/ساعة)</h3>
-              <p style="font-size:12px; color:var(--text-muted); margin-top:2px; margin-bottom:10px;">أضف مجالات التركيز الطويل وضاعف ساعات تدريبك الفعلي لرفع مستواك الذهني وقدراتك.</p>
-              <div class="input-group">
-                <input type="text" id="skill-input" class="custom-input" placeholder="مثال: تعلم اللغة الإنجليزية، البرمجة، صيانة الموبايل...">
-                <button class="action-btn" onclick="UI.addSkill()">بدء المسار</button>
-              </div>
-              <div class="items-list">${rows || '<p style="text-align:center; color:var(--text-muted); padding:10px; font-size:13px;">لم تبدأ في تتبع أي مهارة بعد، ابدأ الآن يا بطل!</p>'}</div>
-            </div>
-          `;
-        }
-        
-        else if(State.currentTab === 'shop') {
-          container.innerHTML = `
-            <div class="main-card">
-              <h3>🎁 متجر التحدي والمكافآت والتحفيز الذاتي</h3>
-              <p style="font-size:13px; color:var(--text-muted); margin-top:4px;">استبدل نقاط طاقاتك المتراكمة ببطاقات تحفيزية مميزة.</p>
-              <div class="shop-grid">
-                <div class="shop-item"><div>🎁</div><div style="font-weight:700;font-size:13px;margin:4px 0;">صندوق المفاجأة الأدبية</div><button class="action-btn" style="padding:4px 8px; font-size:11px; width:100%;" onclick="UI.buyItem(20)">20 نقطة</button></div>
-                <div class="shop-item"><div>⚽</div><div style="font-weight:700;font-size:13px;margin:4px 0;">بطاقة الطاقة الرياضية</div><button class="action-btn" style="padding:4px 8px; font-size:11px; width:100%;" onclick="UI.buyItem(40)">40 نقطة</button></div>
-                <div class="shop-item"><div>📚</div><div style="font-weight:700;font-size:13px;margin:4px 0;">حكمة وفلسفة عميقة</div><button class="action-btn" style="padding:4px 8px; font-size:11px; width:100%;" onclick="UI.buyItem(50)">50 نقطة</button></div>
-              </div>
-            </div>
-          `;
-        }
-      },
-
-      // إجراءات المهام
-      addTask() {
-        const inp = document.getElementById('task-input');
-        if(!inp || !inp.value.trim()) return;
-        State.tasks.push({ id: 't_'+Date.now(), text: inp.value.trim(), done: false });
-        Storage.set('tasks', State.tasks);
-        showToast("📝 تم الإضافة", "تم إدراج خطتك الجديدة بنجاح.");
-        this.refresh();
-      },
-      toggleTask(id) {
-        const t = State.tasks.find(x => x.id === id);
-        if(t) {
-          t.done = !t.done;
-          State.points += t.done ? 15 : -15;
-          Storage.set('tasks', State.tasks);
-          Storage.set('points', State.points);
-          showToast(t.done ? "🏆 كفو البطل" : "↩️ تم التراجع", t.done ? "حققت هدفك وكسبت +15 نقطة!" : "تم خصم نقاط المهمة.");
-          this.refresh();
-        }
-      },
-      deleteTask(id) {
-        State.tasks = State.tasks.filter(x => x.id !== id);
-        Storage.set('tasks', State.tasks);
-        this.refresh();
-      },
-
-      // إجراءات العادات
-      addHabit() {
-        const inp = document.getElementById('habit-input');
-        if(!inp || !inp.value.trim()) return;
-        State.habits.push({ id: 'h_'+Date.now(), text: inp.value.trim(), streak: 0 });
-        Storage.set('habits', State.habits);
-        showToast("🌱 عادة جديدة", "تم التثبيت بنجاح، الاستمرار يصنع الفارق.");
-        this.refresh();
-      },
-      logHabit(id) {
-        const h = State.habits.find(x => x.id === id);
-        if(h) {
-          h.streak++;
-          State.points += 10;
-          Storage.set('habits', State.habits);
-          Storage.set('points', State.points);
-          showToast("🔥 التزام مستمر", `فخور بك، كسبت +10 نقاط طاقة في [${h.text}]`);
-          this.refresh();
-        }
-      },
-      deleteHabit(id) {
-        State.habits = State.habits.filter(x => x.id !== id);
-        Storage.set('habits', State.habits);
-        this.refresh();
-      },
-
-      // إجراءات المهارات الجديدة بالكامل
-      addSkill() {
-        const inp = document.getElementById('skill-input');
-        if(!inp || !inp.value.trim()) return;
-        State.skills.push({ id: 's_'+Date.now(), text: inp.value.trim(), hours: 0 });
-        Storage.set('skills', State.skills);
-        showToast("🧠 مسار مهارة", "تم فتح مسار تتبع مهاراتك العميقة بنجاح 🚀");
-        this.refresh();
-      },
-      trainSkill(id) {
-        const s = State.skills.find(x => x.id === id);
-        if(s) {
-          s.hours++;
-          State.points += 20;
-          Storage.set('skills', State.skills);
-          Storage.set('points', State.points);
-          showToast("📚 ساعة عمل", `عظيم جداً! أنجزت ساعة تدريب في [${s.text}] ونلت +20 نقطة طاقة.`);
-          this.refresh();
-        }
-      },
-      deleteSkill(id) {
-        State.skills = State.skills.filter(x => x.id !== id);
-        Storage.set('skills', State.skills);
-        this.refresh();
-      },
-
-      buyItem(price) {
-        if(State.points < price) {
-          showToast("❌ نقاط غير كافية", `تحتاج إلى ${price} نقطة لفتح هذه المكافأة.`);
-          return;
-        }
-        State.points -= price;
-        Storage.set('points', State.points);
-        showToast("🎉 فتح مكافأة", "تم فتح بطاقتك بنجاح ومكافأتك مستحقة!");
-        this.refresh();
-      }
-    };
-
-    // --- 7. ربط الأحداث والتشغيل الأول المضمون ---
-    document.querySelectorAll('.nav-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        UI.switchTab(btn.getAttribute('data-tab'));
-      });
-    });
-
-    initClock();
-    UI.refresh();
-  </script>
+})();
+</script>
 </body>
 </html>
