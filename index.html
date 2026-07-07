@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>إنجاز | منصة الإنتاجية الذكية</title>
+  <title>إنجاز | المنصة الذكية المتكاملة</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;800;900&family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
@@ -58,6 +58,10 @@
     }
     h1, h2, h3, .font-cairo { font-family: 'Cairo', sans-serif; }
     .app-container { max-width: 800px; margin: 0 auto; padding: 24px 16px 100px; }
+    
+    /* Setup Screen */
+    .setup-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background:var(--bg-primary); z-index:99999; display:flex; align-items:center; justify-content:center; padding:20px; }
+    
     .card-premium {
       background: var(--bg-card);
       border: 1px solid var(--border-color);
@@ -67,51 +71,70 @@
       box-shadow: var(--shadow-premium);
       transition: var(--transition-smooth);
     }
-    .card-premium:hover { transform: translateY(-2px); border-color: var(--accent); }
+    .card-premium:hover { border-color: var(--accent); }
+    
+    .live-clock-box { background: linear-gradient(90deg, var(--bg-secondary), var(--bg-card)); text-align: center; font-size: 14px; font-weight: bold; color: var(--accent); padding: 10px; border-radius: var(--radius-md); border: 1px dashed var(--border-color); margin-bottom: 16px; }
+    
     .btn-primary {
       background: var(--accent); color: #111823; border: none; border-radius: var(--radius-md);
       padding: 12px 20px; font-family: 'Cairo', sans-serif; font-weight: 800; cursor: pointer;
-      transition: var(--transition-smooth); display: inline-flex; align-items: center; gap: 8px;
+      transition: var(--transition-smooth); display: inline-flex; align-items: center; gap: 8px; justify-content: center;
     }
     .btn-primary:hover { filter: brightness(1.1); box-shadow: 0 0 15px var(--accent-glow); }
+    .btn-primary:disabled { background: var(--text-dim); color: var(--bg-primary); cursor: not-allowed; }
+    
     .btn-secondary {
       background: transparent; color: var(--text-main); border: 1px solid var(--border-color);
       border-radius: var(--radius-md); padding: 11px 18px; font-family: 'Tajawal', sans-serif;
       font-weight: 700; cursor: pointer; transition: var(--transition-smooth);
     }
     .btn-secondary:hover { background: var(--bg-card-hover); }
-    .nav-tabs { display: flex; background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 6px; margin-bottom: 24px; }
-    .nav-tab-btn { flex: 1; background: transparent; border: none; color: var(--text-muted); padding: 12px; font-family: 'Cairo', sans-serif; font-weight: 700; cursor: pointer; border-radius: calc(var(--radius-md) - 4px); transition: var(--transition-smooth); text-align: center; }
+    
+    .nav-tabs { display: flex; background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 6px; margin-bottom: 24px; overflow-x: auto; gap: 4px; }
+    .nav-tab-btn { flex: 1; min-width: 70px; background: transparent; border: none; color: var(--text-muted); padding: 10px 6px; font-family: 'Cairo', sans-serif; font-size: 13px; font-weight: 700; cursor: pointer; border-radius: calc(var(--radius-md) - 4px); transition: var(--transition-smooth); text-align: center; white-space: nowrap; }
     .nav-tab-btn.active { background: var(--accent); color: #111823; }
+    
     .item-row { display: flex; align-items: center; gap: 16px; background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 16px; margin-bottom: 12px; transition: var(--transition-smooth); }
     .item-row.high-priority { border-right: 4px solid var(--danger); }
     .item-row.medium-priority { border-right: 4px solid var(--accent); }
     .item-row.low-priority { border-right: 4px solid var(--teal); }
     .item-row.completed { opacity: 0.6; background: rgba(46, 204, 113, 0.05); }
+    
     .coach-section { background: linear-gradient(135deg, var(--bg-card), var(--bg-secondary)); border: 2px solid var(--border-color); position: relative; overflow: hidden; }
-    .coach-avatar { width: 50px; height: 50px; background: var(--accent-glow); border: 1px solid var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; }
     .input-premium { width: 100%; background: var(--bg-secondary); border: 1px solid var(--border-color); color: var(--text-main); padding: 12px 16px; border-radius: var(--radius-md); font-family: 'Tajawal', sans-serif; font-size: 15px; transition: var(--transition-smooth); }
     .input-premium:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 10px var(--accent-glow); }
-    .badge { padding: 4px 10px; border-radius: 99px; font-size: 11px; font-weight: 700; display: inline-block; }
-    .badge-category { background: var(--border-color); color: var(--text-main); }
-    .toast-container { position: fixed; top: 24px; left: 50%; transform: translateX(-50%); z-index: 9999; display: flex; flex-direction: column; gap: 10px; width: 90%; max-width: 400px; }
-    .toast { background: var(--bg-card); border: 1px solid var(--border-color); color: var(--text-main); padding: 16px 20px; border-radius: var(--radius-md); box-shadow: var(--shadow-premium); font-weight: 600; animation: slideDown 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+    
+    .toast-container { position: fixed; top: 24px; left: 50%; transform: translateX(-50%); z-index: 999999; display: flex; flex-direction: column; gap: 10px; width: 90%; max-width: 400px; }
+    .toast { background: var(--bg-card); border: 1px solid var(--border-color); color: var(--text-main); padding: 16px 20px; border-radius: var(--radius-md); box-shadow: var(--shadow-premium); font-weight: 600; animation: slideDown 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; text-align: center; }
     @keyframes slideDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+    
     .progress-bar-wrapper { background: var(--bg-secondary); height: 8px; border-radius: 99px; overflow: hidden; margin-top: 8px; }
     .progress-bar-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--teal)); width: 0%; transition: width 0.6s ease; }
+    
     .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
     @media(max-width: 550px) { .grid-2 { grid-template-columns: 1fr; } }
+    
+    /* Shop Card Grid */
+    .shop-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 16px; margin-top: 16px; }
+    .shop-card { background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 16px; text-align: center; transition: var(--transition-smooth); display: flex; flex-direction: column; align-items: center; justify-content: space-between; gap: 8px; }
+    .shop-card:hover { border-color: var(--accent); transform: scale(1.03); }
+    .shop-icon { font-size: 40px; margin-bottom: 4px; }
+    
+    /* Reward Modal Reveal */
+    .reward-modal { position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(10,15,20,0.95); z-index:999999; display:flex; align-items:center; justify-content:center; padding:20px; }
   </style>
 </head>
 <body>
 
+  <div id="setup-root"></div>
   <div id="app" class="app-container"></div>
   <div id="toast-container" class="toast-container"></div>
+  <div id="reward-modal-root"></div>
 
   <script>
     // --- 1. STORAGE LAYER ---
     const StorageManager = {
-      prefix: 'injaz_premium_',
+      prefix: 'injaz_v2_',
       get(key, defaultValue = null) {
         try {
           const data = localStorage.getItem(this.prefix + key);
@@ -127,7 +150,7 @@
     const NLPEngine = {
       dictionary: {
         study: ['تعلم', 'دراسة', 'مذاكرة', 'كتاب', 'قراءة', 'إنجليزية', 'انجليزي', 'دورة', 'كورس', 'english'],
-        sports: ['جري', 'مشي', 'رياضة', 'نادي', 'جيم', 'تمارين', 'حديد', 'ركض', 'سباحة', 'كارديو'],
+        sports: ['جري', 'مشي', 'رياضة', 'نادي', 'جيم', 'تمارين', 'حديد', 'ركض', 'سباحة', 'كارديو', 'كورة', 'قدم'],
         worship: ['قرآن', 'صلاة', 'ذكر', 'أذكار', 'مسجد', 'قيام', 'صيام', 'عمرة', 'تراويح', 'استغفار'],
         health: ['نوم', 'مبكر', 'ماء', 'شرب', 'فطور', 'صحي', 'طبيب', 'علاج', 'خضار', 'فاكهة'],
         project: ['مشروع', 'برمجة', 'تطوير', 'كود', 'تخرج', 'عمل', 'شغل', 'موقع', 'تصميم', 'تطبيق']
@@ -146,200 +169,355 @@
 
     // --- 3. NOTIFICATION SYSTEM ---
     const NotificationSystem = {
-      pools: {
-        start: ["حان وقت تطوير نفسك والعمل الفعلي البدني والذهني.", "ابدأ الآن وستشكرك نفسك لاحقًا بالتأكيد.", "لا تنتظر الشغف، اصنع الانضباط الآن."],
-        done: ["إنجاز استثنائي! فخور جداً بالتزامك الواعي البطل.", "خطوة ممتازة تضاف لرصيد نجاحاتك المذهلة.", "أنت تثبت لنفسك كل يوم أنك قادر على القيادة."],
-        streak: ["سلسلة أيامك المتتالية تلمع! حافظ على الشعلة متقدة 🔥", "الاستمرارية تبني الجبال، وأنت في الطريق الصحيح."]
-      },
-      _lastPicked: {},
-      trigger(type, customText = null) {
-        let message = customText;
-        if (!message && this.pools[type]) {
-          const pool = this.pools[type];
-          let index = Math.floor(Math.random() * pool.length);
-          message = pool[index];
+      async requestPermission() {
+        if ('Notification' in window) {
+          const permission = await Notification.requestPermission();
+          if (permission === 'granted') {
+            this.sendSystemNotification("🎯 تم التفعيل كفو!", "المدرب الذكي بيناديك ويبعث لك تنبيهات وتحفيز مستمر بانتظام 🚀");
+          }
         }
-        this._renderToast(message || "تنبيه إنجاز الذكي");
       },
-      _renderToast(msg) {
+      sendSystemNotification(title, body) {
+        if ('Notification' in window && Notification.permission === 'granted') {
+          new Notification(title, { body, icon: "https://cdn-icons-png.flaticon.com/512/9063/9063131.png", dir: "rtl" });
+        }
+      },
+      trigger(title, text) {
         const container = document.getElementById('toast-container');
         if (!container) return;
         const toast = document.createElement('div');
         toast.className = 'toast';
-        toast.innerText = msg;
+        toast.innerText = `${title}\n${text}`;
         container.appendChild(toast);
-        setTimeout(() => {
-          toast.style.opacity = '0';
-          setTimeout(() => toast.remove(), 400);
-        }, 4500);
+        setTimeout(() => { toast.style.opacity = '0'; setTimeout(() => toast.remove(), 400); }, 4500);
+        this.sendSystemNotification(title, text);
       }
     };
 
-    // --- 4. ANALYTICS ENGINE ---
-    const AnalyticsEngine = {
-      calculate(tasks, habits) {
-        const totalTasks = tasks.length;
-        const completedTasks = tasks.filter(t => t.completed).length;
-        const postponedTasks = tasks.filter(t => t.postponedCount > 0).reduce((acc, t) => acc + t.postponedCount, 0);
-        let bestHabit = "لا يوجد حاليًا", worstHabit = "لا يوجد حاليًا";
-        let maxStreak = 0, minStreak = Infinity;
-        
-        habits.forEach(h => {
-          if (h.streak > maxStreak) { maxStreak = h.streak; bestHabit = h.name; }
-          if (h.streak < minStreak) { minStreak = h.streak; worstHabit = h.name; }
+    // --- 4. REWARDS POOL (UNREPEATED CONTEXT ENGINE) ---
+    const RewardsPool = [
+      { id: 1, text: "🌟 مدح وثناء: فخور جداً بوعيك والتزامك الاستثنائي اليوم. \n🎬 مقولة شهيرة: 'العمل العظيم لا يُنجز بالقوة بل بالمثابرة' - صامويل جونسون. \n🎯 اقتراح بسيط: تصفح مقالاً أدبياً أو فكرياً لمدة 5 دقائق لترقية فكرك. \n💡 تذكير: انضباطك اليوم هو الذي يبني مجد الغد الحقيقي." },
+      { id: 2, text: "🔥 مدح وثناء: خطواتك ثابتة، وأنت تثبت لنفسك قبل الجميع أنك بطل القيادة. \n🎬 مقولة شهيرة: 'السر في المضي قدماً هو البدء' - مارك توين. \n🎯 اقتراح بسيط: اكتب الآن فكرة ملهمة أو اقتباساً لافتاً في مساحتك المفضلة. \n💡 تذكير: الأيام الصعبة هي التي تصنع المعدن الحقيقي للرجال." },
+      { id: 3, text: "🏆 مدح وثناء: عمل منظم وتركيز يدرّس! أنت في القمة اليوم. \n🎬 مقولة شهيرة: 'لا يهم كم أنت بطيء في مسيرك طالما أنك لا تتوقف' - كونفوشيوس. \n🎯 اقتراح بسيط: خذ 10 أنفاس عميقة في مكان مفتوح لتجديد طاقتك الذهنية بالكامل. \n💡 تذكير: النجاح ليس مكاناً نصل إليه، بل هو الطريقة التي نسير بها يومياً." },
+      { id: 4, text: "⭐ مدح وثناء: طاقتك ملهمة جداً، واهتمامك بالتفاصيل يصنع فارقاً حقيقياً وعميقاً. \n🎬 مقولة شهيرة: 'أفضل طريقة للتنبؤ بالمستقبل هي أن تخترعه بنفسك' - ألان كاي. \n🎯 اقتراح بسيط: نظّم مساحة مكتبك أو غرفتك الآن لمدة 3 دقائق فقط؛ الترتيب الخارجي يصنع هدوءاً داخلياً. \n💡 تذكير: الاستمرارية البسيطة تقودك لنتائج أسطورية لا تتخيلها." },
+      { id: 5, text: "👑 مدح وثناء: مبهر! الالتزام العالي سمة القادة العظماء وأنت أحدهم بلا شك. \n🎬 مقولة شهيرة: 'العوائق هي تلك الأشياء المخيفة التي تراها عندما ترفع عينيك عن هدفك' - هنري فورد. \n🎯 اقتراح بسيط: اشرب كوباً كاملاً من الماء النقي الآن لإنعاش دورتك الدموية وتفكيرك. \n💡 تذكير: لا تقارن نفسك بأحد، قارن نفسك بأمسك فقط لتستمر في الصعود." },
+      { id: 6, text: "⚡ مدح وثناء: شجاعتك وثباتك أمام الكسل اليوم تستحق وسام شرف! \n🎬 مقولة شهيرة: 'ليس هناك أسرار للنجاح، إنه نتيجة التحضير والعمل الجاد' - كولن باول. \n🎯 اقتراح بسيط: أغلق هاتفك وضعه في غرفة أخرى لمدة 15 دقيقة وعش تركيزاً كاملاً بدون تشتيت. \n💡 تذكير: البدايات للجميع، لكن الثبات والوصول للمجد محجوز للمستمرين فقط." },
+      { id: 7, text: "💎 مدح وثناء: روحك العالية وتفانيك يمنحان من حولك طاقة إيجابية مذهلة. \n🎬 مقولة شهيرة: 'توقع العقبات، لكن لا تسمح لها بمنعك من التقدم' - مقولة عالمية. \n🎯 اقتراح بسيط: راجع قائمة مهامك بذكاء واحذف أي شيء جانبى غير ضروري لتخفيف الضغط. \n💡 تذكير: الأهداف الكبيرة تفكك إلى خطوات صغيرة، هكذا تُبنى المشاريع العظمى." }
+    ];
+
+    // --- 5. CENTRAL APP STATE ---
+    const AppState = {
+      username: StorageManager.get('username', ''),
+      tasks: StorageManager.get('tasks', []),
+      habits: StorageManager.get('habits', []),
+      points: StorageManager.get('points', 0),
+      usedRewards: StorageManager.get('usedRewards', [])
+    };
+
+    const Actions = {
+      initUsername(name) {
+        if (!name.trim()) return;
+        AppState.username = name.trim();
+        StorageManager.set('username', AppState.username);
+        NotificationSystem.trigger("🎯 أهلاً بك يا بطل", `منصة إنجاز جاهزة لقيادتك نحو النجاح يا ${AppState.username}!`);
+        UIRenderer.renderSetup();
+        UIRenderer.renderApp(AppState, this);
+      },
+      addTask(title, priority) {
+        AppState.tasks.push({
+          id: 't_' + Date.now().toString(36), title, priority,
+          category: NLPEngine.classify(title), completed: false, postponedCount: 0
         });
-        if (minStreak === Infinity) worstHabit = "لا يوجد حاليًا";
-        const rate = totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
-        return {
-          completionRate: rate, completedCount: completedTasks, postponedCount: postponedTasks,
-          bestHabit, worstHabit, weeklyProgress: rate, monthlyProgress: Math.min(100, rate + 5), totalHours: completedTasks * 1.5
-        };
+        this._sync();
+        NotificationSystem.trigger("📝 مهمة جديدة", `تمت إضافة: "${title}" بنجاح.. بانتظار إنجازك 🔥`);
+      },
+      toggleTask(id) {
+        const t = AppState.tasks.find(x => x.id === id);
+        if (t) {
+          t.completed = !t.completed;
+          if (t.completed) {
+            AppState.points += 15;
+            NotificationSystem.trigger("🏆 كفو والله!", `تم إنهاء المهمة بنجاح يا ${AppState.username}! كسبت +15 نقطة طاقة.`);
+          } else {
+            AppState.points = Math.max(0, AppState.points - 15);
+          }
+          this._sync();
+        }
+      },
+      postponeTask(id) {
+        const t = AppState.tasks.find(x => x.id === id);
+        if (t) { t.postponedCount++; this._sync(); NotificationSystem.trigger("⏳ تكتيك مرن", "تم تأجيل المهمة بمرونة، ركّز على الأهم الآن."); }
+      },
+      deleteTask(id) { AppState.tasks = AppState.tasks.filter(x => x.id !== id); this._sync(); },
+      addHabit(name) {
+        AppState.habits.push({ id: 'h_' + Date.now().toString(36), name, streak: 0 });
+        this._sync();
+        NotificationSystem.trigger("🌱 عادة جديدة", `تم تثبيت عادة: [${name}].. الاستمرارية تبني الجبال!`);
+      },
+      logHabit(id) {
+        const h = AppState.habits.find(x => x.id === id);
+        if (h) {
+          h.streak++;
+          AppState.points += 10;
+          this._sync();
+          NotificationSystem.trigger("🔥 شعلة استمرار", `سلسلة رائعة لعادة [${h.name}]! كسبت +10 نقاط يا ${AppState.username}.`);
+        }
+      },
+      deleteHabit(id) { AppState.habits = AppState.habits.filter(x => x.id !== id); this._sync(); },
+      buyReward(price, typeName, icon) {
+        if (AppState.points < price) {
+          NotificationSystem.trigger("❌ نقاط غير كافية", `تحتاج إلى ${price} نقطة لشراء ${typeName}. أنجز المزيد من المهام!`);
+          return;
+        }
+        
+        // تصفية الرسائل غير المستخدمة لمنع التكرار
+        let available = RewardsPool.filter(r => !AppState.usedRewards.includes(r.id));
+        if (available.length === 0) {
+          // إذا استخدمت جميع الرسائل، قم بتصفير العداد لتبدأ دورة جديدة دون مشاكل
+          AppState.usedRewards = [];
+          available = RewardsPool;
+        }
+        
+        // اختيار رسالة عشوائية فريدة
+        const randomIndex = Math.floor(Math.random() * available.length);
+        const selectedReward = available[randomIndex];
+        
+        // خصم النقاط وحفظ المعرف لمنع تكراره
+        AppState.points -= price;
+        AppState.usedRewards.push(selectedReward.id);
+        this._sync();
+        
+        // عرض نافذة الجائزة الفريدة المفتوحة
+        UIRenderer.showRewardModal(icon, typeName, selectedReward.text, AppState.username);
+      },
+      _sync() {
+        StorageManager.set('tasks', AppState.tasks);
+        StorageManager.set('habits', AppState.habits);
+        StorageManager.set('points', AppState.points);
+        StorageManager.set('usedRewards', AppState.usedRewards);
+        UIRenderer.renderApp(AppState, this);
       }
     };
 
-    // --- 5. AI LOGIC LAYER ---
-    const AIEngine = {
-      async generateStrategy(type, data) {
-        if (type === 'coach_insight') {
-          const rate = data.analytics.completionRate;
-          if (rate >= 80) return `أداء استثنائي ملهم! التزامك بالعادات والمهام يوضح وعيك العالي وثباتك الأسطوري الشجاع.`;
-          if (rate >= 50) return `تسير في المسار الصحيح تمامًا، ولكن انتبه للمهام المؤجلة وتجنب التراكمات غير الضرورية.`;
-          return `يبدو أن اليوم كان مزدحماً للغاية. لا بأس، لنعد تصميم خطة الغد بخطوات أبسط ومهمتين أساسيتين فقط لتستعيد توازنك وثقتك.`;
-        }
-        if (type === 'plan_suggestion') {
-          const category = NLPEngine.classify(data.text);
-          if (category === 'دراسة وتطوير') return `💡 خطة إنجاز للمذاكرة: قسّم الهدف إلى جلسات بومودورو (25 دقيقة تركيز عميق + 5 دقائق راحة)، وابدأ بالتطبيق فوراً.`;
-          if (category === 'رياضة وصحة') return `💡 خطة إنجاز للرشاقة: السر في التدرج الممتع. ابدأ بـ 15 دقيقة تمارين خفيفة متتالية مع شرب الماء بانتظام.`;
-          if (category === 'عمل ومشاريع') return `💡 خطة إنجاز للمشاريع: حدد الهيكل الأساسي والمهمة الحرجة، وركّز على إنهائها قبل الانتقال للتفاصيل الجانبية.`;
-          return `💡 خطة إنجاز المقترحة: خصص وقتاً ثابتاً ومحدداً يومياً لتتحول الخطوة إلى عادة تلقائية.`;
-        }
-        return "خطة مخصصة جاهزة.";
-      }
-    };
-
-    // --- 6. UI RENDERER ---
+    // --- 6. UI RENDERER & LIVE REAL CLOCK ENGINE ---
     const UIRenderer = {
       currentTab: 'dashboard',
-      renderApp(appState, actions) {
-        const appEl = document.getElementById('app');
-        if (!appEl) return;
-        const analytics = AnalyticsEngine.calculate(appState.tasks, appState.habits);
-        let html = `
-          <header class="card-premium" style="display:flex; justify-content:space-between; align-items:center; background:var(--bg-secondary);">
-            <div><h1 style="font-size:24px; color:var(--accent);">إِنْجَاز</h1><p style="font-size:12px; color:var(--text-muted);">منصة الإنتاجية والـمُدرب الذكي</p></div>
-            <button class="btn-secondary" id="theme-toggle-btn" style="padding: 6px 12px; font-size:13px;">🌓 النمط</button>
-          </header>
-          <nav class="nav-tabs">
-            <button class="nav-tab-btn ${this.currentTab === 'dashboard' ? 'active' : ''}" data-tab="dashboard">الرئيسية</button>
-            <button class="nav-tab-btn ${this.currentTab === 'tasks' ? 'active' : ''}" data-tab="tasks">المهام</button>
-            <button class="nav-tab-btn ${this.currentTab === 'habits' ? 'active' : ''}" data-tab="habits">العادات</button>
-            <button class="nav-tab-btn ${this.currentTab === 'coach' ? 'active' : ''}" data-tab="coach">مدرب إنجاز</button>
-            <button class="nav-tab-btn ${this.currentTab === 'analytics' ? 'active' : ''}" data-tab="analytics">التحليلات</button>
-          </nav>
-        `;
-        if (this.currentTab === 'dashboard') html += this._buildDashboard(appState, analytics);
-        if (this.currentTab === 'tasks') html += this._buildTasksPage(appState);
-        if (this.currentTab === 'habits') html += this._buildHabitsPage(appState);
-        if (this.currentTab === 'coach') html += this._buildCoachPage(appState, analytics);
-        if (this.currentTab === 'analytics') html += this._buildAnalyticsPage(analytics);
-        appEl.innerHTML = html;
-        this._bindEvents(appState, actions);
+      
+      initClock() {
+        setInterval(() => {
+          const clockEl = document.getElementById('live-clock');
+          if (clockEl) {
+            const now = new Date();
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true };
+            clockEl.innerText = now.toLocaleDateString('ar-SA', options);
+          }
+        }, 1000);
       },
-      _buildDashboard(state, analytics) {
-        const greeting = new Date().getHours() < 12 ? "صباح الخير والهمة" : "مساء الخير والإنجاز";
-        return `
-          <div class="card-premium coach-section">
-            <h2 style="font-size:20px; margin-bottom:6px;">✨ ${greeting}</h2>
-            <p style="color:var(--text-muted); font-size:14px; margin-bottom:12px;">معدل إنجازك لليوم مستقر عند ${analytics.completionRate}%. جاهز لخطوتك القادمة؟</p>
-            <div class="progress-bar-wrapper"><div class="progress-bar-fill" style="width:${analytics.completionRate}%"></div></div>
-          </div>
-          <div class="grid-2">
-            <div class="card-premium"><h3>📊 ملخص سريع</h3><p style="margin-top:8px; font-size:14px;">المهام المكتملة: <b>${analytics.completedCount}</b></p><p style="font-size:14px;">ساعات التركيز: <b>${analytics.totalHours} س</b></p></div>
-            <div class="card-premium"><h3>🎯 العادة الأقوى</h3><p style="margin-top:8px; font-size:15px; color:var(--teal); font-weight:800;">${analytics.bestHabit}</p></div>
-          </div>
-          <div class="card-premium" style="background:rgba(227,172,103,0.04); border-color:var(--accent);">
-            <h3 style="color:var(--accent);">🌙 المراجعة الليلية السريعة</h3>
-            <div style="display:flex; gap:8px; margin-top:10px;">
-              <button class="btn-secondary daily-rev-btn" data-rating="ممتاز" style="flex:1; font-size:12px;">🌟 ممتاز</button>
-              <button class="btn-secondary daily-rev-btn" data-rating="مزدحم" style="flex:1; font-size:12px;">⏳ مزدحم</button>
+      
+      renderSetup() {
+        const root = document.getElementById('setup-root');
+        if (AppState.username) { root.innerHTML = ''; return; }
+        root.innerHTML = `
+          <div class="setup-overlay">
+            <div class="card-premium" style="width:100%; max-width:450px; text-align:center;">
+              <h1 style="color:var(--accent); font-size:28px; margin-bottom:8px;">مرحباً بك في إِنْجَاز 🎯</h1>
+              <p style="color:var(--text-muted); font-size:14px; margin-bottom:20px;">منصة الإنتاجية والتحفيز الذكي المخصصة لك بالكامل.</p>
+              <input type="text" id="setup-username-input" class="input-premium" placeholder="اكتب اسمك أو لقبك هنا البطل..." style="text-align:center; margin-bottom:16px;">
+              <button class="btn-primary" id="btn-setup-save" style="width:100%;">دخول وتفعيل المنصة 🚀</button>
             </div>
           </div>
         `;
+        document.getElementById('btn-setup-save').addEventListener('click', () => {
+          const input = document.getElementById('setup-username-input').value;
+          Actions.initUsername(input);
+        });
       },
+
+      renderApp(appState, actions) {
+        if (!appState.username) return;
+        const appEl = document.getElementById('app');
+        if (!appEl) return;
+        
+        let html = `
+          <div class="live-clock-box" id="live-clock">جاري تحميل الوقت الفعلي...</div>
+          <header class="card-premium" style="display:flex; justify-content:space-between; align-items:center; background:var(--bg-secondary); padding:16px;">
+            <div>
+              <h1 style="font-size:22px; color:var(--accent);">مرحبًا ${appState.username} 👋</h1>
+              <p style="font-size:11px; color:var(--text-dim);">لوحة تحكمك الذكية المخصصة</p>
+            </div>
+            <div style="display:flex; align-items:center; gap:10px;">
+              <div style="background:var(--accent-glow); border:1px solid var(--accent); padding:6px 12px; border-radius:var(--radius-md); font-weight:900; color:var(--accent); font-size:14px;">
+                🏆 النقاط: ${appState.points}
+              </div>
+              <button class="btn-secondary" id="theme-toggle-btn" style="padding: 6px 10px; font-size:12px;">🌓 النمط</button>
+            </div>
+          </header>
+          
+          <nav class="nav-tabs">
+            <button class="nav-tab-btn ${this.currentTab === 'dashboard' ? 'active' : ''}" data-tab="dashboard">🏡 الرئيسية</button>
+            <button class="nav-tab-btn ${this.currentTab === 'tasks' ? 'active' : ''}" data-tab="tasks">📝 المهام</button>
+            <button class="nav-tab-btn ${this.currentTab === 'habits' ? 'active' : ''}" data-tab="habits">🌱 العادات</button>
+            <button class="nav-tab-btn ${this.currentTab === 'shop' ? 'active' : ''}" data-tab="shop">🎁 الـمـتـجـر</button>
+          </nav>
+        `;
+        
+        if (this.currentTab === 'dashboard') html += this._buildDashboard(appState);
+        if (this.currentTab === 'tasks') html += this._buildTasksPage(appState);
+        if (this.currentTab === 'habits') html += this._buildHabitsPage(appState);
+        if (this.currentTab === 'shop') html += this._buildShopPage(appState);
+        
+        appEl.innerHTML = html;
+        this._bindEvents(appState, actions);
+      },
+
+      _buildDashboard(state) {
+        const hour = new Date().getHours();
+        const greeting = hour < 12 ? `صباح الخير نورت يا ${state.username} ✨` : `مساء الخير نورت يا ${state.username} 🌙`;
+        
+        const completed = state.tasks.filter(t => t.completed).length;
+        const pending = state.tasks.filter(t => !t.completed).length;
+        
+        let advice = "";
+        if (pending === 0 && completed > 0) {
+          advice = "🔥 مذهل! قفلت ملف المهام اليوم بالكامل، أنت في قمة العطاء الذكي وننصحك بأخذ قسط من الراحة الواعية الممتعة.";
+        } else if (pending > 0) {
+          advice = `⏳ لديك حالياً ${pending} مهام متبقية بالانتظار. نقترح عليك اختيار أبسط مهمة والبدء بها فوراً لمدة 10 دقائق فقط لكسر حاجز المقاومة الأولية.`;
+        } else {
+          advice = "🎯 رصيدك خالي من المهام حالياً. نقترح عليك التخطيط ليومك وإضافة أول مهمة أساسية لتبدأ في حصد نقاط الطاقة والتميز!";
+        }
+
+        return `
+          <div class="card-premium coach-section">
+            <h2 style="font-size:18px; margin-bottom:8px; color:var(--accent);">${greeting}</h2>
+            <div style="background:rgba(255,255,255,0.03); padding:12px; border-radius:var(--radius-md); border:1px solid var(--border-color); font-size:14px; line-height:1.6; margin-bottom:12px;">
+              📌 <b>تقرير الأداء الحالي:</b><br>
+              لقد قمت بإتمام <b style="color:var(--success);">${completed}</b> من المهام اليوم، وباقي لك بالانتظار <b style="color:var(--danger);">${pending}</b> مهمة تطلب تركيزك الشجاع.
+            </div>
+            <p style="color:var(--text-muted); font-size:13px; line-height:1.5;">💡 <b>نصيحة وتذكير المدرب:</b> ${advice}</p>
+          </div>
+          <div class="card-premium" style="border-color:var(--teal); background:rgba(78,205,196,0.03); text-align:center;">
+            <p style="font-size:13px; color:var(--text-main);">🔔 تأكد من تفعيل إشعارات النظام الحقيقية على جوالك لاستلام رسائل المدرب المباشرة دائمًا:</p>
+            <button class="btn-primary" id="btn-activate-notifications" style="margin-top:10px; background:var(--teal); color:#111823; font-size:12px; padding:6px 12px;">تفعيل نظام التذكير</button>
+          </div>
+        `;
+      },
+
       _buildTasksPage(state) {
         let listHtml = '';
         state.tasks.forEach(t => {
           const pCls = t.priority === 'high' ? 'high-priority' : t.priority === 'medium' ? 'medium-priority' : 'low-priority';
           listHtml += `
             <div class="item-row ${pCls} ${t.completed ? 'completed' : ''}">
-              <input type="checkbox" class="task-toggle-chk" data-id="${t.id}" ${t.completed ? 'checked' : ''} style="width:20px; height:20px;">
+              <input type="checkbox" class="task-toggle-chk" data-id="${t.id}" ${t.completed ? 'checked' : ''} style="width:22px; height:22px; cursor:pointer;">
               <div style="flex:1;">
-                <div style="font-weight:700; font-size:15px;">${t.title}</div>
+                <div style="font-weight:700; font-size:15px; color:${t.completed ? 'var(--text-dim)' : 'var(--text-main)'}">${t.title}</div>
                 <div style="font-size:11px; color:var(--text-dim); margin-top:2px;">تصنيف: <span class="badge badge-category">${t.category}</span></div>
               </div>
-              <button class="btn-secondary btn-postpone-task" data-id="${t.id}" style="padding:4px 8px; font-size:11px;">تأجيل</button>
-              <button class="btn-secondary btn-delete-task" data-id="${t.id}" style="padding:4px 8px; font-size:11px; color:var(--danger);">حذف</button>
+              ${!t.completed ? `<button class="btn-secondary btn-postpone-task" data-id="${t.id}" style="padding:4px 8px; font-size:11px;">تأجيل</button>` : ''}
+              <button class="btn-secondary btn-delete-task" data-id="${t.id}" style="padding:4px 8px; font-size:11px; color:var(--danger); border-color:transparent;">حذف</button>
             </div>
           `;
         });
         return `
           <div class="card-premium">
-            <h3>➕ إضافة مهمة جديدة</h3>
-            <div style="display:flex; flex-direction:column; gap:10px; margin-top:12px;">
-              <input type="text" id="task-title-input" class="input-premium" placeholder="ماذا تريد أن تنجز اليوم؟">
-              <select id="task-priority-input" class="input-premium"><option value="low">منخفضة</option><option value="medium" selected>متوسطة</option><option value="high">قصوى</option></select>
-              <button class="btn-primary" id="btn-add-task" style="justify-content:center;">حفظ المهمة</button>
+            <h3 style="font-size:16px; margin-bottom:12px;">➕ إضافة مهمة جديدة (+15 نقطة طاقة)</h3>
+            <div style="display:flex; flex-direction:column; gap:10px;">
+              <input type="text" id="task-title-input" class="input-premium" placeholder="ماذا تريد أن تنجز اليوم يا بطل؟">
+              <select id="task-priority-input" class="input-premium">
+                <option value="low">أولوية منخفضة 🟢</option>
+                <option value="medium" selected>أولوية متوسطة 🟡</option>
+                <option value="high">أولوية قصوى وعاجلة 🔴</option>
+              </select>
+              <button class="btn-primary" id="btn-add-task">حفظ المهمة في لوحتك</button>
             </div>
           </div>
-          <div>${listHtml || '<div class="card-premium" style="text-align:center; color:var(--text-dim);">لا توجد مهام حالية.</div>'}</div>
+          <div>${listHtml || '<div class="card-premium" style="text-align:center; color:var(--text-dim); font-size:14px;">لا توجد مهام في قائمتك الحالية.. أضف واحدة الآن!</div>'}</div>
         `;
       },
+
       _buildHabitsPage(state) {
         let habitsHtml = '';
         state.habits.forEach(h => {
           habitsHtml += `
             <div class="item-row" style="justify-content:space-between;">
-              <div><div style="font-weight:800; font-size:16px;">${h.name}</div><div style="font-size:12px; color:var(--text-muted); margin-top:4px;">السلسلة: <b style="color:var(--teal);">${h.streak} أيام</b> 🔥</div></div>
-              <div style="display:flex; gap:8px;"><button class="btn-primary btn-log-habit" data-id="${h.id}" style="padding:6px 12px; font-size:13px;">تسجيل</button><button class="btn-secondary btn-delete-habit" data-id="${h.id}" style="padding:6px 12px; font-size:13px; color:var(--danger);">حذف</button></div>
+              <div>
+                <div style="font-weight:800; font-size:16px;">${h.name}</div>
+                <div style="font-size:12px; color:var(--text-muted); margin-top:4px;">سلسلة الالتزام: <b style="color:var(--teal); font-size:14px;">${h.streak} أيام متتالية</b> 🔥</div>
+              </div>
+              <div style="display:flex; gap:8px;">
+                <button class="btn-primary btn-log-habit" data-id="${h.id}" style="padding:6px 12px; font-size:12px;">تسجيل اليوم</button>
+                <button class="btn-secondary btn-delete-habit" data-id="${h.id}" style="padding:6px 12px; font-size:12px; color:var(--danger); border-color:transparent;">حذف</button>
+              </div>
             </div>
           `;
         });
         return `
           <div class="card-premium">
-            <h3>🌱 إنشاء عادة سلوكية</h3><div style="display:flex; gap:10px; margin-top:12px;"><input type="text" id="habit-name-input" class="input-premium" placeholder="مثال: القراءة، شرب الماء..."><button class="btn-primary" id="btn-add-habit">تثبيت</button></div>
+            <h3 style="font-size:16px; margin-bottom:12px;">🌱 بناء عادة سلوكية مستمرة (+10 نقاط)</h3>
+            <div style="display:flex; gap:10px;">
+              <input type="text" id="habit-name-input" class="input-premium" placeholder="مثال: القراءة اليومية، الرياضة، شرب الماء بانتظام...">
+              <button class="btn-primary" id="btn-add-habit" style="white-space:nowrap;">تثبيت العادة</button>
+            </div>
           </div>
-          <div>${habitsHtml || '<div class="card-premium" style="text-align:center; color:var(--text-dim);">لم تقم بتثبيت أي عادات بعد.</div>'}</div>
+          <div>${habitsHtml || '<div class="card-premium" style="text-align:center; color:var(--text-dim); font-size:14px;">لم تقم بتثبيت أي عادات مستمرة بعد.. ابدأ الآن.</div>'}</div>
         `;
       },
-      _buildCoachPage(state, analytics) {
+
+      _buildShopPage(state) {
+        const items = [
+          { id: 'gift', name: 'صندوق المفاجآت', price: 30, icon: '🎁' },
+          { id: 'ball', name: 'كرة التحدي والمجد', price: 50, icon: '⚽' },
+          { id: 'book', name: 'كتاب الحكمة والفلسفة', price: 70, icon: '📚' },
+          { id: 'water', name: 'قطرة النقاء والتوازن', price: 20, icon: '💧' }
+        ];
+        
+        let shopHtml = '';
+        items.forEach(item => {
+          const canBuy = state.points >= item.price;
+          shopHtml += `
+            <div class="shop-card">
+              <div class="shop-icon">${item.icon}</div>
+              <div style="font-weight:800; font-size:14px;">${item.name}</div>
+              <div style="font-size:12px; color:var(--accent); font-weight:bold;">${item.price} نقطة</div>
+              <button class="btn-primary btn-buy-reward" data-price="${item.price}" data-name="${item.name}" data-icon="${item.icon}" style="width:100%; font-size:11px; padding:6px; margin-top:4px;" ${canBuy ? '' : 'disabled'}>
+                ${canBuy ? 'شراء وفتح الجائزة' : 'نقاط غير كافية'}
+              </button>
+            </div>
+          `;
+        });
+
         return `
-          <div class="card-premium coach-section" style="border-color:var(--accent);">
-            <div style="display:flex; align-items:center; gap:14px; margin-bottom:14px;"><div class="coach-avatar">🤖</div><div><h3 style="color:var(--accent);">المدرب الذكي</h3></div></div>
-            <div id="coach-insight-box" class="card-premium" style="background:var(--bg-secondary); margin-bottom:12px; font-size:14px;">اضغط لطلب تحليل فوري للأداء الحلي...</div>
-            <button class="btn-primary" id="btn-trigger-ai-insight" style="width:100%; justify-content:center;">توليد نصيحة الأداء</button>
-          </div>
-          <div class="card-premium">
-            <h3>🔍 تفكيك الأهداف العميقة</h3>
-            <div style="display:flex; gap:8px; margin-top:10px;"><input type="text" id="ai-goal-prompt" class="input-premium" placeholder="مثال: أريد تعلم الإنجليزية..."><button class="btn-secondary" id="btn-trigger-ai-plan" style="background:var(--accent); color:#111823;">تفكيك</button></div>
-            <div id="coach-plan-box" class="card-premium" style="background:var(--bg-secondary); margin-top:12px; display:none; font-size:13px;"></div>
+          <div class="card-premium" style="background:linear-gradient(135deg, var(--bg-card), rgba(227,172,103,0.02));">
+            <h3 style="color:var(--accent);">🎁 متجر الجوائز والتحفيز الذكي</h3>
+            <p style="color:var(--text-muted); font-size:13px; margin-top:4px;">استثمر نقاط طاقة إنجاز المتراكمة من عملك الفعلي لفتح بطاقات جوائز استثنائية وعميقة غير مكررة ومخصصة لرفع معنوياتك وثقافتك.</p>
+            <div class="shop-grid">${shopHtml}</div>
           </div>
         `;
       },
-      _buildAnalyticsPage(analytics) {
-        return `
-          <div class="card-premium">
-            <h3>📈 لوحة التحليلات</h3>
-            <div class="grid-2" style="margin-top:12px;">
-              <div class="card-premium" style="background:var(--bg-secondary);"><span>معدل الأسبوع</span><div style="font-size:24px; font-weight:900; color:var(--accent);">${analytics.weeklyProgress}%</div></div>
-              <div class="card-premium" style="background:var(--bg-secondary);"><span>معدل الشهر</span><div style="font-size:24px; font-weight:900; color:var(--teal);">${analytics.monthlyProgress}%</div></div>
+
+      showRewardModal(icon, name, message, username) {
+        const root = document.getElementById('reward-modal-root');
+        root.innerHTML = `
+          <div class="reward-modal">
+            <div class="card-premium" style="width:100%; max-width:500px; text-align:center; animation: slideDown 0.5s ease; border-color:var(--accent); background:var(--bg-secondary);">
+              <div style="font-size:60px; margin-bottom:10px;">${icon}</div>
+              <h2 style="color:var(--accent); font-size:22px; margin-bottom:6px;">تم فتح: ${name} 🎉</h2>
+              <p style="font-size:12px; color:var(--text-dim); margin-bottom:16px;">مكافأة خاصة وحصرية لـلبطل: ${username}</p>
+              <div style="background:var(--bg-card); border:1px solid var(--border-color); padding:16px; border-radius:var(--radius-md); text-align:right; font-size:14px; line-height:1.7; color:var(--text-main); white-space:pre-line; margin-bottom:20px;">
+                ${message}
+              </div>
+              <button class="btn-primary" id="btn-close-reward-modal" style="width:100%;">الحمد لله، العودة للمنصة ومواصلة الكفاح 🚀</button>
             </div>
           </div>
         `;
+        document.getElementById('btn-close-reward-modal').addEventListener('click', () => { root.innerHTML = ''; });
       },
+
       _bindEvents(state, actions) {
         document.querySelectorAll('.nav-tab-btn').forEach(btn => {
           btn.addEventListener('click', () => { this.currentTab = btn.getAttribute('data-tab'); this.renderApp(state, actions); });
         });
+        
         const themeBtn = document.getElementById('theme-toggle-btn');
         if (themeBtn) {
           themeBtn.addEventListener('click', () => {
@@ -348,6 +526,12 @@
             document.documentElement.setAttribute('data-theme', next);
           });
         }
+        
+        const notifyBtn = document.getElementById('btn-activate-notifications');
+        if (notifyBtn) {
+          notifyBtn.addEventListener('click', () => { NotificationSystem.requestPermission(); });
+        }
+        
         const addTaskBtn = document.getElementById('btn-add-task');
         if (addTaskBtn) {
           addTaskBtn.addEventListener('click', () => {
@@ -356,15 +540,19 @@
             if (title.trim()) actions.addTask(title, priority);
           });
         }
+        
         document.querySelectorAll('.task-toggle-chk').forEach(chk => {
           chk.addEventListener('change', () => actions.toggleTask(chk.getAttribute('data-id')));
         });
+        
         document.querySelectorAll('.btn-postpone-task').forEach(btn => {
           btn.addEventListener('click', () => actions.postponeTask(btn.getAttribute('data-id')));
         });
+        
         document.querySelectorAll('.btn-delete-task').forEach(btn => {
           btn.addEventListener('click', () => actions.deleteTask(btn.getAttribute('data-id')));
         });
+        
         const addHabitBtn = document.getElementById('btn-add-habit');
         if (addHabitBtn) {
           addHabitBtn.addEventListener('click', () => {
@@ -372,78 +560,29 @@
             if (name.trim()) actions.addHabit(name);
           });
         }
+        
         document.querySelectorAll('.btn-log-habit').forEach(btn => {
           btn.addEventListener('click', () => actions.logHabit(btn.getAttribute('data-id')));
         });
+        
         document.querySelectorAll('.btn-delete-habit').forEach(btn => {
           btn.addEventListener('click', () => actions.deleteHabit(btn.getAttribute('data-id')));
         });
-        const insightBtn = document.getElementById('btn-trigger-ai-insight');
-        if (insightBtn) {
-          insightBtn.addEventListener('click', async () => {
-            const box = document.getElementById('coach-insight-box'); box.innerText = "جاري التحليل لبياناتك...";
-            const analytics = AnalyticsEngine.calculate(state.tasks, state.habits);
-            box.innerText = await AIEngine.generateStrategy('coach_insight', { analytics });
+
+        document.querySelectorAll('.btn-buy-reward').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const price = parseInt(btn.getAttribute('data-price'));
+            const name = btn.getAttribute('data-name');
+            const icon = btn.getAttribute('data-icon');
+            actions.buyReward(price, name, icon);
           });
-        }
-        const planBtn = document.getElementById('btn-trigger-ai-plan');
-        if (planBtn) {
-          planBtn.addEventListener('click', async () => {
-            const promptText = document.getElementById('ai-goal-prompt').value;
-            const box = document.getElementById('coach-plan-box'); if (!promptText.trim()) return;
-            box.style.display = 'block'; box.innerText = "جاري تفكيك الهدف...";
-            box.innerText = await AIEngine.generateStrategy('plan_suggestion', { text: promptText });
-          });
-        }
-        document.querySelectorAll('.daily-rev-btn').forEach(btn => {
-          btn.addEventListener('click', () => actions.saveReview(btn.getAttribute('data-rating')));
         });
       }
     };
 
-    // --- 7. CENTRAL APP STATE & ENGINE ---
-    const AppState = {
-      tasks: StorageManager.get('tasks', []),
-      habits: StorageManager.get('habits', []),
-      reviews: StorageManager.get('reviews', [])
-    };
-
-    const Actions = {
-      addTask(title, priority) {
-        AppState.tasks.push({
-          id: 't_' + Date.now().toString(36), title, priority, progress: 0,
-          category: NLPEngine.classify(title), completed: false, postponedCount: 0
-        });
-        this._sync();
-        NotificationSystem.trigger('start');
-      },
-      toggleTask(id) {
-        const t = AppState.tasks.find(x => x.id === id);
-        if (t) { t.completed = !t.completed; this._sync(); if (t.completed) NotificationSystem.trigger('done'); }
-      },
-      postponeTask(id) {
-        const t = AppState.tasks.find(x => x.id === id);
-        if (t) { t.postponedCount++; this._sync(); NotificationSystem.trigger('streak', "تم التأجيل بمرونة."); }
-      },
-      deleteTask(id) { AppState.tasks = AppState.tasks.filter(x => x.id !== id); this._sync(); },
-      addHabit(name) {
-        AppState.habits.push({ id: 'h_' + Date.now().toString(36), name, streak: 0 });
-        this._sync(); NotificationSystem.trigger('streak', `تمت إضافة عادة: ${name}`);
-      },
-      logHabit(id) {
-        const h = AppState.habits.find(x => x.id === id);
-        if (h) { h.streak++; this._sync(); NotificationSystem.trigger('done', `تقدم رائع في عادة ${h.name}`); }
-      },
-      deleteHabit(id) { AppState.habits = AppState.habits.filter(x => x.id !== id); this._sync(); },
-      saveReview(rating) { AppState.reviews.push({ rating, time: Date.now() }); StorageManager.set('reviews', AppState.reviews); NotificationSystem.trigger('done', "حُفظ التقييم!"); },
-      _sync() {
-        StorageManager.set('tasks', AppState.tasks);
-        StorageManager.set('habits', AppState.habits);
-        UIRenderer.renderApp(AppState, this);
-      }
-    };
-
-    // التشغيل التلقائي عند فتح الصفحة
+    // --- 8. INITIALIZATION RUNTIME ---
+    UIRenderer.initClock();
+    UIRenderer.renderSetup();
     UIRenderer.renderApp(AppState, Actions);
   </script>
 </body>
